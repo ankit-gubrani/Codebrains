@@ -1,4 +1,4 @@
-infield-aem-act
+codebrains-aem
 ========
 
 This a content package project generated using the multimodule-content-package-archetype.
