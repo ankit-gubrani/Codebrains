@@ -17,6 +17,12 @@
                         label="Enter the Demo Text"
                         name="./demoText"
                         xtype="textfield"/>
+                    <dropdown
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Custom Dropdown"
+                            options="/bin/codebrains.json"
+                            type="select"
+                            xtype="selection"/>
                 </items>
             </tab1>
         </items>
