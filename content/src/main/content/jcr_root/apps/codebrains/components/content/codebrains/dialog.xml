@@ -21,6 +21,7 @@
                             jcr:primaryType="cq:Widget"
                             fieldLabel="Custom Dropdown"
                             options="/bin/codebrains.json"
+                            optionsRoot="root"
                             type="select"
                             xtype="selection"/>
                 </items>

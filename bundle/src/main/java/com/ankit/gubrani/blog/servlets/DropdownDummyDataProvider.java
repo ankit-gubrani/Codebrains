@@ -6,7 +6,9 @@ import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
+import org.apache.sling.commons.json.JSONArray;
 import org.apache.sling.commons.json.JSONException;
+import org.apache.sling.commons.json.JSONObject;
 import org.apache.sling.commons.json.io.JSONWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,16 +26,23 @@ public class DropdownDummyDataProvider extends SlingSafeMethodsServlet {
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         try {
-            JSONWriter jsonWriter = new JSONWriter(response.getWriter());
-            jsonWriter.array();
+            JSONObject eachOption;
+            JSONArray optionsArray = new JSONArray();
 
             //This loop creates multiple objects under a array that will be returned.
             for (int i = 0; i < 5; i++) {
-                jsonWriter.object().key("text").value("CodeBrains_Text_" + i).key("value").value("CodeBrains_Value_" + i);
-                jsonWriter.endObject();
+                eachOption = new JSONObject();
+                eachOption.put("text", "CodeBrains_Text_" + i);
+                eachOption.put("value", "CodeBrains_Value_" + i);
+
+                optionsArray.put(eachOption);
             }
 
-            jsonWriter.endArray();
+            JSONObject finalJsonResponse = new JSONObject();
+            //Adding this finalJsonResponse object to showcase optionsRoot property functionality
+            finalJsonResponse.put("root", optionsArray);
+
+            response.getWriter().println(finalJsonResponse.toString());
         } catch (JSONException e) {
             LOGGER.error("Json Exception occured while adding data to JSON Object : ", e);
         } catch (IOException e) {
