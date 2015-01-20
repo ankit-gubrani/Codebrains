@@ -1,6 +1,9 @@
 codebrains-aem
 ========
 
+CODEBRAINS Blog Maven Repository. This Project hold all the demo code for each blog.
+
+
 This a content package project generated using the multimodule-content-package-archetype.
 
 Building
