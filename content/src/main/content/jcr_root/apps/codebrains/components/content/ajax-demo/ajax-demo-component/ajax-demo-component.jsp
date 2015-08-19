@@ -12,7 +12,7 @@
 %>
 <%@page session="false" %>
 <div id="${currentNode.identifier}" class="reload-id" ajaxified-component-path="${currentNode.path}">
-    This is the ajaxified compnent. This will be reloaded on Click of <b><i>Reload Buton </b></i>.
+    This is the ajaxified compnent. This will be reloaded on Click of <b><i>Reload Button </i></b>.
     <br>
     <b>Reload Param -- </b>
     <i>

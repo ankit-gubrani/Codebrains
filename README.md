@@ -1,7 +1,8 @@
 codebrains-aem
 ========
 
-CODEBRAINS Blog Maven Repository. This Project hold all the demo code for each blog.
+Codebrainss Blog Maven Repository. This Project hold all the demo code for each blog.
+Codebrains is a technical blog maintained by Ankit Gubrani. He is a senior AEM developer and a blogger.
 
 
 This a content package project generated using the multimodule-content-package-archetype.
@@ -15,19 +16,20 @@ From the root directory, run ``mvn -PautoInstallPackage clean install`` to build
 
 From the bundle directory, run ``mvn -PautoInstallBundle clean install`` to build *just* the bundle and install to a CQ instance.
 
-Using with VLT
---------------
-
-To use vlt with this project, first build and install the package to your local CQ instance as described above. Then cd to `content/src/main/content/jcr_root` and run
-
-    vlt --credentials admin:admin checkout -f ../META-INF/vault/filter.xml --force http://localhost:4502/crx
-
-Once the working copy is created, you can use the normal ``vlt up`` and ``vlt ci`` commands.
-
 Specifying CRX Host/Port
 ------------------------
 
 The CRX host and port can be specified on the command line with:
 mvn -Dcrx.host=otherhost -Dcrx.port=5502 <goals>
 
+# Author
 
+### **_Ankit gubrani_**
+
+Contact Info :
+
+* [LinkedIn](https://in.linkedin.com/pub/ankit-gubrani/74/a75/56b "Ankit Gubrani")
+* [Twitter](https://twitter.com/ankitgubrani90)
+* [Blog](http://codebrains.blogspot.in/)
+* [Slideshare](http://www.slideshare.net/ankitgubrani/)
+* [Site](http://www.codebrains.co.in/ankitgubrani)
