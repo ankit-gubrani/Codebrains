@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
     <filter root="/apps/codebrains"/>
+    <filter root="/apps/wcm"/>
+    <filter root="/content/wookie_widgets.txt"/>
+    <filter root="/etc/clientlibs/codebrains"/>
 </workspaceFilter>
