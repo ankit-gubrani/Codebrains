@@ -71,6 +71,21 @@
             <version>2.2.0</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.day.cq.wcm</groupId>
+            <artifactId>cq-wcm-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.day.cq</groupId>
+            <artifactId>cq-commons</artifactId>
+            <version>5.7.14</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Adding Dependency for Polling importer -->
+        <dependency>
+            <groupId>com.day.cq</groupId>
+            <artifactId>cq-polling-importer</artifactId>
+        </dependency>
     </dependencies>
 
     <!-- ====================================================================== -->
