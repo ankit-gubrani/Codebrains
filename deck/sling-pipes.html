@@ -1,0 +1,216 @@
+<!-- Welcome to codebrains.co.in -->
+<!-- Looking for something? Contact developer : ankit.gubrani90@gmail.com / ankit.gubrani@codebrains.co.in -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Sling Pipes - HTML Presentation</title>
+    <meta name="description" content="Get started with Apache Sling Pipes.">
+    <meta name="author" content="Ankit Gubrani">
+    <meta name="Keywords" content="Sling Pipes,AEM,Sling Query,Writer Pipes">
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@ankitgubrani90">
+    <meta name="twitter:title" content="Sling Pipes">
+    <meta name="twitter:description" content="Get started with Apache Sling Pipes.">
+    <meta name="twitter:creator" content="@ankitgubrani90">
+    <meta name="twitter:image" content="https://www.codebrains.co.in/resources/assets/img/presentation/sling-pipes/Sling_Pipes_Home.png">
+    <!-- Open Graph data -->
+    <meta property="og:title" content="Sling Pipes" />
+    <meta property="og:type" content="Website" />
+    <meta property="og:image" content="https://www.codebrains.co.in/resources/assets/img/presentation/sling-pipes/Sling_Pipes_Home.png" />
+    <meta property="og:description" content="Get started with Apache Sling Pipes." />
+    <meta property="og:site_name" content="Codebrains.co.in" />
+    <meta property="fb:admins" content="1627043757" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+    <link rel="icon" href="../resources/assets/img/codebrains_transparent.png" type="image/gif" sizes="16x16">
+    <link rel="stylesheet" href="../resources/assets/htmlPPT/styling/reveal.css">
+    <link rel="stylesheet" href="../resources/assets/htmlPPT/styling/theme/slingmodels.css" id="theme">
+    <link rel="stylesheet" href="../resources/assets/htmlPPT/lib/styling/zenburn.css" >
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="../resources/assets/htmlPPT/lib/javascript/html5shiv.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="../resources/assets/otherjs/googleAnalytics.js"></script>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <img src="../resources/assets/img/presentation/sling-pipes/SlingPipesTransparent_Black.png" style="background: none;border: none;box-shadow: none;margin: 61px 0px;"/>
+            <p>
+                <small>
+                    By: <a target="_blank" href="https://www.codebrains.co.in/ankitgubrani">Ankit Gubrani</a> / <a href="https://twitter.com/ankitgubrani90" target="_blank">@ankitgubrani90</a>
+                </small>
+            </p>
+        </section>
+        <section>
+            <p style="text-align:justify;">.about-me{</p>
+            <p style="text-align:justify;margin-left: 100px;">name: Ankit Gubrani;<br>
+                title:	Sr. Software Engineer;<br>
+                working at: Playstation;<br>
+                email-id: Ankit.gubrani90@gmail.com;<br>
+                linkedIn:	<a target="_blank" href="https://www.linkedin.com/in/ankitgubrani/">linkedin.com/in/ankitgubrani;</a><br>
+                twitter: @ankitgubrani90;<br>
+                blog: <a target="_blank" href="https://www.codebrains.co.in/">codebrains.co.in;</a></p>
+            <p style="text-align:justify;">}
+        </section>
+        <section>
+            <h2>Agenda
+            </h2>
+            <ul>
+                <li>What is Sling Pipes ?</li>
+                <li>Installation</li>
+                <li>Different Types of Pipes</li>
+                <li>Executing Pipes</li>
+                <li>Demo</li>
+            </ul>
+        </section>
+        <section>
+            <h3>What is sling pipes ?</h3>
+            <div>
+                <ul>
+                    <li class="fragment">Toolset for performing extract, load & transform operations on content within JCR repository using reusable code blocks called pipes.</li>
+                </ul>
+            </div>
+        </section>
+        <section>
+            <h3>Why sling pipes ?</h3>
+            <h2>&nbsp;</h2>
+            <div>
+                <ul>
+                    <li class="fragment">Let’s say business requests us to enable override title & description on all game pages</li>
+                    <li class="fragment">OR due to a component update we had to remove/modify a property in all occurrences of that component’s node</li>
+                    <li class="fragment">OR create a CSV of pages which are using image components</li>
+                </ul>
+            </div>
+        </section>
+        <section>
+            <h3>installation</h3>
+            <h2>&nbsp;</h2>
+            <div>
+                <ul>
+                    <li class="fragment">Sling pipes is not included with vanilla AEM installation, following bundles have be to installed:
+                        <ul>
+                            <li class="fragment">Sling Pipes -  <a target="_blank" href="https://mvnrepository.com/artifact/org.apache.sling/org.apache.sling.pipes">https://mvnrepository.com/artifact/org.apache.sling/org.apache.sling.pipes</a> </li>
+                            <li class="fragment">Sling Query -  <a target="_blank" href="https://mvnrepository.com/artifact/org.apache.sling/org.apache.sling.query">https://mvnrepository.com/artifact/org.apache.sling/org.apache.sling.query</a> </li>
+                        </ul>
+                    </li>
+                    <li class="fragment">Create the node hierarchy: <b>/system/sling/permissions/pipes/exec</b></li>
+                    <li class="fragment"><b>Note:</b> For updating which groups can run sling pipes on a AEM instance, update Apache Sling Pipes : Plumber configuration</li>
+                </ul>
+
+            </div>
+        </section>
+        <section>
+            <h3>What is sling Query ?</h3>
+            <div>
+                <ul>
+                    <li class="fragment">Sling resource tree traversal tool inspired by the jQuery JavaScript API, providing convenient way to traverse resource tree.</li>
+                    <li class="fragment"><b>Note:</b> Sling query is not a replacement of JCR query, its just a tool for making traversal of resources easier, more details can be found here: sling query</li>
+                </ul>
+            </div>
+        </section>
+        <section>
+            <h3>Types of pipes</h3>
+            <div>
+                <ul>
+                    <li class="fragment"><b>Reader Pipes</b> – only used for reading resources, usually used with writer & logical pipes</li>
+                    <li class="fragment"><b>Writer Pipes</b> – used for performing write, update, move or remove operations  in JCR repository, can even create packages </li>
+                    <li class="fragment"><b>Logical Pipes</b> -  can be used for referring to other pipes, chaining them or using their results in a general way</li>
+                </ul>
+            </div>
+        </section>
+        <section>
+            <h3>Executing pipes</h3>
+            <div>
+                <ul>
+                    <li class="fragment">A Pipe can persist in JCR</li>
+                    <li class="fragment">Groovy console</li>
+                    <li class="fragment">Java class</li>
+                    <li class="fragment">HTTP call to JCR persisted pipe</li>
+                    <li class="fragment">PipeModel Sling Model</li>
+                </ul>
+            </div>
+        </section>
+        <section>
+            <h3>Reader pipes</h3>
+            <div>
+                <ul>
+                    <li class="fragment">Base Pipe: echo(path)</li>
+                    <li class="fragment">Xpath pipe: xpath(expr)</li>
+                    <li class="fragment">Sling Query Pipes
+                        <ul>
+                            <li class="fragment">Find pipe: $(expr)</li>
+                            <li class="fragment">Children Pipe: children(expr)</li>
+                            <li class="fragment">Siblings Pipe: siblings(expr)</li>
+                            <li class="fragment">Parent Pipe: parent()</li>
+                            <li class="fragment">Closest Pipe: closest(expr)</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <section>
+            <h3>write pipes</h3>
+            <div>
+                <ul>
+                    <li class="fragment">Write Pipe: write(conf)</li>
+                    <li class="fragment">Path Pipe: mkdir(expr)</li>
+                    <li class="fragment">Move pipe: mv(expr)</li>
+                    <li class="fragment">Remove Pipe: rm()</li>
+                    <li class="fragment">Package Pipe: pkg(expr)</li>
+                </ul>
+            </div>
+        </section>
+        <section>
+            <h2>Demo</h2>
+            <img class="fragment" data-fragment-index="1" src="../resources/assets/img/presentation/slingmodels/final_demo.gif" style="background: none;border: none;box-shadow: none;"/>
+        </section>
+        <section id="transitions">
+            <h2>Thank You</h2>
+            <div style="clear:both;">&nbsp;</div>
+            <p style="font-size:26px;">
+                Contact Me : <br>
+                LinkedIn : <a target="_blank" href="http://in.linkedin.com/in/ankitgubrani">Ankit Gubrani</a> <br>
+                Twitter : <a target="_blank" href="https://twitter.com/ankitgubrani90">@ankitgubrani90</a> <br>
+                Email-ID : <a href="mailto:ankit.gubrani@codebrains.co.in">ankit.gubrani@codebrains.co.in</a> <br>
+                Blog : <a target="_blank" href="https://www.codebrains.co.in/contactus">www.codebrains.co.in</a> <br>
+            </p>
+        </section>
+    </div>
+</div>
+<script src="../resources/assets/htmlPPT/lib/javascript/head.min.js"></script>
+<script src="../resources/assets/htmlPPT/javascript/reveal.min.js"></script>
+<script>
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        theme: Reveal.getQueryHash().theme,
+        transition: Reveal.getQueryHash().transition || 'linear',
+        dependencies: [
+            { src: '../resources/assets/htmlPPT/lib/js/classList.js', condition: function () {
+                return !document.body.classList;
+            } },
+            { src: '../resources/assets/htmlPPT/plugin/markdown/showdown.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            } },
+            { src: '../resources/assets/htmlPPT/plugin/markdown/markdown.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            } },
+            { src: '../resources/assets/htmlPPT/plugin/highlight/highlight.js', async: true, callback: function () {
+                hljs.initHighlightingOnLoad();
+            } },
+            { src: '../resources/assets/htmlPPT/plugin/zoom-js/zoom.js', async: true, condition: function () {
+                return !!document.body.classList;
+            } },
+            { src: '../resources/assets/htmlPPT/plugin/notes/notes.js', async: true, condition: function () {
+                return !!document.body.classList;
+            } }
+        ]
+    });
+</script>
+</body>
+</html>

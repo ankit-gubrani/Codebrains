@@ -1,0 +1,239 @@
+<!-- Welcome to codebrains.co.in -->
+<!-- Looking for something? Contact developer : ankit.gubrani90@gmail.com / ankit.gubrani@codebrains.co.in -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Sling Models Vol I - HTML Presentation</title>
+    <meta name="description" content="Sling Models 101, all you need to know to get started with Sling models.">
+    <meta name="author" content="Ankit Gubrani">
+    <meta name="Keywords" content="Sling Models">
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@ankitgubrani90">
+    <meta name="twitter:title" content="Sling Models Vol I">
+    <meta name="twitter:description" content="Sling Models 101, all you need to know to get started with Sling models.">
+    <meta name="twitter:creator" content="@ankitgubrani90">
+    <meta name="twitter:image" content="https://www.codebrains.co.in/resources/assets/img/presentation/slingmodels/slingmodels_cb_white.png">
+    <!-- Open Graph data -->
+    <meta property="og:title" content="Sling Models Vol I" />
+    <meta property="og:type" content="Website" />
+    <meta property="og:image" content="https://www.codebrains.co.in/resources/assets/img/presentation/slingmodels/slingmodels_cb_white.png" />
+    <meta property="og:description" content="Sling Models 101, all you need to know to get started with Sling models." />
+    <meta property="og:site_name" content="Codebrains.co.in" />
+    <meta property="fb:admins" content="1627043757" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+    <link rel="icon" href="../resources/assets/img/codebrains_transparent.png" type="image/gif" sizes="16x16">
+    <link rel="stylesheet" href="../resources/assets/htmlPPT/styling/reveal.css">
+    <link rel="stylesheet" href="../resources/assets/htmlPPT/styling/theme/slingmodels.css" id="theme">
+    <link rel="stylesheet" href="../resources/assets/htmlPPT/lib/styling/zenburn.css"/>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="../resources/assets/htmlPPT/lib/javascript/html5shiv.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="../resources/assets/otherjs/googleAnalytics.js"></script>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <img src="../resources/assets/img/presentation/slingmodels/slingmodels_cb.png" style="background: none;border: none;box-shadow: none;"/>
+            <h4><mark style="background: rgb(38, 76, 102);color: #f9f5f5;">Sling Models Vol I - Basics</mark></h4>
+            <p>
+                <small><a target="_blank" href="https://www.codebrains.co.in/ankitgubrani">Ankit Gubrani</a> / <a href="https://twitter.com/ankitgubrani90" target="_blank">@ankitgubrani90</a></small>
+            </p>
+        </section>
+        <section>
+            <h2>Agenda
+            </h2>
+            <ul>
+                <li>What are Sling Models?</li>
+                <li>Why Sling Models?</li>
+                <li>WCMPojo VS Sling Models?</li>
+                <li>Getting started with Sling Models</li>
+                <li>Demo</li>
+                <li>Basic Sling Model Annotations</li>
+                <li>Available Injectors</li>
+                <li>Sling Models Exporter</li>
+            </ul>
+        </section>
+        <section>
+            <p style="text-align:justify;">.about-me{</p>
+            <p style="text-align:justify;margin-left: 100px;">name: Ankit Gubrani;<br>
+                title:	Sr. Software Engineer;<br>
+                working at: Playstation;<br>
+                email-id: Ankit.gubrani90@gmail.com;<br>
+                linkedIn:	<a target="_blank" href="https://www.linkedin.com/in/ankitgubrani/">linkedin.com/in/ankitgubrani;</a><br>
+                twitter: @ankitgubrani90;<br>
+                blog: <a target="_blank" href="https://www.codebrains.co.in/">codebrains.co.in;</a></p>
+            <p style="text-align:justify;">}
+        </section>
+        <section>
+            <section>
+                <h3>Basic AEM Terminologies</h3>
+                <img class="fragment"  src="../resources/assets/img/presentation/slingmodels/AEM_Architecture.jpg" style="background: none;border: none;box-shadow: none;"/>
+                <div>
+                    <ul>
+                        <li class="fragment">OSGi - <span class="fragment">Open System Gateway Initiative</span></li>
+                        <li class="fragment">JCR -  <span class="fragment">Java Content Repository</span></li>
+                        <li class="fragment">Apache Sling</li>
+                    </ul>
+                </div>
+
+            </section>
+        </section>
+        <section>
+            <section>
+                <h3>What are Sling Models?</h3>
+                <h2>&nbsp;</h2>
+                <p class="fragment" data-fragment-index="1">Before jumping on to Sling Models directly, let's see what are models?</p>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h3>Models are :</h3>
+                <ul>
+                    <li class="fragment">classes which encapsulate closely related items for eg: ProductDataModel</li>
+                    <li class="fragment" data-fragment-index="2">classes which usually are used to define the domain objects</li>
+                    <li class="fragment" data-fragment-index="3">classes which lets us implement MVC design patterns</li>
+                </ul>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h3>Sling Models are :</h3>
+                <ul>
+                    <li class="fragment" data-fragment-index="1">pure POJO classes, driven by annotations</li>
+                    <li class="fragment" data-fragment-index="2">classes which OOTB, support resource properties (via ValueMap), SlingBindings, OSGi services, request attributes</li>
+                    <li class="fragment" data-fragment-index="3">classes which lets us adapt multiple objects - minimal required Resource and SlingHttpServletRequest
+                        <ul>
+                            <li class="fragment" data-fragment-index="4">Adapter Pattern: The Adapter pattern allows otherwise incompatible classes to work together by converting the interface of one class into an interface expected by the clients.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+        </section>
+        <section>
+            <p>&nbsp;</p>
+            <p>Sling models are POJO classes in which properties of the adaptable interfaces/classes can be injects and hence reducing the boilerplate code </p>
+        </section>
+        <section>
+            <h3>Brief history</h3>
+            <p>Taglibs/Java Models-> WCMUsePojo -> Sling Models</p>
+            <ul>
+                <li>Before sling Models, we used have problems like boiler plate code & reusing code was difficult</li>
+                <li>while sling Models were initially introduced to make Adapter pattern easier to implement with custom code</li>
+                <li>Around the same time as Sling models a new templating framework called “Sightly” was introduced </li>
+            </ul>
+        </section>
+        <section>
+            <h3>&nbsp;</h3>
+            <h3>Quick Demo of code Before Sling Models</h3>
+            <img src="../resources/assets/img/presentation/slingmodels/demo.gif" height="300px" style="background: none;border: none;box-shadow: none;"/>
+        </section>
+        <section>
+            <h3>Why Sling models?</h3>
+            <ul>
+                <li class="fragment" data-fragment-index="1">Reduces code Redundancy</li>
+                <li class="fragment" data-fragment-index="2">Makes code more maintainable</li>
+                <li class="fragment" data-fragment-index="3">Reduced coding efforts</li>
+            </ul>
+        </section>
+        <section>
+            <h3>Getting started with Sling Models</h3>
+            <ol>
+                <li class="fragment" data-fragment-index="1">Add the sling model dependency</li>
+                <li class="fragment" data-fragment-index="2">Create a package under which all the Sling Models will reside</li>
+                <li class="fragment" data-fragment-index="3">Add package path as “Sling-Model-Packages” property of “maven-bundle-plugin” </li>
+                <li class="fragment" data-fragment-index="4">Next create a Class or Interface in the newly created package & add the “@Model” annotation on Class</li>
+                <li class="fragment" data-fragment-index="5">Use @Inject annotation to inject a field from adaptable class defined in @Model annotation </li>
+            </ol>
+        </section>
+        <section>
+            <h2>Demo</h2>
+            <img class="fragment" data-fragment-index="1" src="../resources/assets/img/presentation/slingmodels/final_demo.gif" style="background: none;border: none;box-shadow: none;"/>
+        </section>
+        <section>
+            <h3>WCMPojo v/s Sling Models</h3>
+            <ul>
+                <li>WCMUsePojo:
+                    <ul>
+                        <li>WCMPojo is an abstract class which implements Use interface</li>
+                        <li>Class extending WCMPojo abstract class is initialised with the scripting bindings, providing convenience methods for accessing commonly used objects</li>
+                    </ul>
+                </li>
+                <li class="fragment" data-fragment-index="1">Sling Models helps you reduce the code even futher using @Inject, hence making your code even more maintainable</li>
+                <li class="fragment" data-fragment-index="2">Sling Models can be even used outside of HTL/Sightly, which makes Sling Models even more reusable</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Demo Time!</h2>
+            <img src="../resources/assets/img/presentation/slingmodels/demo-time.gif" style="background: none;border: none;box-shadow: none;height: 400px;"/>
+        </section>
+        <section>
+            <h3>Basic Sling Annotations</h3>
+            <ol>
+                <li class="fragment"><code>@Model</code></li>
+                <li class="fragment"><code>@Inject</code></li>
+                <li class="fragment"><code>@Named</code></li>
+                <li class="fragment"><code>@Default</code></li>
+                <li class="fragment"><code>@Optional</code></li>
+                <li class="fragment"><code>@PostContruct</code></li>
+                <li class="fragment"><code>@Via</code></li>
+                <li class="fragment"><code>@Self</code></li>
+                <li class="fragment"><code>@OSGiService</code></li>
+            </ol>
+            <p class="fragment">For details of each annoation please refer the documentation</p>
+        </section>
+        <section>
+            <h3>Quick Intro to Sling Model Exporter Framework</h3>
+            <h4>&nbsp;</h4>
+            <p class="fragment">Along with Sling Models 1.3.0 there was a new framework introduced known as Sling Model Exporter Framework. Sling Model Exporter framework comes with Jackson Exporter that automatically serializes an “Ordinary” sling model object into JSON</p>
+        </section>
+        <section id="transitions">
+            <h2>Thank You</h2>
+            <div style="clear:both;">&nbsp;</div>
+            <p style="font-size:26px;">
+                Contact Me : <br>
+                LinkedIn : <a target="_blank" href="http://in.linkedin.com/in/ankitgubrani">Ankit Gubrani</a> <br>
+                Twitter : <a target="_blank" href="https://twitter.com/ankitgubrani90">@ankitgubrani90</a> <br>
+                Email-ID : <a href="mailto:ankit.gubrani@codebrains.co.in">ankit.gubrani@codebrains.co.in</a> <br>
+                Blog : <a target="_blank" href="https://www.codebrains.co.in/contactus">www.codebrains.co.in</a> <br>
+            </p>
+        </section>
+    </div>
+</div>
+<script src="../resources/assets/htmlPPT/lib/javascript/head.min.js"></script>
+<script src="../resources/assets/htmlPPT/javascript/reveal.min.js"></script>
+<script>
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            history: true,
+            theme: Reveal.getQueryHash().theme,
+            transition: Reveal.getQueryHash().transition || 'linear',
+            dependencies: [
+                { src: '../resources/assets/htmlPPT/lib/js/classList.js', condition: function () {
+                    return !document.body.classList;
+                } },
+                { src: '../resources/assets/htmlPPT/plugin/markdown/showdown.js', condition: function () {
+                    return !!document.querySelector('[data-markdown]');
+                } },
+                { src: '../resources/assets/htmlPPT/plugin/markdown/markdown.js', condition: function () {
+                    return !!document.querySelector('[data-markdown]');
+                } },
+                { src: '../resources/assets/htmlPPT/plugin/highlight/highlight.js', async: true, callback: function () {
+                    hljs.initHighlightingOnLoad();
+                } },
+                { src: '../resources/assets/htmlPPT/plugin/zoom-js/zoom.js', async: true, condition: function () {
+                    return !!document.body.classList;
+                } },
+                { src: '../resources/assets/htmlPPT/plugin/notes/notes.js', async: true, condition: function () {
+                    return !!document.body.classList;
+                } }
+            ]
+        });
+    </script>
+</body>
+</html>

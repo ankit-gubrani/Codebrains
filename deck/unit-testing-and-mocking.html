@@ -1,0 +1,266 @@
+<!-- Welcome to codebrains.co.in -->
+<!-- Looking for something? Contact developer : ankit.gubrani90@gmail.com / ankit.gubrani@codebrains.co.in -->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Unit Testing with Junit5 & AEM Mocks - HTML Presentation</title>
+    <meta name="description" content="Get started with Unit Testing & Mocking in AEM using Junit 5 & AEM Mocks.">
+    <meta name="author" content="Ankit Gubrani">
+    <meta name="Keywords" content="Junit,Sling Mocks,Junit5,Unit Tests">
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@ankitgubrani90">
+    <meta name="twitter:title" content="Unit Testing and Mocking with Junit5 & AEM Mocks">
+    <meta name="twitter:description" content="Get started with Unit Testing & Mocking in AEM using Junit 5 & AEM Mocks.">
+    <meta name="twitter:creator" content="@ankitgubrani90">
+    <meta name="twitter:image" content="https://www.codebrains.co.in/resources/assets/img/presentation/junit5AemMocks/junit5aemmocks_hero.png">
+    <!-- Open Graph data -->
+    <meta property="og:title" content="Unit Testing and Mocking with Junit5 & AEM Mocks" />
+    <meta property="og:type" content="Website" />
+    <meta property="og:image" content="https://www.codebrains.co.in/resources/assets/img/presentation/junit5AemMocks/junit5aemmocks_hero.png" />
+    <meta property="og:description" content="Get started with Unit Testing & Mocking in AEM using Junit 5 & AEM Mocks." />
+    <meta property="og:site_name" content="Codebrains.co.in" />
+    <meta property="fb:admins" content="1627043757" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+    <link rel="icon" href="../resources/assets/img/codebrains_transparent.png" type="image/gif" sizes="16x16">
+    <link rel="stylesheet" href="../resources/assets/htmlPPT/styling/reveal.css">
+    <link rel="stylesheet" href="../resources/assets/htmlPPT/styling/theme/slingmodels.css" id="theme">
+    <link rel="stylesheet" href="../resources/assets/htmlPPT/lib/styling/zenburn.css" >
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="../resources/assets/htmlPPT/lib/javascript/html5shiv.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="../resources/assets/otherjs/googleAnalytics.js"></script>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h2>&nbsp;</h2>
+            <h3><mark style="background: rgb(65, 70, 71);color: #f9f5f5;">&nbsp; Unit Testing &</mark><mark style="background: rgb(65, 70, 71);color: #f9f5f5;"> Mocking with : &nbsp;</mark></h3>
+            <img src="../resources/assets/img/presentation/junit5AemMocks/junit5aemmocks.png" style="background: none;border: none;box-shadow: none;"/>
+            <p>
+                <small>
+                    By: <a target="_blank" href="https://www.codebrains.co.in/ankitgubrani">Ankit Gubrani</a> / <a href="https://twitter.com/ankitgubrani90" target="_blank">@ankitgubrani90</a>
+                </small>
+            </p>
+        </section>
+        <section>
+            <h2>Agenda
+            </h2>
+            <ul>
+                <li>What is Unit Testing&nbsp;?</li>
+                <li>Why Unit Testing&nbsp;?</li>
+                <li>Code Coverage</li>
+                <li>What is Mocking&nbsp;?</li>
+                <li>Why Mock&nbsp;?</li>
+                <li>Available Mocking frameworks</li>
+                <li>AEM Mocks</li>
+                <li>Demo</li>
+            </ul>
+        </section>
+        <section>
+            <p style="text-align:justify;">.about-me{</p>
+            <p style="text-align:justify;margin-left: 100px;">name: Ankit Gubrani;<br>
+                title:	Sr. Software Engineer;<br>
+                working at: Playstation;<br>
+                email-id: Ankit.gubrani90@gmail.com;<br>
+                linkedIn:	<a target="_blank" href="https://www.linkedin.com/in/ankitgubrani/">linkedin.com/in/ankitgubrani;</a><br>
+                twitter: @ankitgubrani90;<br>
+                blog: <a target="_blank" href="https://www.codebrains.co.in/">codebrains.co.in;</a></p>
+            <p style="text-align:justify;">}
+        </section>
+        <section>
+            <section>
+                <h3>Unit Tests&nbsp;:</h3>
+                <div>
+                    <ul>
+                        <li class="fragment">Used to test individual code components (Units) of a software & ensure that code works the way it was intended, in ISOLATION</li>
+                        <li class="fragment">Helps the developers to verify that the logic for a code component of a software is correct</li>
+                        <li class="fragment">Helps detecting bugs in early stages, when fixing them is faster & cost effective</li>
+                    </ul>
+                </div>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h3>Benefits of Unit Tests&nbsp;: </h3>
+                <div>
+                    <ul>
+                        <li class="fragment">Helps raise quality of code</li>
+                        <li class="fragment">Acts as Documentation - <span class="fragment"> Helps understand design of code working</span></li>
+                        <li class="fragment">Lowers the cost of fixing a defect - <span class="fragment">as defects are detected during unit testing is lesser in comparison to that of defects detected at higher levels</span></li>
+                    </ul>
+                </div>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h3>Some useful tips for unit tests&nbsp;:</h3>
+                <ul>
+                    <li class="fragment">Before fixing a defect, write a test that exposes the defect.
+                        <ul><li class="fragment">That will make your test suite more comprehensive & will even make sure same issue doesn't comes up again</li></ul></li>
+                    <li class="fragment" data-fragment-index="2">Aim at covering all branches/paths in your Unit Test, pay particular attention to loops & if conditions</li>
+                    <li class="fragment" data-fragment-index="3">Use test data that is close to that of production</li>
+                </ul>
+            </section>
+        </section>
+        <section>
+            <h3>JUnit-4 <strong>V/S</strong> JUnit-5</h3>
+            <ul>
+                <li class="fragment">Architecture :
+                    <ul>
+                        <li class="fragment">JUnit 4 has everything bundled into 1 JAR</li>
+                        <li class="fragment">JUnit 5 is composed of 3 sub-projects: JUnit Platform, JUnit Jupiter(new annotations), JUnit Vintage(makes it backwards compatible)</li>
+                    </ul>
+                </li>
+                <li class="fragment">JDK versions Supported :
+                    <ul>
+                        <li class="fragment">JUnit 4 - Java 5 or higher</li>
+                        <li class="fragment">JUnit 5 - Java 8 or higher</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+        <section>
+            <h3>JUnit-4 <strong>V/S</strong> JUnit-5 ANNOTATIONS</h3>
+            <p>&nbsp;</p>
+            <img src="../resources/assets/img/presentation/junit5AemMocks/Junit4_vs_Junit5_annotations.png" style="background: none;border: none;box-shadow: none;"/>
+        </section>
+        <section>
+            <h3>Some New Annotations introduced with <strong>JUnit-5</strong></h3>
+            <ul>
+                <li class="fragment">@DisplayName - declare custom display names for test classes & methods, displayed by test runners & in the reports</li>
+                <li class="fragment">@Disabled - Disables a test method or if set at class level can also disable whole Test class</li>
+                <li class="fragment">@RepeatedTest - repeat a test a specified number of times</li>
+                <li class="fragment">@ParameterizedTest - run a test multiple times with different arguments</li>
+            </ul>
+            <p class="fragment">Please refer confluence for Full List</p>
+        </section>
+        <section>
+            <h2>Demo</h2>
+            <img class="fragment" data-fragment-index="1" src="../resources/assets/img/presentation/slingmodels/final_demo.gif" style="background: none;border: none;box-shadow: none;"/>
+        </section>
+        <section>
+            <section>
+                <h3>Code Coverage</h3>
+                <ul>
+                    <li class="fragment" data-fragment-index="1">Code coverage is a measure which tells "percentage of source code tested by Unit test"</li>
+                    <li class="fragment" data-fragment-index="2">JaCoCo is a free Java code coverage library
+                        <ul><li class="fragment">Reports generated using JaCoCo also reports the complexity of each method & how much is untested</li></ul>
+                    </li>
+                    <li class="fragment" data-fragment-index="3">Sample Code Coverage Report AKA DEMO</li>
+                </ul>
+            </section>
+        </section>
+        <section>
+            <h3>What is Mocking&nbsp;?</h3>
+            <ul>
+                <li class="fragment">Definition - "Mocking is to make a replica or imitation of something"</li>
+                <li class="fragment">Mocking is creating objects that simulate the behavior of real objects</li>
+                <li class="fragment">For instance, an object (or piece of code) that you want to test may have dependencies on other complex objects. To isolate the behavior of the object you want to test you replace the other objects by mocks that simulate the behavior of the real objects </li>
+            </ul>
+        </section>
+        <section>
+            <h3>Why Mock&nbsp;?</h3>
+            <ul>
+                <li class="fragment" data-fragment-index="1">you don’t have to write any mocks/stubs yourself</li>
+                <li class="fragment" data-fragment-index="2">Mocks allows you to disconnect units in your code, thereby allowing unit-testing (or testing in Isolation)</li>
+            </ul>
+        </section>
+        <section>
+            <h3>Types of Mocking frameworks&nbsp;: </h3>
+            <ol>
+                <li class="fragment">Proxy based ( eg: EasyMock, JMock, Mockito)</li>
+                <li class="fragment">Byte code Manipulation / Classloader remapping ( eg: jMockit, PowerMock)</li>
+            </ol>
+        </section>
+        <section>
+            <h3>What is Proxy based Mocking? How it works?</h3>
+            <p class="fragment">A proxy is just an object which will be used instead of the original object. If a method of the proxy object is called than the proxy object can decide what it will do with this call&nbsp;:</p>
+            <ul>
+                <li class="fragment">delegate it to the original object</li>
+                <li class="fragment">handles the call itself</li>
+            </ul>
+
+        </section>
+        <section>
+            <h3>Cons of Proxy based Mocking&nbsp;:</h3>
+            <ul>
+                <li class="fragment" data-fragment-index="1">you cannot mock a final class, or static or final methods</li>
+                <li class="fragment" data-fragment-index="2">if you want to return a mock when a constructor is called, it won’t be possible</li>
+            </ul>
+        </section>
+        <section>
+            <h3>Available Mocking Frameworks&nbsp;:</h3>
+            <ol>
+                <li class="fragment" data-fragment-index="1">Mockito (Proxy based</li>
+                <li class="fragment" data-fragment-index="2">JMock (Proxy based)</li>
+                <li class="fragment" data-fragment-index="3">EasyMock (Proxy based)</li>
+                <li class="fragment" data-fragment-index="4">PowerMock (Byte code Manipulation)</li>
+            </ol>
+        </section>
+        <section>
+            <h3>AEM Mocks&nbsp;:</h3>
+            <ul>
+                <li class="fragment" data-fragment-index="1">provides an in-memory AEM environment which is suitable for Unit Tests </li>
+                <li class="fragment" data-fragment-index="2">Also provides access to:
+                    <ul>
+                        <li class="fragment" data-fragment-index="3">mocked OSGi</li>
+                        <li class="fragment" data-fragment-index="3">mocked JCR</li>
+                        <li class="fragment" data-fragment-index="3">mocked Sling</li>
+                    </ul>
+            </ul>
+        </section>
+        <section>
+            <h2>Demo Time!</h2>
+            <img src="../resources/assets/img/presentation/slingmodels/demo-time.gif" style="background: none;border: none;box-shadow: none;"/>
+        </section>
+        <section id="transitions">
+            <h2>Thank You</h2>
+            <div style="clear:both;">&nbsp;</div>
+            <p style="font-size:26px;">
+                Contact Me : <br>
+                LinkedIn : <a target="_blank" href="http://in.linkedin.com/in/ankitgubrani">Ankit Gubrani</a> <br>
+                Twitter : <a target="_blank" href="https://twitter.com/ankitgubrani90">@ankitgubrani90</a> <br>
+                Email-ID : <a href="mailto:ankit.gubrani@codebrains.co.in">ankit.gubrani@codebrains.co.in</a> <br>
+                Blog : <a target="_blank" href="https://www.codebrains.co.in/contactus">www.codebrains.co.in</a> <br>
+            </p>
+        </section>
+    </div>
+</div>
+<script src="../resources/assets/htmlPPT/lib/javascript/head.min.js"></script>
+<script src="../resources/assets/htmlPPT/javascript/reveal.min.js"></script>
+<script>
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        theme: Reveal.getQueryHash().theme,
+        transition: Reveal.getQueryHash().transition || 'linear',
+        dependencies: [
+            { src: 'lib/js/classList.js', condition: function () {
+                return !document.body.classList;
+            } },
+            { src: 'plugin/markdown/showdown.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            } },
+            { src: 'plugin/markdown/markdown.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            } },
+            { src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                hljs.initHighlightingOnLoad();
+            } },
+            { src: 'plugin/zoom-js/zoom.js', async: true, condition: function () {
+                return !!document.body.classList;
+            } },
+            { src: 'plugin/notes/notes.js', async: true, condition: function () {
+                return !!document.body.classList;
+            } }
+        ]
+    });
+</script>
+</body>
+</html>

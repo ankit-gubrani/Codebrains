@@ -1,0 +1,305 @@
+<!-- Welcome to codebrains.co.in -->
+<!-- Looking for something? Contact developer : ankit.gubrani90@gmail.com / ankit.gubrani@codebrains.co.in -->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Circuit breaker pattern</title>
+    <meta name="description" content="Get started with Circuit breaker pattern using Resilience4j.">
+    <meta name="author" content="Ankit Gubrani">
+    <meta name="Keywords" content="Circuit Breaker,Cascade Failure,Fault Tolerant System,Resillence4J">
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@ankitgubrani90">
+    <meta name="twitter:title" content="Circuit breaker pattern">
+    <meta name="twitter:description" content="Get started with Circuit breaker pattern using Resilience4j.">
+    <meta name="twitter:creator" content="@ankitgubrani90">
+    <meta name="twitter:image" content="https://www.codebrains.co.in/resources/assets/img/presentation/circuit-breaker/CR_Home.png">
+    <!-- Open Graph data -->
+    <meta property="og:title" content="Circuit breaker pattern" />
+    <meta property="og:type" content="Website" />
+    <meta property="og:image" content="https://www.codebrains.co.in/resources/assets/img/presentation/circuit-breaker/CR_Home.png" />
+    <meta property="og:description" content="Get started with Circuit breaker pattern using Resilience4j." />
+    <meta property="og:site_name" content="Codebrains.co.in" />
+    <meta property="fb:admins" content="1627043757" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+    <link rel="icon" href="../resources/assets/img/codebrains_transparent.png" type="image/gif" sizes="16x16">
+    <link rel="stylesheet" href="../resources/assets/htmlPPT/styling/reveal.css">
+    <link rel="stylesheet" href="../resources/assets/htmlPPT/styling/theme/wookie.css"/>" id="theme">
+    <link rel="stylesheet" href="../resources/assets/htmlPPT/lib/styling/zenburn.css"/>" >
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="../resources/assets/htmlPPT/lib/javascript/html5shiv.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="../resources/assets/otherjs/googleAnalytics.js"></script>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <img src="../resources/assets/img/presentation/circuit-breaker/circuit-breaker-hero-white.png" style="background: none;border: none;box-shadow: none;"/>
+            <p>
+                <small>
+                    By: <a target="_blank" href="https://www.codebrains.co.in/ankitgubrani">Ankit Gubrani</a> / <a href="https://twitter.com/ankitgubrani90" target="_blank">@ankitgubrani90</a>
+                </small>
+            </p>
+        </section>
+        <section>
+            <p style="text-align:justify;">.about-me{</p>
+            <p style="text-align:justify;margin-left: 100px;">name: Ankit Gubrani;<br>
+                title:	Sr. Software Engineer;<br>
+                working at: Playstation;<br>
+                email-id: Ankit.gubrani90@gmail.com;<br>
+                linkedIn:	<a target="_blank" href="https://www.linkedin.com/in/ankitgubrani/">linkedin.com/in/ankitgubrani;</a><br>
+                twitter: @ankitgubrani90;<br>
+                blog: <a target="_blank" href="https://www.codebrains.co.in/">codebrains.co.in;</a></p>
+            <p style="text-align:justify;">}
+        </section>
+        <section>
+            <h2>Agenda
+            </h2>
+            <ul>
+                <li>Let’s build a microservice application &nbsp; !!!</li>
+                <li>Cascade Failures</li>
+                <li>Fault Tolerant Systems</li>
+                <li>Circuit Breaker</li>
+                <li>Circuit breaker implementation using Resilience4j</li>
+                <li>Demo</li>
+            </ul>
+        </section>
+        <section>
+            <section>
+                <h3>Building a microservice &nbsp; !!!</h3>
+                <h2>&nbsp;</h2>
+                <div>
+                    <img class="fragment" src="../resources/assets/img/presentation/circuit-breaker/slide_1_build_microservice.png" style="background: none;border: none;box-shadow: none;"/>
+                </div>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h3>Immediate failure </h3>
+                <h2>&nbsp;</h2>
+                <div>
+                    <img class="fragment" src="../resources/assets/img/presentation/circuit-breaker/slide_2_immediate_failure.png" style="background: none;border: none;box-shadow: none;"/>
+                </div>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h3>How to handle immediate failure</h3>
+                <h2>&nbsp;</h2>
+                <div>
+                    <img class="fragment" src="../resources/assets/img/presentation/circuit-breaker/slide_5_howtohandle_immediate_failure.png" style="background: none;border: none;box-shadow: none;"/>
+                </div>
+            </section>
+        </section>
+        <section>
+            <h3>But what’s the disadvantage?</h3>
+            <h2>&nbsp;</h2>
+            <div>
+                <img class="fragment" src="../resources/assets/img/presentation/circuit-breaker/slide_6_disadvantage_immediate_failure.png" style="background: none;border: none;box-shadow: none;"/>
+            </div>
+        </section>
+        <section>
+            <h2>&nbsp;</h2>
+            <h3>Although immediate failures are good, but if we know request to a service has failed 10 times, why should be make request 11th time?</h3>
+        </section>
+        <section>
+            <h3>Remote service goes Unresponsive </h3>
+            <h2>&nbsp;</h2>
+            <div>
+                <img class="fragment" src="../resources/assets/img/presentation/circuit-breaker/slide_8_unresponsive.png" style="background: none;border: none;box-shadow: none;"/>
+            </div>
+        </section>
+        <section>
+            <h3>How to handle unresponsiveness </h3>
+            <h2>&nbsp;</h2>
+            <div>
+                <img class="fragment" src="../resources/assets/img/presentation/circuit-breaker/slide_9_handleunresponsive.png" style="background: none;border: none;box-shadow: none;"/>
+            </div>
+        </section>
+        <section>
+            <h3>Downsides of timeout failures </h3>
+            <h2>&nbsp;</h2>
+            <div>
+                <img class="fragment" src="../resources/assets/img/presentation/circuit-breaker/slide_10_downside_of_timeouts.png" style="background: none;border: none;box-shadow: none;"/>
+            </div>
+        </section>
+        <section>
+            <h3>Cascade failures </h3>
+            <h2>&nbsp;</h2>
+            <div>
+                <img class="fragment" src="../resources/assets/img/presentation/circuit-breaker/slide_11_cascade_failure.png" style="background: none;border: none;box-shadow: none;"/>
+            </div>
+        </section>
+        <section>
+            <h3>Cascade failures </h3>
+            <div>
+                <h4>Cascading failure is a failure where the failure of one part of an interconnected system results in
+                    the failure of more parts, and eventually the whole system</h4>
+            </div>
+        </section>
+        <section>
+            <h3>Fault tolerant systems </h3>
+            <ul>
+                <li class="fragment">Fault tolerance refers to the ability of a system (a microservice application in our case) to continue operating without interruption when one or more of its components fail.</li>
+                <li class="fragment">Objective of fault tolerant systems is to remove single point of failure from a system</li>
+                <li class="fragment">Fault tolerant systems ensures high availability</li>
+            </ul>
+        </section>
+        <section>
+            <h3>How to make fault tolerant systems </h3>
+            <p class="fragment">Avoiding Cascade failures</p>
+            <ul>
+                <li class="fragment">Timeouts</li>
+                <li class="fragment">Retry</li>
+                <li class="fragment">Circuit Breaker</li>
+                <li class="fragment">Bulkhead</li>
+                <li class="fragment">Cache Optimizations</li>
+            </ul>
+        </section>
+        <section>
+            <h3>Circuit breaker pattern </h3>
+            <ul>
+                <li class="fragment">Circuit breaker acts as a GATE KEEPER for all requests</li>
+                <li class="fragment">It monitors the response from supplier service for consecutive failures</li>
+                <li class="fragment">When consecutive failure crosses a threshold Circuit breaker trips</li>
+                <li class="fragment">As intermittent failures are common, we do not open circuit breaker on first request failure</li>
+                <li class="fragment">Cache Optimizations</li>
+            </ul>
+        </section>
+        <section>
+            <h3>Designing Circuit breaker </h3>
+            <h2>&nbsp;</h2>
+            <div>
+                <img class="fragment" src="../resources/assets/img/presentation/circuit-breaker/slide_16_designing_circuitbreaker.png" style="background: none;border: none;box-shadow: none;"/>
+            </div>
+        </section>
+        <section>
+            <h3>States of Circuit breaker </h3>
+            <h5>&nbsp;</h5>
+            <h4>1. CLOSED STATE</h4>
+            <h5>&nbsp;</h5>
+            <div>
+                <img class="fragment" src="../resources/assets/img/presentation/circuit-breaker/slide_17_closed_state.png" style="background: none;border: none;box-shadow: none;"/>
+            </div>
+            <p class="fragment">When everything is normal, the circuit breaker remains in the CLOSED STATE and all calls pass through to the supplier (Payment Service)</p>
+        </section>
+        <section>
+            <h3>States of Circuit breaker </h3>
+            <h5>&nbsp;</h5>
+            <h4>2. OPEN STATE</h4>
+            <h5>&nbsp;</h5>
+            <div>
+                <img class="fragment" src="../resources/assets/img/presentation/circuit-breaker/slide_18_open_state.png" style="background: none;border: none;box-shadow: none;"/>
+            </div>
+            <p class="fragment">When the number of failures exceeds a threshold the breaker trips, and it goes into the Open state. The circuit breaker returns an error for calls without executing the function.</p>
+        </section>
+        <section>
+            <h3>States of Circuit breaker </h3>
+            <h5>&nbsp;</h5>
+            <h4>3. HALF-OPEN STATE</h4>
+            <h5>&nbsp;</h5>
+            <div>
+                <img class="fragment" src="../resources/assets/img/presentation/circuit-breaker/slide_19_half_open_state.png" style="background: none;border: none;box-shadow: none;"/>
+            </div>
+            <p class="fragment">Periodically make calls to supplier (Payment Service) to see if it is successfully returning the result. This state is HALF-OPEN.</p>
+        </section><section>
+        <h3>States of Circuit breaker </h3>
+        <h2>&nbsp;</h2>
+        <div>
+            <img class="fragment" src="../resources/assets/img/presentation/circuit-breaker/slide_20_states.png" style="background: none;border: none;box-shadow: none;"/>
+        </div>
+    </section>
+        <section>
+            <h3>Why do we need Circuit breaker? </h3>
+            <ul>
+                <li class="fragment">FAIL FASTER : Circuit breaker helps services to FAIL FASTER, which helps conserve resources & keep the system alive</li>
+                <li class="fragment">PREVENTS SERVICE FAILURES : Prevents consumer services from failing</li>
+                <li class="fragment">AUTOMATICE RECOVERY : As circuit breaker periodically checks if supplier is working again, & recovers the whole system</li>
+            </ul>
+        </section>
+        <section>
+            <h3>WHAT IS RESILIENCE4J? </h3>
+            <ul>
+                <li class="fragment">Resilience4j is a library for making Fault Tolerant Applications</li>
+                <li class="fragment">Resilience4j provides modules for implementing:
+                    <ul>
+                        <li>Circuit Breaker</li>
+                        <li>BulkHead</li>
+                        <li>RateLimiter</li>
+                    </ul>
+                </li>
+                <li class="fragment">Resilience4j is inspired by a framework called Hystrix which was designed by Netflix</li>
+            </ul>
+        </section>
+        <section>
+            <h3>CIRCUIT BREAKER USING RESILIENCE4J </h3>
+            <ul>
+                <li class="fragment">Resilience4j’s uses a sliding window to store and aggregate the outcome of calls for circuit breaker pattern</li>
+                <li class="fragment">Count-based sliding window
+                    <ul>
+                        <li>It checks out of Last N calls how many were successful & how many failed</li>
+                        <li>And based on that information, circuit breaker state is maintained</li>
+                    </ul>
+                </li>
+                <li class="fragment">Time-based sliding window
+                    <ul>
+                        <li>It checks out of all the calls made in last N seconds; how many were successful & how many failed</li>
+                        <li>And based on that information, circuit breaker state is maintained</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+        <section>
+            <h2>Demo</h2>
+            <img class="fragment" data-fragment-index="1" src="../resources/assets/img/presentation/slingmodels/final_demo.gif" style="background: none;border: none;box-shadow: none;"/>
+        </section>
+        <section id="transitions">
+            <h2>Thank You</h2>
+            <div style="clear:both;">&nbsp;</div>
+            <p style="font-size:26px;">
+                Contact Me : <br>
+                LinkedIn : <a target="_blank" href="http://in.linkedin.com/in/ankitgubrani">Ankit Gubrani</a> <br>
+                Twitter : <a target="_blank" href="https://twitter.com/ankitgubrani90">@ankitgubrani90</a> <br>
+                Email-ID : <a href="mailto:ankit.gubrani@codebrains.co.in">ankit.gubrani@codebrains.co.in</a> <br>
+                Blog : <a target="_blank" href="https://www.codebrains.co.in/contactus">www.codebrains.co.in</a> <br>
+            </p>
+        </section>
+    </div>
+</div>
+<script src="../resources/assets/htmlPPT/lib/javascript/head.min.js"></script>
+<script src="../resources/assets/htmlPPT/javascript/reveal.min.js"></script>
+<script>
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        theme: Reveal.getQueryHash().theme,
+        transition: Reveal.getQueryHash().transition || 'linear',
+        dependencies: [
+            { src: 'lib/js/classList.js', condition: function () {
+                return !document.body.classList;
+            } },
+            { src: 'plugin/markdown/showdown.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            } },
+            { src: 'plugin/markdown/markdown.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            } },
+            { src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                hljs.initHighlightingOnLoad();
+            } },
+            { src: 'plugin/zoom-js/zoom.js', async: true, condition: function () {
+                return !!document.body.classList;
+            } },
+            { src: 'plugin/notes/notes.js', async: true, condition: function () {
+                return !!document.body.classList;
+            } }
+        ]
+    });
+</script>
+</body>
+</html>

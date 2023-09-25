@@ -1,0 +1,242 @@
+<!-- Welcome to codebrains.co.in -->
+<!-- Looking for something? Contact developer : ankit.gubrani90@gmail.com / ankit.gubrani@codebrains.co.in -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Approach for Content Based Recommendation Engine in AEM</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Ankit Gubrani">
+    <meta name="subject" content="IT services">
+    <meta name="Geography" content="California">
+    <meta name="Language" content="English">
+    <meta name="Copyright" content="Ankit Gubrani">
+    <meta name="Designer" content="Ankit Gubrani">
+    <meta name="Publisher" content="Ankit Gubrani">
+    <meta name="distribution" content="Global">
+
+    <link rel="alternate" href="https://www.codebrains.co.in/" hreflang="en-in" />
+
+    <meta name="Description" content="AEM Recommendation generator is a content based recommendation engine which reads the metadata from pages and finds the similar pages to generate the recommendations.">
+    <meta name="Keywords" content="Content Based Recommendation Engine in AEM,Recommendation Engine,Approach">
+
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@ankitgubrani90">
+    <meta name="twitter:title" content="Approach for Content Based Recommendation Engine in AEM">
+    <meta name="twitter:description" content="AEM Recommendation generator is a content based recommendation engine which reads the metadata from pages and finds the similar pages to generate the recommendations">
+    <meta name="twitter:creator" content="@ankitgubrani90">
+    <meta name="twitter:image" content="https://www.codebrains.co.in/resources/assets/img/recommendationengine/recommendationsEngineHome.png">
+
+    <!-- Open Graph data -->
+    <meta property="og:title" content="Approach for Content Based Recommendation Engine in AEM" />
+    <meta property="og:type" content="Website" />
+    <meta property="og:image" content="https://www.codebrains.co.in/resources/assets/img/recommendationengine/recommendationsEngineHome.png" />
+    <meta property="og:description" content="AEM Recommendation generator is a content based recommendation engine which reads the metadata from pages and finds the similar pages to generate the recommendations" />
+    <meta property="og:site_name" content="Codebrains.co.in" />
+    <meta property="fb:admins" content="1627043757" />
+
+    <!-- Meta tag from pininterest -->
+    <meta name="p:domain_verify" content="0d3ff48344ca5856484c1cceed35a6eb"/>
+    <link rel="icon" href="../resources/assets/img/codebrains_transparent.png" type="image/gif" sizes="16x16">
+
+    <link rel="stylesheet" href="../resources/assets/css/style.css">
+
+    <script type="text/javascript" src="../resources/assets/otherjs/googleAnalytics.js"></script>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+        <div class="container topnav">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="logo">
+                    <a href="https://www.codebrains.co.in/"><img src="../resources/assets/img/codebrains_newlogo.png" /></a>
+                </div>
+            </div><!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="https://www.codebrains.co.in/">Home</a>
+                    </li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/contactus">Contact Us</a>
+                    </li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/ankitgubrani">About Us</a>
+                    </li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/projects">Our Work</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<ul class='social socialshare-icons'>
+    <li>
+        <a class="fa fa-facebook socialshare-fb" href="https://www.facebook.com/sharer/sharer.php?u=www.codebrains.co.in" target="_blank" >
+            <span>Facebook</span>
+        </a>
+    </li>
+    <li>
+        <a class="fa fa-twitter socialshare-tw" href="https://twitter.com/intent/tweet?url=www.codebrains.co.in" target="_blank" >
+            <span>Twitter</span>
+        </a>
+    </li>
+    <li>
+        <a class="fa fa-linkedin socialshare-lk" href="https://www.linkedin.com/cws/share?url=www.codebrains.co.in" target="_blank">
+            <span>LinkedIn</span>
+        </a>
+    </li>
+    <li>
+        <a class="fa fa-google-plus socialshare-gp" href="https://plus.google.com/share?url=www.codebrains.co.in" target="_blank">
+            <span>GPlus</span>
+        </a>
+    </li>
+    <li>
+        <a class="fa fa-envelope" href="mailto:ankit.gubrani@codebrains.co.in" target="_blank">
+            <span>Email us</span>
+        </a>
+    </li>
+</ul>
+
+<div class="hero-unit" >
+    <div class="container main-container blog-post">
+        <br/>
+        <h1> Approach for Content Based Recommendation Engine in AEM</h1>
+        <div class="approach-text">
+            <hr class="section-heading-spacer">
+            <ol>
+                <li><span class="code">
+                        <a href="https://github.com/ankit-gubrani/aem-recommendation-engine/blob/master/core/src/main/java/in/co/codebrains/recommendations/engine/scheduler/RecommendationsGeneratorScheduler.java" target="_blank">RecommendationsGeneratorScheduler</a>
+                        </span> runs on regular interval & starts the process for generating recommentations</li>
+                <li>Data extraction begins by running the query passed by users via <span class="code">"AEM Recommendation Engine"</span> OSGi Config</li>
+                <li>Using <span class="code"><a href="https://github.com/ankit-gubrani/aem-recommendation-engine/blob/master/core/src/main/java/in/co/codebrains/recommendations/engine/util/DataCleaningUtil.java" target="_blank">DataCleaningUtil.java</a></span> bogOfWords is generated
+                    <ol>
+                        <li>Properties to be read are passed in the DataCleaningUtil constructor.</li>
+                        <li><span class="code">generateBagOfWords()</span> method returns a map of ProductId mapped to bagOfWords associated to that product. bagOfWords is just space separated String with different Tags, or other values of properties like jcr:title, cq:tags etc.</li>
+                    </ol>
+                </li>
+                <li><span class="code">showCountVectorizer()</span> method from GenerateRecommendations is called. Note: This class is just calling all the required methods from Tokenizer, Dictionary & CountVectorizer classes to convert each product with words associated to them into numeric values which can be passed to an Algorithm for getting recommendations.
+                <li><h4>Generating recommendations:</h4></li>
+                <li><span class="code">Tokenizer</span> object is created using custom SimpleTokenizer implementation
+                    <ol>
+                        <li><span class="code"><a href="https://github.com/ankit-gubrani/aem-recommendation-engine/blob/master/core/src/main/java/in/co/codebrains/recommendations/engine/extraction/util/SimpleTokenizer.java" target="_blank">SimpleTokenizer</a></span> provides a method to generate Array of tokens from BagOfWords liked to each product</li>
+                    </ol>
+                </li>
+                <li><span class="code">Dictionary</span> object is initialized using custom <span class="code"><a href="https://github.com/ankit-gubrani/aem-recommendation-engine/blob/master/core/src/main/java/in/co/codebrains/recommendations/engine/extraction/util/SimpleTermDictionary.java" target="_blank">SimpleTermDictionary</a></span> implementation
+                    <ol>
+                        <li>SimpleTermDictionary maintains a Vocabulary</li>
+                        <li>SimpleTermDictionary provides methods:
+                            <ol>
+                                <li><span class="code">getTermIndex()</span>: returns the Index (Number given to each term in Dictionary) of given term.</li>
+                                <li><span class="code">getTotalTerms()</span>: returns the total number of terms/items in Vocabulary</li>
+                            </ol>
+                        </li>
+                    </ol>
+                </li>
+                <li><span class="code"><a href="https://github.com/ankit-gubrani/aem-recommendation-engine/blob/master/core/src/main/java/in/co/codebrains/recommendations/engine/extraction/CountVectorizer.java" target="_blank">CountVectorizer</a></span> Object is initialized with dictionary & tokenizer objects initialized in previous steps. <span class="code">CountVectorizer</span> provides 2 methods:
+                    <ol>
+                        <li><span class="code">getCountVector()</span> : which returns the SparseVector of the current product's bagOfWords.
+                            <ol>
+                                <li>returns RealVector object</li>
+                                <li><span class="code">SparseVector</span> of size of Dictionary's Vocabulary size</li>
+                                <li><span class="code">SparseVector</span> which has represents a word as 1 in the array while 0 if that word from vocabulary is not part of Products BagOfWords</li>
+                            </ol>
+                        </li>
+                        <li><span class="code">getCountMatrix()</span> : returns RealMatrix
+                            <ol>
+                                <li>returns a matrix of Vectors for each Product's bagOfWords</li>
+                            </ol>
+                        </li>
+                    </ol>
+                </li>
+                <li>In <span class="code"><a href="https://github.com/ankit-gubrani/aem-recommendation-engine/blob/master/core/src/main/java/in/co/codebrains/recommendations/engine/similarity/SimilarityMatrixGenerator.java" target="_blank">SimilarityMatrixGenerator</a></span> class's <span class="code">generateSimilarityMatrix()</span> method RealMatrix generated using getCountMatrix() method is looped through and:
+                    <ol>
+                        <li>For Each row i.e (each product's vector) cosine angle is calculated with all the other products</li>
+                        <li>And cosine is stored in a <span class="code">dotProductMatrix</span></li>
+                        <li>Finally SimilarityMatrix Object is created which contains dotProductMatrix and NodeIdIndexMap (mapping nodeId to Index, which is used for reading recommendations from dotProductMatrix)</li>
+                    </ol>
+                </li>
+                <li>A separate Map is maintained which maps each ProductId (String) to the Index of product in RealMatrix from step 9.</li>
+                <li><span class="code"><a href="https://github.com/ankit-gubrani/aem-recommendation-engine/blob/master/core/src/main/java/in/co/codebrains/recommendations/engine/similarity/SimilarityMatrix.java" target="_blank">SimilarityMatrix</a></span> object is serialized & stored in JCR under /var, which can be later read while getting the similarities. And Recommendation generation is an heavy operation, RecommendationsGeneratorScheduler can generate & update the SimilarityMatrix after fixed interval.</li>
+                <li><span class="code">RecommendationsReaderService</span> can be used for reading the recommendations from SimilarityMatrix serialized & stored within JCR.</li>
+            </ol>
+            </br>
+            <div><b>Note:</b> There can be several RecommendationEngines configured in any AEM instance for generating different recommendations for different pages, products or items.</div>
+
+            </br></br>
+        </div>
+    </div>
+</div>
+
+    <!-- Mail Chimp subscription pop up -->
+<script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/signup-forms/popup/embed.js" data-dojo-config="usePlainJson: true, isDebug: false"></script><script type="text/javascript">require(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us12.list-manage.com","uuid":"63aaf091fb5db98267e9f74f5","lid":"9b9fd4e11a"}) })</script>
+<div class="banner">
+    <!-- Begin Subscription Form -->
+    <div id="mc_embed_signup">
+        <form action="//codebrains.us12.list-manage.com/subscribe/post?u=63aaf091fb5db98267e9f74f5&amp;id=9b9fd4e11a" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+            <div id="mc_embed_signup_scroll">
+                <h2>Subscribe to our mailing list</h2>
+                <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Email address" required>
+                <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_63aaf091fb5db98267e9f74f5_9b9fd4e11a" tabindex="-1" value=""></div>
+                <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+            </div>
+        </form>
+    </div>
+    <!--End mc_embed_signup-->
+</div>
+<script type="text/javascript" src="../resources/assets/js/script.min.js"></script>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h3 class="footer-contactus">Stay connected with us:</h3>
+                <ul class="footer-social">
+                    <li>
+                        <a href="https://www.facebook.com/codebains.co.in" class="fa fa-facebook" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="https://in.linkedin.com/in/ankitgubrani" class="fa fa-linkedin" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/ankitgubrani90" class="fa fa-twitter" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/ankit-gubrani" class="fa fa-github" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="http://stackexchange.com/users/8257088/ankit-gubrani" class="fa fa-stack-overflow" target="_blank"></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-4">
+                <ul class="list-inline floatRight noFloatMobile footer-nav">
+                    <li>
+                        <a href="https://www.codebrains.co.in/">Home</a>
+                    </li>
+                    <li class="footer-menu-divider">&sdot;</li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/ankitgubrani">About</a>
+                    </li>
+                    <li class="footer-menu-divider">&sdot;</li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/contactus">Contact</a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted small floatRight noFloatMobile"> &copy; www.codebrains.co.in 2023. All Rights Reserved</p>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

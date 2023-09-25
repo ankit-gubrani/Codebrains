@@ -1,0 +1,354 @@
+<!-- Welcome to codebrains.co.in -->
+<!-- Looking for something? Contact developer : ankit.gubrani90@gmail.com / ankit.gubrani@codebrains.co.in -->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Codebrains.co.in | Integrating AEM with Apache Mahout</title>
+
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="AEM-Mahout Connector">
+    <meta name="author" content="Ankit Gubrani">
+    <meta name="Keywords" content="Apache Mahout,AEM">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+    <link rel="icon" href="../resources/assets/img/codebrains_transparent.png"  type="image/gif" sizes="16x16">
+    <link rel="stylesheet" href="../resources/assets/css/style.min.css" >
+    <link rel="stylesheet" href="../resources/assets/htmlPPT/styling/reveal.css">
+    <link rel="stylesheet" href="../resources/assets/htmlPPT/styling/theme/wookie.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../resources/assets/htmlPPT/lib/styling/zenburn.css" >
+
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="../resources/assets/htmlPPT/lib/javascript/html5shiv.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="../resources/assets/otherjs/googleAnalytics.js"></script>
+</head>
+<body>
+<!-- Including Social Links sidebar -->
+<jsp:include page="../base/sociallinks.jsp" />
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;">Integrating Apache Mahout with AEM            </h2>
+            <img src="../resources/assets/img/presentation/aem-mahout-5.png" style="background: none;border: none;box-shadow: none;height: 40vh"/>
+            <div style="clear:both;">&nbsp;</div>
+            <p>
+                <small>Created by<a href="https://www.codebrains.co.in/ankitgubrani">Ankit Gubrani</a> / <a
+                        href="https://twitter.com/ankitgubrani90">@ankitgubrani90</a></small>
+            </p>
+            <p>
+                <small>& <a href="http://in.linkedin.com/in/rimamittal">Rima Mittal</a> / <a
+                        href="https://twitter.com/rimamittal">@rimamittal</a></small>
+            </p>
+
+        </section>
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;"><strong>Speakers Bio</strong></h2>
+            <img src="../resources/assets/img/presentation/spearkersBio.png" style="background: none;border: none;box-shadow: none;height: 70vh"/>
+        </section>
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;"><strong>Agenda</strong></h2>
+            <ul>
+                <li>Introduction to Apache Mahout</li>
+                <li>Machine Learning</li>
+                <li>Recommendations</li>
+                <li>AEM with Apache Mahout</li>
+                <li>Demo</li>
+                <li>Extension Points</li>
+            </ul>
+        </section>
+        <section>
+            <h1>&nbsp;</h1>
+            <h3>&nbsp;</h3>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;"><strong>Introduction to Apache Mahout</strong></h2>
+        </section>
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;"><strong>Introduction to Apache Mahout</strong></h2>
+            <ul>
+                <li>Project of the Apache Software Foundation.</li>
+                <li>Producing free implementations of scalable machine learning algorithms, written in Java.</li>
+            </ul>
+        </section>
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;"><strong>History</strong></h2>
+            <ul>
+                <li>Started as a Lucene sub-project.</li>
+                <li>Became Apache TLP in April 2010.</li>
+                <li>Latest version – 0.12.2 – Released on 13th June 2016.</li>
+            </ul>
+        </section>
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;"><strong>Why Apache Mahout?</strong></h2>
+            <ul>
+                <li>Increasing volume of data!</li>
+                <li>Traditional Data mining algorithms struggle to process very large datasets.                </li>
+                <li>Apache Mahout to the rescue!</li>
+            </ul>
+        </section>
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;"><strong>Traditional Machine Learning</strong></h2>
+            <img src="../resources/assets/img/presentation/Picture1.png" style="background: none;border: none;box-shadow: none;height: 50vh"/>
+        </section>
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;"><strong>Machine Learning with Mahout</strong></h2>
+            <img src="../resources/assets/img/presentation/Picture2.png" style="background: none;border: none;box-shadow: none;height: 50vh"/>
+        </section>
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;">Applications</h2>
+            <ul>
+                <li>Adobe, Facebook, LinkedIn, Twitter and Yahoo use Mahout internally.</li>
+                <li>Twitter uses Mahout for interest modelling.</li>
+                <li>Yahoo! Uses Mahout for pattern mining.</li>
+            </ul>
+        </section>
+        <section>
+            <h1>&nbsp;</h1>
+            <h3>&nbsp;</h3>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;"><strong>Machine Learning</strong></h2>
+        </section>
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;"><strong>Machine Learning</strong></h2>
+            <ul>
+                <li>Programming computers to optimize a Performance Criterion using Example Data or Past Experience</li>
+                <ul>
+                    <li>Branch of Artificial Intelligence.</li>
+                    <li>Computers evolve behavior based on Empirical data.</li>
+                </ul>
+            </ul>
+        </section>
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;"><strong>Techniques</strong></h2>
+            <ul>
+                <li><strong>Supervised Learning</strong></li>
+                <ul>
+                    <li>Use Labelled training data to create a classifier that can predict output for unseen inputs.</li>
+                </ul>
+                <li><strong>Unsupervised Learning</strong></li>
+                <ul>
+                    <li>Use Unlabeled training data to create a function that can predict output.</li>
+                </ul>
+            </ul>
+        </section>
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;"><strong>Machine Learning with Apache Mahout</strong></h2>
+            <ul>
+                <li><strong>Data Science use cases Mahout supports:</strong></li>
+                <ul>
+                    <li>Collaborative Filtering</li>
+                    <li>Clustering</li>
+                    <li>Classification</li>
+                </ul>
+            </ul>
+        </section>
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;"><strong>Collaborative Filtering</strong></h2>
+            <ul>
+                <li><strong>User behavior mining to make product recommendations.</strong></li>
+            </ul>
+            <h3>&nbsp;</h3>
+            <img src="../resources/assets/img/presentation/Picture3.png" style="background: none;border: none;box-shadow: none;height: 40vh"/>
+        </section>
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;"><strong>Clustering</strong></h2>
+            <ul>
+                <li><strong>Organizing items into naturally occurring groups, such that items belonging to same group are similar to each other</strong></li>
+            </ul>
+            <h3>&nbsp;</h3>
+            <img src="../resources/assets/img/presentation/Picture4.png" style="background: none;border: none;box-shadow: none;height: 35vh"/>
+        </section>
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;"><strong>Classification</strong></h2>
+            <ul>
+                <li><strong>Learning from existing categorizations and assigning unclassified items to the best category</strong></li>
+            </ul>
+            <h3>&nbsp;</h3>
+            <img src="../resources/assets/img/presentation/Picture6.png" style="background: none;border: none;box-shadow: none;height: 40vh"/>
+        </section>
+        <section>
+            <h1>&nbsp;</h1>
+            <h3>&nbsp;</h3>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;"><strong>Recommendations</strong></h2>
+        </section>
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;">Apache Mahout Recommendation Engine</h2>
+            <ul>
+                <li>Helps users find items they might like based on historical behavior and preferences.</li>
+                <li>Mahout provides a rich set of components from which a customized recommender system can be constructed using a selection of Algorithms.</li>
+            </ul>
+        </section>
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;">Architecture</h2>
+            <ul>
+                <li>Top Level Packages</li>
+                <ul>
+                    <li>DataModel</li>
+                    <li>UserSimilarity</li>
+                    <li>ItemSimilarity</li>
+                    <li>UserNeighboorhood</li>
+                    <li>Recommender</li>
+                </ul>
+            </ul>
+        </section>
+        <section>
+            <h1>&nbsp;</h1>
+            <h3>&nbsp;</h3>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;"><strong>AEM with Apache Mahout</strong></h2>
+        </section>
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;">Checklist</h2>
+            <ul>
+                <li>AEM 6.2</li>
+                <li>Mahout as a Maven Dependency <br>
+                    &lt;dependency&gt;<br>
+                    &lt;groupId&gt;org.apache.mahout&lt;/groupId&gt;<br>
+                    &lt;artifactId&gt;mahout-mr&lt;/artifactId&gt;<br>
+                    &lt;version&gt;0.10.0&lt;/version&gt;<br>
+                    &lt;/dependency&gt;<br>
+                </li>
+            </ul>
+        </section>
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;">JCRDataModel</h2>
+            <ul>
+                <li>DataModel</li>
+                <ul>
+                    <li>Implementations representing a repository of information about users and their associated preferences.</li>
+                    <ul>
+                        <li>AbstractDataModel, JDBCDataModel, FileDataModel, GenericBooleanPrefDataModel, GenericDataModel.</li>
+                        <li>AEM - JCRDataModel.</li>
+                    </ul>
+                </ul>
+            </ul>
+        </section>
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;">Code (1/2)</h2>
+            <ul>
+                <li>Using The AEM JCRDataModel</li>
+                <br>
+                <code style="font-size: 20px;">
+                    public JSONArray getUserBasedRecommendations(ResourceResolver resourceResolver, String userId, int numberOfRecommendations) {<br>
+
+                    //Creating JCRDataModel to fetch information from JCR<br>
+                    DataModel model = JCRDataModel.createDataModel(resourceResolver);<br>
+                    }
+                </code>
+            </ul>
+        </section>
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;">Code (2/2)</h2>
+            <ul>
+                <li>AEM-Mahout Recommendation steps</li>
+                <br>
+                <code style="font-size: 20px;">
+                    UserSimilarity userSimilarity = getSimilarity(model);<br>
+
+                    UserNeighborhood neighborhood = getNeighbourHood(N_NEIGHOBUR_HOOD, userSimilarity, model);<br>
+
+                    GenericUserBasedRecommender recommender = new GenericUserBasedRecommender(model, neighborhood, userSimilarity);<br>
+
+                    recommendations = recommender.recommend(userIdHash, numberOfRecommedations, null, false);<br>
+                </code>
+            </ul>
+        </section>
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;">AEM Product Recommendation</h2>
+            <ul>
+                <li>User Based Recommendation</li>
+                <ul>
+                    <li>Takes user ratings into consideration</li>
+                    <li>Based on PearsonCorrelationSimilarity</li>
+                    <li>Uses NearestNUserNeighborhood</li>
+                </ul>
+            </ul>
+        </section>
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;">Configuring JCRDataModel</h2>
+            <ul>
+                <li>Configurations</li>
+                <ul>
+                    <li>User Generated Content Path</li>
+                    <ul>
+                        <li>/content/usergenerated/asi/jcr</li>
+                    </ul>
+                </ul>
+                <ul>
+                    <li>Based on PearsonCorrelationSimilarity</li>
+                    <ul>
+                        <li>/etc/commerce/products/geometrixx-outdoors</li>
+                    </ul>
+                </ul>
+                <ul>
+                    <li>Uses NearestNUserNeighborhood</li>
+                    <ul>
+                        <li>Defaults to social/tally/components/response</li>
+                    </ul>
+                </ul>
+            </ul>
+        </section>
+        <section>
+            <h1>&nbsp;</h1>
+            <h3>&nbsp;</h3>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;"><strong>Demo</strong></h2>
+        </section>
+        <section>
+            <h1>&nbsp;</h1>
+            <h3>&nbsp;</h3>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;"><strong>Appendix</strong></h2>
+        </section>
+        <section>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;">Appendix</h2>
+            <ul>
+                <li>https://mahout.apache.org/</li>
+                <li>http://www.slideshare.net/VaradMeru/introduction-to-mahout-and-machine-learning</li>
+                <li>https://www.youtube.com/watch?v=iMAMYzfRiS4</li>
+            </ul>
+        </section>
+        <section>
+            <h1>&nbsp;</h1>
+            <h3>&nbsp;</h3>
+            <h2 style="color: #2eb1ff; font-size: 1.5em; font-family: fantasy;"><strong>Thank you.</strong></h2>
+        </section>
+    </div>
+</div>
+<script src="../resources/assets/htmlPPT/lib/javascript/head.min.js"></script>
+<script src="../resources/assets/htmlPPT/javascript/reveal.min.js"></script>
+<script>
+        // Full list of configuration options available here:
+        // https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+
+        theme: Reveal.getQueryHash().theme,
+        transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+        { src: 'resources/assets/htmlPPT/lib/javascript/classList.js', condition: function () {
+        return !document.body.classList;
+        } },
+        { src: 'resources/assets/htmlPPT/plugin/markdown/showdown.js', condition: function () {
+        return !!document.querySelector('[data-markdown]');
+        } },
+        { src: 'resources/assets/htmlPPT/plugin/markdown/markdown.js', condition: function () {
+        return !!document.querySelector('[data-markdown]');
+        } },
+        { src: 'resources/assets/htmlPPT/plugin/highlight/highlight.js', async: true, callback: function () {
+        hljs.initHighlightingOnLoad();
+        } },
+        { src: 'resources/assets/htmlPPT/plugin/zoom-js/zoom.js', async: true, condition: function () {
+        return !!document.body.classList;
+        } },
+        { src: 'resources/assets/htmlPPT/plugin/notes/notes.js', async: true, condition: function () {
+        return !!document.body.classList;
+        } }
+        ]
+        });
+        </script>
+</body>
+</html>
