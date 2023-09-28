@@ -2651,6 +2651,7 @@ h6 {
     background-size: cover;
     text-align: center;
     background-color: #f8f8f8;
+    margin-bottom: 0px !important;
 }
 .contact-us-heading {
     padding-top: 8%;
@@ -2786,13 +2787,18 @@ ul.contact li {
 #contact-form {
     background-color:#F2F7F9;
     width:100%;
-    padding:20px;
+    height: 650px;
     margin: 50px auto;
     border: 6px solid #8FB5C1;
     -moz-border-radius:15px;
     -webkit-border-radius:15px;
     border-radius:15px;
     position:relative;
+}
+#contact-form iframe {
+    width:100%;
+    height:100%;
+    border:none;
 }
 #contact-form h1 {
     font-size:42px;
