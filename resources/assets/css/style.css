@@ -4301,4 +4301,7 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
             .blog-container {
                 padding: 2rem;
             }
+            .row {
+                display: block;
+            }
         }
