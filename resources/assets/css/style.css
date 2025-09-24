@@ -3568,6 +3568,8 @@ menu a:hover {
     margin-left: 0px !important;
     margin-bottom: 24px;
     margin-top: 10px;
+    display: flex;
+    align-items: center;
 }
 
 .margin-center{
