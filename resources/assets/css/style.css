@@ -4307,3 +4307,132 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
                 display: block;
             }
         }
+/* Styles for Blogs & deck card grid  */
+.blog-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .blog-card h3 {
+            margin-top: 0;
+            font-size: 20px;
+        }
+
+        .blog-card-grid {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -15px;
+        }
+
+        .blog-card-wrapper {
+            padding: 0 15px;
+            margin-bottom: 30px;
+            width: 33.33%;
+        }
+
+        @media (max-width: 991px) {
+            .blog-card-wrapper {
+                width: 50%;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .blog-card-wrapper {
+                width: 100%;
+            }
+        }
+
+        .blogs-intro-header {
+            padding-top: 100px;
+            padding-bottom: 100px;
+            text-align: center;
+            color: #f8f8f8;
+            background-color: #333333;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .blogs-intro-message {
+            position: relative;
+            padding: 60px;
+            border-radius: 16px;
+            background-color: #222222;
+            border: 2px solid #B8A45D;
+            max-width: 800px;
+            width: 80%;
+        }
+
+        .blogs-intro-message > h1 {
+            margin: 0;
+            font-size: 4.5em;
+            color: #F37E53;
+            letter-spacing: 2px;
+            font-weight: 300;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .blogs-intro-message > h3 {
+            color: #fff;
+            margin-top: 20px;
+            font-weight: 300;
+        }
+
+        .blogs-container {
+            padding: 50px 0;
+        }
+
+        .blog-card .date {
+            color: #777;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .blog-card .description {
+            flex-grow: 1;
+            margin-bottom: 15px;
+        }
+
+        .blog-card .read-more {
+            align-self: flex-start;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .blog-card .read-more:hover {
+            text-decoration: underline;
+        }
+
+        .blog-card .card-image {
+            width: 100%;
+            height: 160px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .blog-card .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .blog-card:hover .card-image img {
+            transform: scale(1.05);
+        }

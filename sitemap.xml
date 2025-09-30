@@ -20,6 +20,12 @@
         <loc>https://www.codebrains.co.in/recommendation-engine</loc>
     </url>
     <url>
+        <loc>https://www.codebrains.co.in/decks</loc>
+    </url>
+    <url>
+        <loc>https://www.codebrains.co.in/blogs</loc>
+    </url>
+    <url>
         <loc>https://www.codebrains.co.in/blog/posts/integratingwookiewithAEM</loc>
     </url>
     <url>
@@ -27,6 +33,9 @@
     </url>
     <url>
         <loc>https://www.codebrains.co.in/blog/posts/configuringAEMwithMongoMK</loc>
+    </url>
+    <url>
+        <loc>https://www.codebrains.co.in/blog/2025/ai/what-is-rag-retrieval-augmented-generation-guide</loc>
     </url>
     <url>
         <loc>https://www.codebrains.co.in/deck/aem-integration-with-apache-mahout</loc>
