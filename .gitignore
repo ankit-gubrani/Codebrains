@@ -34,3 +34,6 @@ build/*
 .idea*
 
 mvn.log
+
+.DS_Store
+*.DS_Store
