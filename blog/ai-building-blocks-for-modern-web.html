@@ -1,0 +1,538 @@
+<!-- Welcome to codebrains.co.in -->
+<!-- Looking for something? Contact developer : ankit.gubrani90@gmail.com / ankit.gubrani@codebrains.co.in -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Building Blocks for the Modern Web | Blog Series | Codebrains.co.in</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Ankit Gubrani">
+    <meta name="subject" content="IT services">
+    <meta name="Geography" content="California">
+    <meta name="Language" content="English">
+    <meta name="Copyright" content="Ankit Gubrani">
+    <meta name="Designer" content="Ankit Gubrani">
+    <meta name="Publisher" content="Ankit Gubrani">
+    <meta name="distribution" content="Global">
+    <link rel="alternate" href="https://www.codebrains.co.in/" hreflang="en-in" />
+
+    <meta name="Description" content="A comprehensive blog series covering essential AI building blocks for modern web applications, including RAG, CAG, KAG and more.">
+    <meta name="Keywords" content="AI, RAG, CAG, KAG, Modern Web, AI Building Blocks, codebrains.co.in, Ankit Gubrani">
+
+
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@ankitgubrani90">
+    <meta name="twitter:title" content="AI Building Blocks for the Modern Web | Blog Series | Codebrains.co.in">
+    <meta name="twitter:description" content="A comprehensive blog series covering essential AI building blocks for modern web applications, including RAG, CAG, KAG and more.">
+    <meta name="twitter:creator" content="@ankitgubrani90">
+    <meta name="twitter:image" content="https://www.codebrains.co.in/resources/assets/img/blog/2025/ai/what-is-rag/rag_pipeline.png">
+
+    <!-- Open Graph data -->
+    <meta property="og:title" content="AI Building Blocks for the Modern Web | Blog Series | Codebrains.co.in" />
+    <meta property="og:type" content="Website" />
+    <meta property="og:image" content="https://www.codebrains.co.in/resources/assets/img/blog/2025/ai/what-is-rag/rag_pipeline.png" />
+    <meta property="og:description" content="A comprehensive blog series covering essential AI building blocks for modern web applications, including RAG, CAG, KAG and more." />
+    <meta property="og:site_name" content="Codebrains.co.in" />
+    <meta property="fb:admins" content="1627043757" />
+
+    <!-- Meta tag from pininterest -->
+    <meta name="p:domain_verify" content="0d3ff48344ca5856484c1cceed35a6eb"/>
+    <link rel="icon" href="../resources/assets/img/codebrains_transparent.png" type="image/gif" sizes="16x16">
+
+    <link rel="stylesheet" href="../resources/assets/css/style.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BMGLHV6YH1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-BMGLHV6YH1');
+    </script>
+    <style>
+        .series-intro {
+            background-color: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .series-heading {
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .series-heading:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background-color: #2196F3;
+        }
+
+        .series-description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .series-badge {
+            display: inline-block;
+            background-color: #2196F3;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Enhanced hero section */
+        .hero-section {
+            background: linear-gradient(135deg, #0d47a1, #42a5f5);
+            color: white;
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            background-color: #fff;
+            color: #0d47a1;
+            padding: 0.75rem 1.5rem;
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .hero-cta:hover {
+            background-color: #f5f5f5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        .hero-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('../resources/assets/img/blog/2025/ai/what-is-rag/rag_pipeline.png');
+            background-size: cover;
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="white" fill-opacity="1" d="M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,208C1248,171,1344,117,1392,90.7L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        /* Modern blog cards */
+        .blog-card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .modern-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modern-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .card-img-container {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .modern-card:hover .card-img-container img {
+            transform: scale(1.05);
+        }
+
+        .card-tag {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(33, 150, 243, 0.9);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-date {
+            color: #607d8b;
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .card-date:before {
+            content: "📅";
+            margin-right: 0.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #263238;
+            line-height: 1.4;
+        }
+
+        .card-title a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+
+        .card-title a:hover {
+            color: #2196F3;
+        }
+
+        .card-description {
+            color: #546e7a;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            color: #2196F3;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-top: auto;
+        }
+
+        .card-link:after {
+            content: "→";
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .card-link:hover {
+            color: #0d47a1;
+        }
+
+        .card-link:hover:after {
+            transform: translateX(5px);
+        }
+
+        .coming-soon {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 152, 0, 0.9);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .blog-card-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+        <div class="container topnav">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="logo">
+                    <a href="/"><img src="../resources/assets/img/codebrains_newlogo.png" /></a>
+                </div>
+            </div><!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="https://www.codebrains.co.in/">Home</a>
+                    </li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/contactus">Contact Us</a>
+                    </li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/ankitgubrani">About Us</a>
+                    </li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/projects">Our Work</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<ul class='social socialshare-icons'>
+    <li>
+        <a class="fa fa-facebook socialshare-fb" href="https://www.facebook.com/sharer/sharer.php?u=www.codebrains.co.in" target="_blank" >
+            <span>Facebook</span>
+        </a>
+    </li>
+    <li>
+        <a class="fa fa-twitter socialshare-tw" href="https://twitter.com/intent/tweet?url=www.codebrains.co.in" target="_blank" >
+            <span>Twitter</span>
+        </a>
+    </li>
+    <li>
+        <a class="fa fa-linkedin socialshare-lk" href="https://www.linkedin.com/cws/share?url=www.codebrains.co.in" target="_blank">
+            <span>LinkedIn</span>
+        </a>
+    </li>
+    <li>
+        <a class="fa fa-envelope" href="mailto:ankit.gubrani@codebrains.co.in" target="_blank">
+            <span>Email us</span>
+        </a>
+    </li>
+</ul>
+
+<!-- Enhanced Hero Section -->
+<div class="hero-section">
+    <div class="hero-particles"></div>
+    <div class="hero-content">
+        <h1 class="hero-title">AI Building Blocks for the Modern Web</h1>
+        <p class="hero-subtitle">Discover the essential architectural patterns and techniques to build intelligent, scalable, and production-ready AI systems</p>
+        <a href="#series-articles" class="hero-cta">Explore the Series</a>
+    </div>
+    <div class="wave"></div>
+</div>
+
+<!-- Series Introduction -->
+<div class="blogs-container">
+    <div class="container">
+        <div class="series-intro">
+            <span class="series-badge">Blog Series</span>
+            <h2 class="series-heading">About This Series</h2>
+            <div class="series-description">
+                <p>Building AI-powered web applications requires understanding key architectural patterns and techniques. This blog series aims to demystify the essential AI building blocks you need to create robust, scalable, and intelligent web applications that deliver real value.</p>
+                <p>Each post in this series explores different AI augmentation strategies, their implementation details, and how to choose the right approach for your specific use case. Whether you're a developer, architect, or product manager, these articles will help you navigate the rapidly evolving AI landscape and build systems that actually work in production.</p>
+            </div>
+        </div>
+
+        <!-- Modern Blog Cards -->
+        <h2 id="series-articles" style="margin-top: 3rem; margin-bottom: 1rem;">Series Articles</h2>
+        <div class="blog-card-container">
+            <!-- Card 1 -->
+            <div class="modern-card">
+                <div class="card-img-container">
+                    <img src="../resources/assets/img/blog/2025/ai/what-is-rag/Intro_To_RAG.png" alt="RAG: Retrieval Augmented Generation">
+                    <div class="card-tag">Part 1</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-date">September 30, 2025</div>
+                    <h3 class="card-title">
+                        <a href="https://www.codebrains.co.in/blog/2025/ai/what-is-rag-retrieval-augmented-generation-guide">RAG: The Missing Link Between your Data and AI That actually Works</a>
+                    </h3>
+                    <div class="card-description">
+                        <p>RAG is a technique that gives an LLM access to external knowledge. Think of it like this: an LLM without RAG is a brilliant student who only knows what they learned in class. This foundational post explains how RAG works, why it's essential, and how to implement it in your applications.</p>
+                    </div>
+                    <a href="https://www.codebrains.co.in/blog/2025/ai/what-is-rag-retrieval-augmented-generation-guide" class="card-link">Read Article</a>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="modern-card">
+                <div class="card-img-container">
+                    <img src="../resources/assets/img/blog/2025/ai/rag-cag-kag/rag-vs-cag-kag.png" alt="RAG VS CAG VS KAG">
+                    <div class="card-tag">Part 2</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-date">October 06, 2025</div>
+                    <h3 class="card-title">
+                        <a href="https://www.codebrains.co.in/blog/2025/ai/rag-vs-cag-vs-kag-choosing-right-augmentation-strategy">RAG vs CAG vs KAG: Choosing the Right Augmentation Strategy for Your AI System</a>
+                    </h3>
+                    <div class="card-description">
+                        <p>RAG isn't always the answer. Sometimes you need CAG. Sometimes you need KAG. And most of the time, you need a combination of all three. This post breaks down when to use each approach, why they exist, and how to choose the right strategy for your specific use case.</p>
+                    </div>
+                    <a href="https://www.codebrains.co.in/blog/2025/ai/rag-vs-cag-vs-kag-choosing-right-augmentation-strategy" class="card-link">Read Article</a>
+                </div>
+            </div>
+
+            <!-- Upcoming Post 1 -->
+            <div class="modern-card">
+                <div class="card-img-container">
+                    <img src="../resources/assets/img/blog/2025/ai/what-is-rag/rag_pipeline.png" alt="Vector Databases Comparison">
+                    <div class="card-tag">Part 3</div>
+                    <div class="coming-soon">Coming Soon</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-date">Coming Soon</div>
+                    <h3 class="card-title">
+                        Vector Databases: Choosing the Right Foundation for Your AI System
+                    </h3>
+                    <div class="card-description">
+                        <p>Vector databases are the backbone of modern AI systems. This upcoming post will compare popular options like Pinecone, ChromaDB, and Weaviate, highlighting their strengths, weaknesses, and optimal use cases.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Post 2 -->
+            <div class="modern-card">
+                <div class="card-img-container">
+                    <img src="../resources/assets/img/blog/2025/ai/what-is-rag/rag_pipeline.png" alt="Chunking Strategies">
+                    <div class="card-tag">Part 4</div>
+                    <div class="coming-soon">Coming Soon</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-date">Coming Soon</div>
+                    <h3 class="card-title">
+                        Advanced Chunking Strategies for RAG Systems
+                    </h3>
+                    <div class="card-description">
+                        <p>How you divide your documents for retrieval dramatically impacts your AI system's effectiveness. This upcoming post will explore different chunking strategies and how to optimize them for your specific content types.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mail Chimp subscription pop up -->
+<script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/signup-forms/popup/embed.js" data-dojo-config="usePlainJson: true, isDebug: false"></script><script type="text/javascript">require(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us12.list-manage.com","uuid":"63aaf091fb5db98267e9f74f5","lid":"9b9fd4e11a"}) })</script>
+<div class="banner">
+    <!-- Begin Subscription Form -->
+    <div id="mc_embed_signup">
+        <form action="//codebrains.us12.list-manage.com/subscribe/post?u=63aaf091fb5db98267e9f74f5&amp;id=9b9fd4e11a" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+            <div id="mc_embed_signup_scroll">
+                <h2>Subscribe to our mailing list</h2>
+                <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Email address" required>
+                <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_63aaf091fb5db98267e9f74f5_9b9fd4e11a" tabindex="-1" value=""></div>
+                <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+            </div>
+        </form>
+    </div>
+    <!--End mc_embed_signup-->
+</div>
+<script type="text/javascript" src="../resources/assets/js/script.min.js"></script>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h3 class="footer-contactus">Stay connected with us:</h3>
+                <ul class="footer-social">
+                    <li>
+                        <a href="https://www.facebook.com/codebains.co.in" class="fa fa-facebook" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="https://in.linkedin.com/in/ankitgubrani" class="fa fa-linkedin" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/ankitgubrani90" class="fa fa-twitter" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/ankit-gubrani" class="fa fa-github" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="http://stackexchange.com/users/8257088/ankit-gubrani" class="fa fa-stack-overflow" target="_blank"></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-4">
+                <ul class="list-inline floatRight noFloatMobile footer-nav">
+                    <li>
+                        <a href="https://www.codebrains.co.in/">Home</a>
+                    </li>
+                    <li class="footer-menu-divider">&sdot;</li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/ankitgubrani">About</a>
+                    </li>
+                    <li class="footer-menu-divider">&sdot;</li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/contactus">Contact</a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted small floatRight noFloatMobile"> &copy; www.codebrains.co.in 2025 All Rights Reserved</p>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
