@@ -1,0 +1,147 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="500" fill="#f8f9fa"/>
+  
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" font-size="22" font-weight="700" fill="#1a1a1a">
+    Vector Index Algorithms: HNSW vs IVF
+  </text>
+  
+  <!-- Left Column - HNSW -->
+  <g id="hnsw">
+    <rect x="30" y="70" width="360" height="400" fill="#ffffff" stroke="#007bff" stroke-width="3" rx="10"/>
+    
+    <!-- Header -->
+    <rect x="30" y="70" width="360" height="50" fill="#007bff" rx="10"/>
+    <text x="210" y="98" text-anchor="middle" font-size="18" font-weight="600" fill="#ffffff">
+      HNSW (Hierarchical Graph)
+    </text>
+    
+    <!-- Visualization -->
+    <text x="50" y="160" font-size="13" font-weight="600" fill="#1a1a1a">Structure: Multi-layer Highway System</text>
+    
+    <!-- Layer 0 (Highway) -->
+    <g transform="translate(50, 180)">
+      <text x="0" y="15" font-size="10" fill="#007bff" font-weight="600">Layer 2 (Highway):</text>
+      <circle cx="95" cy="15" r="8" fill="#007bff" opacity="0.3"/>
+      <circle cx="240" cy="15" r="8" fill="#007bff" opacity="0.3"/>
+      <line x1="102" y1="15" x2="232" y2="15" stroke="#007bff" stroke-width="2" opacity="0.3"/>
+      <text x="160" y="35" text-anchor="middle" font-size="9" fill="#666" font-style="italic">Long-range connections</text>
+    </g>
+    
+    <!-- Layer 1 (Roads) -->
+    <g transform="translate(50, 235)">
+      <text x="0" y="15" font-size="10" fill="#007bff" font-weight="600">Layer 1 (Roads):</text>
+      <circle cx="95" cy="15" r="8" fill="#007bff" opacity="0.6"/>
+      <circle cx="140" cy="15" r="8" fill="#007bff" opacity="0.6"/>
+      <circle cx="180" cy="15" r="8" fill="#007bff" opacity="0.6"/>
+      <circle cx="240" cy="15" r="8" fill="#007bff" opacity="0.6"/>
+      <line x1="102" y1="15" x2="132" y2="15" stroke="#007bff" stroke-width="2" opacity="0.6"/>
+      <line x1="148" y1="15" x2="172" y2="15" stroke="#007bff" stroke-width="2" opacity="0.6"/>
+      <line x1="188" y1="15" x2="232" y2="15" stroke="#007bff" stroke-width="2" opacity="0.6"/>
+      <text x="160" y="35" text-anchor="middle" font-size="9" fill="#666" font-style="italic">Medium-range connections</text>
+    </g>
+    
+    <!-- Layer 2 (Local) -->
+    <g transform="translate(50, 290)">
+      <text x="0" y="15" font-size="10" fill="#007bff" font-weight="600">Layer 0 (Local):</text>
+      <circle cx="85" cy="15" r="6" fill="#007bff"/>
+      <circle cx="110" cy="15" r="6" fill="#007bff"/>
+      <circle cx="135" cy="15" r="6" fill="#007bff"/>
+      <circle cx="160" cy="15" r="6" fill="#007bff"/>
+      <circle cx="185" cy="15" r="6" fill="#007bff"/>
+      <circle cx="210" cy="15" r="6" fill="#007bff"/>
+      <circle cx="235" cy="15" r="6" fill="#007bff"/>
+      <circle cx="260" cy="15" r="6" fill="#007bff"/>
+      <line x1="91" y1="15" x2="104" y2="15" stroke="#007bff" stroke-width="1.5"/>
+      <line x1="116" y1="15" x2="129" y2="15" stroke="#007bff" stroke-width="1.5"/>
+      <line x1="141" y1="15" x2="154" y2="15" stroke="#007bff" stroke-width="1.5"/>
+      <line x1="166" y1="15" x2="179" y2="15" stroke="#007bff" stroke-width="1.5"/>
+      <line x1="191" y1="15" x2="204" y2="15" stroke="#007bff" stroke-width="1.5"/>
+      <line x1="216" y1="15" x2="229" y2="15" stroke="#007bff" stroke-width="1.5"/>
+      <line x1="241" y1="15" x2="254" y2="15" stroke="#007bff" stroke-width="1.5"/>
+      <text x="160" y="35" text-anchor="middle" font-size="9" fill="#666" font-style="italic">All vectors with neighbors</text>
+    </g>
+    
+    <!-- Characteristics -->
+    <text x="50" y="350" font-size="13" font-weight="600" fill="#1a1a1a">Characteristics:</text>
+    <g transform="translate(50, 355)">
+      <text x="10" y="15" font-size="11" fill="#495057">✓ Start search at top, zoom down layers</text>
+      <text x="10" y="32" font-size="11" fill="#495057">✓ Excellent accuracy (99%+)</text>
+      <text x="10" y="49" font-size="11" fill="#495057">✓ Very fast queries (milliseconds)</text>
+      <text x="10" y="66" font-size="11" fill="#dc3545">✗ High memory usage</text>
+      <text x="10" y="83" font-size="11" fill="#495057">📦 Used by: Weaviate, Qdrant, pgvector</text>
+    </g>
+  </g>
+  
+  <!-- Right Column - IVF -->
+  <g id="ivf">
+    <rect x="410" y="70" width="360" height="400" fill="#ffffff" stroke="#28a745" stroke-width="3" rx="10"/>
+    
+    <!-- Header -->
+    <rect x="410" y="70" width="360" height="50" fill="#28a745" rx="10"/>
+    <text x="590" y="98" text-anchor="middle" font-size="18" font-weight="600" fill="#ffffff">
+      IVF (Inverted File Index)
+    </text>
+    
+    <!-- Visualization -->
+    <text x="430" y="160" font-size="13" font-weight="600" fill="#1a1a1a">Structure: Regional Clustering</text>
+    
+    <!-- Clusters -->
+    <g transform="translate(430, 160)">
+      <!-- Cluster 1 -->
+      <ellipse cx="80" cy="60" rx="50" ry="45" fill="#d4edda" stroke="#28a745" stroke-width="2"/>
+      <text x="80" y="35" text-anchor="middle" font-size="10" fill="#28a745" font-weight="600">Cluster 1</text>
+      <circle cx="70" cy="55" r="4" fill="#28a745"/>
+      <circle cx="90" cy="50" r="4" fill="#28a745"/>
+      <circle cx="75" cy="70" r="4" fill="#28a745"/>
+      <circle cx="85" cy="65" r="4" fill="#28a745"/>
+      <text x="80" y="95" text-anchor="middle" font-size="8" fill="#666">"Tech docs"</text>
+      
+      <!-- Cluster 2 -->
+      <ellipse cx="180" cy="60" rx="50" ry="45" fill="#d4edda" stroke="#28a745" stroke-width="2"/>
+      <text x="180" y="35" text-anchor="middle" font-size="10" fill="#28a745" font-weight="600">Cluster 2</text>
+      <circle cx="170" cy="55" r="4" fill="#28a745"/>
+      <circle cx="190" cy="50" r="4" fill="#28a745"/>
+      <circle cx="175" cy="70" r="4" fill="#28a745"/>
+      <circle cx="185" cy="65" r="4" fill="#28a745"/>
+      <text x="180" y="95" text-anchor="middle" font-size="8" fill="#666">"Marketing"</text>
+      
+      <!-- Cluster 3 -->
+      <ellipse cx="280" cy="60" rx="50" ry="45" fill="#d4edda" stroke="#28a745" stroke-width="2"/>
+      <text x="280" y="35" text-anchor="middle" font-size="10" fill="#28a745" font-weight="600">Cluster 3</text>
+      <circle cx="270" cy="55" r="4" fill="#28a745"/>
+      <circle cx="290" cy="50" r="4" fill="#28a745"/>
+      <circle cx="275" cy="70" r="4" fill="#28a745"/>
+      <circle cx="285" cy="65" r="4" fill="#28a745"/>
+      <text x="280" y="95" text-anchor="middle" font-size="8" fill="#666">"HR policies"</text>
+    </g>
+    
+    <!-- Search process -->
+    <g transform="translate(430, 280)">
+      <text x="0" y="0" font-size="11" fill="#28a745" font-weight="600">Search Process:</text>
+      <rect x="0" y="5" width="320" height="30" fill="#f0f8ff" stroke="#007bff" stroke-width="1" rx="4"/>
+      <text x="10" y="25" font-size="10" fill="#495057">1. Query vector identifies closest cluster(s)</text>
+      
+      <rect x="0" y="40" width="320" height="30" fill="#fff3cd" stroke="#ffc107" stroke-width="1" rx="4"/>
+      <text x="10" y="60" font-size="10" fill="#495057">2. Search only within selected clusters</text>
+      
+      <rect x="0" y="75" width="320" height="30" fill="#d4edda" stroke="#28a745" stroke-width="1" rx="4"/>
+      <text x="10" y="95" font-size="10" fill="#495057">3. Return top results from relevant regions</text>
+    </g>
+    
+    <!-- Characteristics -->
+    <text x="430" y="405" font-size="13" font-weight="600" fill="#1a1a1a">Characteristics:</text>
+    <g transform="translate(430, 400)">
+      <text x="10" y="20" font-size="11" fill="#495057">✓ Low memory footprint ✓ Fast with good clustering</text>
+      <text x="10" y="35" font-size="11" fill="#dc3545">✗ Requires training phase ✗ Less accurate than HNSW (95-98%)</text>
+      <text x="10" y="50" font-size="11" fill="#495057">📦 Used by: FAISS, Milvus</text>
+    </g>
+  </g>
+  
+  <!-- Bottom comparison -->
+  <rect x="80" y="458" width="640" height="25" fill="#e3f2fd" stroke="#007bff" stroke-width="2" rx="6"/>
+  <text x="400" y="475" text-anchor="middle" font-size="12" fill="#1a1a1a" font-weight="600">
+    💡 HNSW: Best accuracy &amp; speed | IVF: Best memory efficiency
+  </text>
+</svg>
