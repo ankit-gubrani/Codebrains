@@ -2647,7 +2647,6 @@ h6 {
 .contact-header {
     margin-top: 50px;
     background: url("../img/skyline-buildings-new-york-skyscrapers.jpg") no-repeat 0px -99px;
-    height: 60vh;
     background-size: cover;
     text-align: center;
     background-color: #f8f8f8;
@@ -2761,6 +2760,7 @@ h1.approach-heading {
 .contact-header h3 {
         font-size: 40px;
         margin-top: 70px;
+        padding-bottom: 50px;
 }
 .btn-lg-icon {
     width: 40px;
