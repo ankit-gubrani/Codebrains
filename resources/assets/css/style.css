@@ -4360,6 +4360,9 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
     margin-bottom: 30px;
     width: 33.33%;
 }
+img.img-width-desktop-50 {
+    width: 50%;
+}
 
 @media (max-width: 991px) {
     .blog-card-wrapper {
@@ -4369,6 +4372,9 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
 
 @media (max-width: 767px) {
     .blog-card-wrapper {
+        width: 100%;
+    }
+    img.img-width-desktop-50 {
         width: 100%;
     }
 }
@@ -4494,6 +4500,14 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
 .mobile-friendly-table tr:nth-child(even) {
     background-color: #f2f2f2;
 }
+.highlight-box {
+    background-color: #f0f9ff;
+    border-left: 4px solid #3b82f6;
+    padding: 20px;
+    margin: 25px 0;
+    border-radius: 8px;
+}
+
 @media (max-width: 600px) {
     .mobile-friendly-table thead {
         display: none;
