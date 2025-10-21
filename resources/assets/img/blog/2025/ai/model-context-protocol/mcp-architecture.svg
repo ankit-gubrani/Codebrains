@@ -1,0 +1,164 @@
+<svg viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="hostGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4f46e5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6366f1;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="serverGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="900" height="600" fill="#f8fafc"/>
+  
+  <!-- Title -->
+  <text x="450" y="40" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#1e293b" text-anchor="middle">
+    MCP Architecture: Client-Server Model
+  </text>
+  
+  <!-- MCP Host Section -->
+  <g transform="translate(50, 80)">
+    <rect width="300" height="450" rx="15" fill="white" stroke="#e2e8f0" stroke-width="2" filter="url(#shadow)"/>
+    <rect width="300" height="50" rx="15" fill="url(#hostGrad)"/>
+    <text x="150" y="33" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">
+      MCP Host (Client)
+    </text>
+    
+    <!-- LLM Component -->
+    <rect x="30" y="80" width="240" height="70" rx="8" fill="#eef2ff" stroke="#c7d2fe" stroke-width="2"/>
+    <text x="150" y="105" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#4f46e5" text-anchor="middle">
+      Large Language Model
+    </text>
+    <text x="150" y="125" font-family="Arial, sans-serif" font-size="12" fill="#6366f1" text-anchor="middle">
+      (Claude, GPT-4, etc.)
+    </text>
+    <text x="150" y="140" font-family="Arial, sans-serif" font-size="11" fill="#818cf8" text-anchor="middle">
+      Generates queries and responses
+    </text>
+    
+    <!-- MCP Client Library -->
+    <rect x="30" y="170" width="240" height="70" rx="8" fill="#eef2ff" stroke="#c7d2fe" stroke-width="2"/>
+    <text x="150" y="195" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#4f46e5" text-anchor="middle">
+      MCP Client Library
+    </text>
+    <text x="150" y="215" font-family="Arial, sans-serif" font-size="11" fill="#6366f1" text-anchor="middle">
+      • Connection management
+    </text>
+    <text x="150" y="230" font-family="Arial, sans-serif" font-size="11" fill="#6366f1" text-anchor="middle">
+      • Protocol handling
+    </text>
+    
+    <!-- Application Layer -->
+    <rect x="30" y="260" width="240" height="70" rx="8" fill="#eef2ff" stroke="#c7d2fe" stroke-width="2"/>
+    <text x="150" y="285" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#4f46e5" text-anchor="middle">
+      Your Application
+    </text>
+    <text x="150" y="305" font-family="Arial, sans-serif" font-size="11" fill="#6366f1" text-anchor="middle">
+      Chatbot, IDE, Agent, etc.
+    </text>
+    <text x="150" y="320" font-family="Arial, sans-serif" font-size="11" fill="#818cf8" text-anchor="middle">
+      Orchestrates interactions
+    </text>
+    
+    <!-- User Interface -->
+    <rect x="30" y="350" width="240" height="60" rx="8" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2"/>
+    <circle cx="120" cy="375" r="8" fill="#4f46e5"/>
+    <circle cx="150" cy="375" r="8" fill="#4f46e5"/>
+    <circle cx="180" cy="375" r="8" fill="#4f46e5"/>
+    <text x="150" y="400" font-family="Arial, sans-serif" font-size="14" fill="#475569" text-anchor="middle">
+      User Interface
+    </text>
+  </g>
+  
+  <!-- Protocol Layer (Communication) -->
+  <g transform="translate(400, 250)">
+    <!-- Bidirectional arrows -->
+    <line x1="0" y1="0" x2="77" y2="0" stroke="#94a3b8" stroke-width="3"/>
+    <polygon points="80,0 70,-5 70,5" fill="#94a3b8"/>
+    
+    <line x1="77" y1="20" x2="3" y2="20" stroke="#94a3b8" stroke-width="3"/>
+    <polygon points="0,20 10,15 10,25" fill="#94a3b8"/>
+    
+    <!-- Protocol label -->
+    <rect x="15" y="-35" width="50" height="30" rx="5" fill="#475569"/>
+    <text x="40" y="-15" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white" text-anchor="middle">
+      MCP
+    </text>
+    
+    <text x="40" y="50" font-family="Arial, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">
+      JSON-RPC
+    </text>
+    <text x="40" y="65" font-family="Arial, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">
+      stdio/HTTP/WS
+    </text>
+  </g>
+  
+  <!-- MCP Servers Section -->
+  <g transform="translate(550, 80)">
+    <rect width="300" height="450" rx="15" fill="white" stroke="#e2e8f0" stroke-width="2" filter="url(#shadow)"/>
+    <rect width="300" height="50" rx="15" fill="url(#serverGrad)"/>
+    <text x="150" y="33" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">
+      MCP Servers
+    </text>
+    
+    <!-- Database Server -->
+    <g transform="translate(30, 70)">
+      <rect width="240" height="85" rx="8" fill="#d1fae5" stroke="#6ee7b7" stroke-width="2"/>
+      <text x="120" y="22" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#047857" text-anchor="middle">
+        PostgreSQL Server
+      </text>
+      <text x="120" y="40" font-family="Arial, sans-serif" font-size="10" fill="#059669" text-anchor="middle">
+        Resources: schema, tables
+      </text>
+      <text x="120" y="55" font-family="Arial, sans-serif" font-size="10" fill="#059669" text-anchor="middle">
+        Tools: run_query, export
+      </text>
+      <rect x="10" y="65" width="220" height="12" rx="3" fill="#10b981" opacity="0.3"/>
+    </g>
+    
+    <!-- File System Server -->
+    <g transform="translate(30, 170)">
+      <rect width="240" height="85" rx="8" fill="#d1fae5" stroke="#6ee7b7" stroke-width="2"/>
+      <text x="120" y="22" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#047857" text-anchor="middle">
+        File System Server
+      </text>
+      <text x="120" y="40" font-family="Arial, sans-serif" font-size="10" fill="#059669" text-anchor="middle">
+        Resources: directory listings
+      </text>
+      <text x="120" y="55" font-family="Arial, sans-serif" font-size="10" fill="#059669" text-anchor="middle">
+        Tools: read_file, write_file
+      </text>
+      <rect x="10" y="65" width="220" height="12" rx="3" fill="#10b981" opacity="0.3"/>
+    </g>
+    
+    <!-- GitHub Server -->
+    <g transform="translate(30, 270)">
+      <rect width="240" height="85" rx="8" fill="#d1fae5" stroke="#6ee7b7" stroke-width="2"/>
+      <text x="120" y="22" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#047857" text-anchor="middle">
+        GitHub Server
+      </text>
+      <text x="120" y="40" font-family="Arial, sans-serif" font-size="10" fill="#059669" text-anchor="middle">
+        Resources: repos, PRs, issues
+      </text>
+      <text x="120" y="55" font-family="Arial, sans-serif" font-size="10" fill="#059669" text-anchor="middle">
+        Tools: create_pr, search_code
+      </text>
+      <rect x="10" y="65" width="220" height="12" rx="3" fill="#10b981" opacity="0.3"/>
+    </g>
+    
+    <!-- More indicator -->
+    <circle cx="150" cy="395" r="4" fill="#94a3b8"/>
+    <circle cx="150" cy="410" r="4" fill="#94a3b8"/>
+    <circle cx="150" cy="425" r="4" fill="#94a3b8"/>
+  </g>
+  
+  <!-- Bottom note -->
+  <text x="450" y="570" font-family="Arial, sans-serif" font-size="13" fill="#64748b" text-anchor="middle">
+    Each MCP server exposes resources (data to read), tools (actions to execute), and prompts (templates)
+  </text>
+</svg>
