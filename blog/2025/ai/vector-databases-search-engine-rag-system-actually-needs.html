@@ -1,0 +1,436 @@
+<!-- Welcome to codebrains.co.in -->
+<!-- Looking for something? Contact developer : ankit.gubrani90@gmail.com / ankit.gubrani@codebrains.co.in -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vector Databases: The Search Engine Your RAG System Actually Needs</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Ankit Gubrani">
+    <meta name="subject" content="IT services">
+    <meta name="Geography" content="California">
+    <meta name="Language" content="English">
+    <meta name="Copyright" content="Ankit Gubrani">
+    <meta name="Designer" content="Ankit Gubrani">
+    <meta name="Publisher" content="Ankit Gubrani">
+    <meta name="distribution" content="Global">
+
+    <link rel="alternate" href="https://www.codebrains.co.in/" hreflang="en-in" />
+
+    <meta name="Description" content="Learn how vector databases power RAG systems. Understand embeddings, similarity search, and how to choose between vector indices and databases with practical examples.">
+    <meta name="Keywords" content="Vector Databases: The Search Engine Your RAG System Actually Needs">
+
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@ankitgubrani90">
+    <meta name="twitter:title" content="Vector Databases: The Search Engine Your RAG System Actually Needs">
+    <meta name="twitter:description" content="Learn how vector databases power RAG systems. Understand embeddings, similarity search, and how to choose between vector indices and databases with practical examples.">
+    <meta name="twitter:creator" content="@ankitgubrani90">
+    <meta name="twitter:image" content="https://www.codebrains.co.in/resources/assets/img/blog/2025/ai/intro-to-vector-databases/into-to-vector-db.png">
+
+    <!-- Open Graph data -->
+    <meta property="og:title" content="Vector Databases: The Search Engine Your RAG System Actually Needs" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="https://www.codebrains.co.in/resources/assets/img/blog/2025/ai/intro-to-vector-databases/into-to-vector-db.png" />
+    <meta property="og:description" content="Learn how vector databases power RAG systems. Understand embeddings, similarity search, and how to choose between vector indices and databases with practical examples." />
+    <meta property="og:site_name" content="Codebrains.co.in" />
+    <meta property="fb:admins" content="1627043757" />
+
+    <link rel="canonical" href="https://www.codebrains.co.in/blog/2025/ai/vector-databases-search-engine-rag-system-actually-needs">
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": "Vector Databases: The Search Engine Your RAG System Actually Needs",
+            "author": {
+                "@type": "Person",
+                "name": "Ankit Gubrani",
+                "url": "https://www.linkedin.com/in/ankitgubrani/"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "Codebrains.co.in",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://www.codebrains.co.in/resources/assets/img/codebrains_newlogo.png"
+                }
+            },
+            "datePublished": "2025-10-13",
+            "dateModified": "2025-10-13",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://www.codebrains.co.in/blog/2025/ai/vector-databases-search-engine-rag-system-actually-needs"
+            },
+            "description": "Learn how vector databases power RAG systems. Understand embeddings, similarity search, and how to choose between vector indices and databases with practical examples."
+        }
+    </script>
+
+    <!-- Meta tag from pininterest -->
+    <meta name="p:domain_verify" content="0d3ff48344ca5856484c1cceed35a6eb"/>
+    <link rel="icon" href="../../../resources/assets/img/codebrains_transparent.png" type="image/gif" sizes="16x16">
+
+    <link rel="stylesheet" href="../../../resources/assets/css/style.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BMGLHV6YH1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-BMGLHV6YH1');
+    </script>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+        <div class="container topnav">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="logo">
+                    <a href="/"><img src="../../../resources/assets/img/codebrains_newlogo.png" /></a>
+                </div>
+            </div><!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="https://www.codebrains.co.in/">Home</a>
+                    </li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/contactus">Contact Us</a>
+                    </li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/ankitgubrani">About Us</a>
+                    </li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/projects">Our Work</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<ul class='social socialshare-icons'>
+    <li>
+        <a class="fa fa-facebook socialshare-fb" href="https://www.facebook.com/sharer/sharer.php?u=www.codebrains.co.in" target="_blank" >
+            <span>Facebook</span>
+        </a>
+    </li>
+    <li>
+        <a class="fa fa-twitter socialshare-tw" href="https://twitter.com/intent/tweet?url=www.codebrains.co.in" target="_blank" >
+            <span>Twitter</span>
+        </a>
+    </li>
+    <li>
+        <a class="fa fa-linkedin socialshare-lk" href="https://www.linkedin.com/cws/share?url=www.codebrains.co.in" target="_blank">
+            <span>LinkedIn</span>
+        </a>
+    </li>
+    <li>
+        <a class="fa fa-envelope" href="mailto:ankit.gubrani@codebrains.co.in" target="_blank">
+            <span>Email us</span>
+        </a>
+    </li>
+</ul>
+
+<main>
+    <div class="blog-container bg-white p-8 rounded-lg shadow-2xl">
+        <article class="blog-post">
+            <header>
+                <h1>Vector Databases: The Search Engine Your RAG System Actually Needs</h1>
+                <p class="blog-author-info">
+                    By <span>Ankit Gubrani</span> on
+                    <time datetime="2025-10-13">October 13, 2025</time>
+                </p>
+                <label class="eyebrow-blue"><strong>AI Building Blocks for the Modern Web</strong></label>
+            </header>
+            <div class="blog-content">
+                <p>You've built your first RAG system following <a href="https://www.codebrains.co.in/blog/2025/ai/what-is-rag-retrieval-augmented-generation-guide" target="_blank">our guide to RAG fundamentals</a>. You understand when to use <a href="https://www.codebrains.co.in/blog/2025/ai/rag-vs-cag-vs-kag-choosing-right-augmentation-strategy" target="_blank">RAG vs CAG vs KAG</a>. But there's a question that keeps popping up: <strong>How does the system actually find relevant documents so fast?</strong></p>
+                <figure style="text-align: center;" class="blog-image-square-wrap">
+                    <img src="../../../resources/assets/img/blog/2025/ai/intro-to-vector-databases/into-to-vector-db.png"
+                         alt="Introduction to Vector Databases">
+                </figure>
+                <p>You have 100,000 documents. A user asks a question. Somehow, in less than a second, your system finds the 5 most relevant documents from that massive collection. It's not searching through every document one by one that would take forever. So what's happening behind the scenes?</p>
+                <p>The answer is <strong>vector databases</strong>. Vector databases are the unsung heroes of modern AI applications. They make it possible for large language models (LLMs) to search, compare, and retrieve relevant pieces of information quickly even when you don’t phrase your query exactly the same way as the stored data.</p>
+                <p>This is the third post in my "<strong>AI Building Blocks for the Modern Web</strong>" series, where I break down core AI concepts and show how they apply to real-world applications. Today, we're diving deep into the engine that powers semantic search.</p>
+
+                <h2 class="clear-both">The Problem: Traditional Databases Don't Understand Meaning</h2>
+
+                <p>Imagine you're building a customer support chatbot. A user asks: "How do I reset my password?" Your knowledge base has an article titled "Account Recovery Procedures." A traditional SQL database running a keyword search would struggle here. Why? Because <strong></strong>"reset password" and "account recovery" share zero words in common</strong>, even though they mean essentially the same thing.</p>
+                <p>This is where vector databases fundamentally change the game. <strong>They don't search for matching words they search for matching meaning.</strong></p>
+
+                <h2>What Actually is a Vector Database?</h2>
+
+                <p>A vector database is a specialized database designed to store, index, and query high-dimensional vectors efficiently. But what does that actually mean in practice?</p>
+
+                <p><strong>When you feed text into an embedding model (like OpenAI's text-embedding-3-small or Cohere's embed models), it converts that text into a list of numbers called a vector. These numbers encode the semantic meaning of the text. Similar concepts get similar numbers, regardless of the exact words used.</strong></p>
+                <p>For example:</p>
+                <ul>
+                    <li>"How do I reset my password?" might become [0.23, -0.45, 0.67, ... 1536 more numbers]</li>
+                    <li>"Account recovery steps" might become [0.21, -0.43, 0.69, ... 1536 more numbers]</li>
+                </ul>
+                <p>Notice how the vectors are similar? That's the magic. <strong>The database can now find semantically similar content by finding vectors that are close together in this high-dimensional space.</strong></p>
+
+                <img src="../../../resources/assets/img/blog/2025/ai/intro-to-vector-databases/semantic-similarity-through-vector-embeddings.svg"
+                    alt="Semantic Similarity through Vector Embeddings"/>
+
+                <h2>How Vector Databases Differ from Traditional Databases</h2>
+
+                <p>Let's be clear about what makes vector databases different from the databases you're already using:</p>
+
+                <p><strong>Traditional Relational Databases (PostgreSQL, MySQL):</strong></p>
+                <ul>
+                    <li>Optimized for exact matches and structured queries</li>
+                    <li>Search by comparing exact values: WHERE name = 'John'</li>
+                    <li>Use B-tree indexes for fast lookups</li>
+                    <li>Perfect for transactional data, user records, orders</li>
+                </ul>
+
+                <p><strong>Vector Databases (Pinecone, Weaviate, Qdrant):</strong></p>
+                <ul>
+                    <li>Optimized for similarity searches</li>
+                    <li>Search by comparing vector distances in high-dimensional space</li>
+                    <li>Use specialized indexes (HNSW, IVF) for approximate nearest neighbor search</li>
+                    <li>Perfect for semantic search, recommendation systems, RAG applications</li>
+                </ul>
+
+                <p>The fundamental difference? <strong>Relational databases answer "show me exact matches," while vector databases answer "show me what's most similar."</strong></p>
+
+                <p>That said, many traditional databases now offer vector extensions. PostgreSQL has pgvector, and MongoDB has vector search capabilities. But dedicated vector databases still have significant advantages in performance, scale, and specialized features for similarity search.</p>
+
+                <h2>How Data Lives Inside a Vector Database</h2>
+
+                <p>When you're building a RAG system, you can't just dump entire documents into a vector database and expect magic. The process requires careful preparation:</p>
+
+                <h3>The Chunking Step</h3>
+
+                <p>First, you break your documents into smaller, meaningful pieces called chunks. Why? <strong>Because embedding models have token limits, and more importantly, smaller chunks lead to more precise retrieval.</strong></p>
+
+                <pre><code>Document: "Ultimate Guide to Vector Databases (10,000 words)"
+↓
+Chunk 1: "Vector databases store high-dimensional vectors..." (500 words)
+Chunk 2: "HNSW is a graph-based indexing algorithm..." (500 words)
+Chunk 3: "When choosing chunk size, consider..." (500 words)</code></pre>
+
+                <p>The art is in choosing the right chunk size. <strong>Too small, and you lose context. Too large, and your retrieval becomes imprecise</strong>. Most production systems use chunks of 200-1000 tokens, depending on the use case.</p>
+
+                <h3>The Embedding Process</h3>
+
+                <p>Each chunk then goes through an embedding model, which converts the text into a vector. These vectors are what actually get stored in the database.
+                    <strong>Think of embeddings as a universal translator, they convert human language into a mathematical representation that computers can compare and measure.</strong> The same embedding model must be used for both storing your documents and processing user queries, ensuring they live in the same semantic space.
+                </p>
+
+                <pre><code>Text Chunk → Embedding Model → Vector (1536 dimensions)
+"Vector databases store..." → [0.23, -0.45, 0.67, ...]</code></pre>
+
+                <h3>Storage Structure</h3>
+
+                <p>Inside the database, you're typically storing:</p>
+                <ul>
+                    <li>The vector itself (the numerical representation)</li>
+                    <li>Metadata (document ID, source, timestamp, tags)</li>
+                    <li>Often the original text chunk (for returning to the user)</li>
+                </ul>
+
+                <figure class="">
+                    <img src="../../../resources/assets/img/blog/2025/ai/intro-to-vector-databases/vector_db_storing.png"
+                         alt="How Data Lives Inside a Vector Database">
+                </figure>
+
+                <h2>Why Vector Databases are Essential for RAG</h2>
+
+                <p>Remember our RAG pipeline from the previous post? The retrieval step is where vector databases shine. Here's what happens:</p>
+
+                <ol>
+                    <li><strong>User asks a question:</strong> "What's the difference between FAISS and Pinecone?"</li>
+                    <li><strong>Query embedding:</strong> The question gets converted to a vector</li>
+                    <li><strong>Similarity search:</strong> The vector database finds the top-k most similar vectors</li>
+                    <li><strong>Context retrieval:</strong> The database returns the original text chunks associated with those vectors</li>
+                    <li><strong>LLM generation:</strong> The LLM uses those chunks as context to generate an answer</li>
+                </ol>
+
+                <p>The vector database makes this process incredibly fast. <strong>Instead of the LLM reading through thousands of documents, it only sees the 3-5 most relevant chunks. This is both more efficient and more accurate.</strong></p>
+
+                <h2>The Naive Approach: Why You Can't Just Send Everything</h2>
+
+                <p>You might be thinking: <strong>"Can't I just send all my documentation to the LLM and skip the vector database entirely?"</strong></p>
+
+                <p>Technically, yes. Practically? That's a terrible idea. Here's why:</p>
+
+                <h4>1. Context Window Limitations</h4>
+
+                <p><strong>Even with models that support 128k+ tokens, you're still limited</strong>. A mid-sized documentation set easily exceeds this. Your entire Notion workspace? Not happening.</p>
+
+                <h4>2. Cost Explosion</h4>
+
+                <p><strong>You pay per token processed</strong>. Sending 50,000 tokens on every request adds up fast. With RAG and vector databases, you might only send 2,000 tokens of relevant context.</p>
+
+                <h4>3. Latency Issues</h4>
+
+                <p><strong>Processing massive contexts takes time</strong>. Your users won't wait 30 seconds for an answer when they could get one in 2 seconds with proper retrieval.</p>
+
+                <h4>4. Needle in a Haystack Problem</h4>
+
+                <p><strong>Research shows that LLMs struggle when relevant information is buried in massive contexts</strong>. They perform better with concise, relevant context exactly what vector databases provide.</p>
+
+                <h2>Speeding Up Similarity Search: Why Indexes Matter</h2>
+
+                <p>Here's where things get technical, but stick with me this matters for production systems.</p>
+
+                <p>When you have millions of vectors, comparing your query vector against every single stored vector (brute force search) is too slow. Vector databases use specialized indexing algorithms to approximate the nearest neighbors quickly.</p>
+
+                <h3>Popular Indexing Approaches</h3>
+
+                <h4>HNSW (Hierarchical Navigable Small World)</h4>
+
+                <p>Think of it as a multi-layered highway system. The top layer has major highways connecting distant cities. Lower layers have local roads with more detail. When searching, you start on the highway and progressively zoom in.</p>
+
+                <ul>
+                    <li><strong>Pros:</strong> Excellent speed and accuracy balance</li>
+                    <li><strong>Cons:</strong> High memory usage</li>
+                    <li><strong>Used by:</strong> Weaviate, Qdrant, pgvector</li>
+                </ul>
+
+                <h4>IVF (Inverted File Index)</h4>
+
+                <p>The database divides vector space into regions (like states on a map). During search, it only looks in the regions most likely to contain your answer.</p>
+
+                <ul>
+                    <li><strong>Pros:</strong> Memory efficient</li>
+                    <li><strong>Cons:</strong> Requires training, less accurate than HNSW</li>
+                    <li><strong>Used by:</strong> FAISS, Milvus</li>
+                </ul>
+
+                <img src="../../../resources/assets/img/blog/2025/ai/intro-to-vector-databases/vector-index.svg"/>
+
+                <p>The key insight? These indexes trade perfect accuracy for massive speed improvements. A 99% accurate result in 10ms beats a 100% accurate result in 10 seconds for most applications.</p>
+
+                <h2>Vector Index vs Vector Database: What's the Actual Difference?</h2>
+
+                <p>This confuses a lot of developers, so let's clear it up.</p>
+
+                <h3>Vector Index (like FAISS)</h3>
+
+                <p>FAISS (Facebook AI Similarity Search) is a library,a piece of code you run in your application. It's brilliant at similarity search but it's just the algorithm, not a complete system. <strong> Think of it like having a really fast sorting function, it does one thing exceptionally well, but you still need to build everything around it</strong>. You're responsible for persisting the data to disk, handling crashes and recovery, scaling across multiple servers, and managing all the operational complexity.</p>
+                <p>It's brilliant at similarity search but:</p>
+                <ul>
+                    <li>No built-in persistence (you manage storage yourself)</li>
+                    <li>No distributed architecture out of the box</li>
+                    <li>No access control or multi-tenancy</li>
+                    <li>You handle backups, scaling, monitoring</li>
+                </ul>
+
+                <p>Think of FAISS like a sorting algorithm. It's a tool, not a complete solution.</p>
+
+                <h3>Vector Database (like Pinecone, Weaviate, Qdrant)</h3>
+
+                <p>A complete database system built around vector operations.<strong> These are production-ready platforms that handle all the infrastructure complexity for you.</strong> They're designed from the ground up for vector workloads, with built-in replication, automatic backups, monitoring dashboards, and APIs that let you focus on building your application instead of managing servers.</p>
+                <p><strong>Features include:</strong></p>
+                <ul>
+                    <li>Persistent storage with backups</li>
+                    <li>Distributed and scalable architecture</li>
+                    <li>Built-in monitoring and observability</li>
+                    <li>Access control and security</li>
+                    <li>Multiple index types and configurations</li>
+                    <li>APIs for easy integration</li>
+                </ul>
+
+                <pre><code>FAISS: In-memory index that you embed in your application
+Vector DB: Complete managed system that your application connects to</code></pre>
+                <p><strong>In Summary: For prototyping or small projects, FAISS is perfect. For production systems handling real users and real data, you want a proper vector database.</strong></p>
+
+                <h2>Advanced Retrieval: The Cascading Approach</h2>
+                <p>Here's a pattern that's gaining traction in production RAG systems: <strong>Cascading Retrieval</strong>. Instead of one big search, you do multiple searches with increasing precision.</p>
+                <p><strong><u><i>Why does this matter?</i></u> Because the fastest algorithms aren't always the most accurate, and the most accurate algorithms aren't always fast enough.</strong> Cascading retrieval lets you have both: you use fast, approximate methods to quickly narrow down from millions of candidates, then apply slower, more precise methods only to the small subset that remains. It's the same strategy search engines like Google use: broad matching first, then sophisticated ranking on the top results.</p>
+                <p>This approach also mirrors how humans search for information. You don't carefully read every book in a library, you first identify the right section, then the right shelf, then scan titles, and only then do you read in detail. <strong>Cascading retrieval applies this same natural hierarchy to machine learning systems.</strong></p>
+                <h4>Stage 1: Broad Net (Fast)</h4>
+                <p>Use a less precise but faster index to retrieve the top 100 candidates from your entire corpus.</p>
+
+                <h4>Stage 2: Refined Filter (Metadata)</h4>
+                <p>Apply metadata filters (date range, document type, user permissions) to narrow down to 30 relevant candidates.</p>
+
+                <h4>Stage 3: Precise Ranking (Slow but Accurate)</h4>
+                <p>Use a more expensive reranking model or cross-encoder to identify the absolute best 5 results.</p>
+
+                <h4>Stage 4: Context Building</h4>
+                <p>Fetch surrounding chunks or related sections to provide richer context to the LLM.</p>
+                
+                <img class="blog-img-desktop-65" src="../../../resources/assets/img/blog/2025/ai/intro-to-vector-databases/cascading-retrieval-funnel.svg"
+                    alt="Cascading Retrieval Funnel"
+                />
+
+                <p>This approach balances speed, cost, and accuracy. <strong> The initial vector search is fast because it's approximate. The final reranking is expensive but only processes a handful of candidates.</strong></p>
+
+                <h2>Making the Right Choice for Your System</h2>
+
+                <p>Vector databases aren't just hype they're a fundamental building block for modern AI applications. But like any technology, they work best when you understand their strengths and limitations.</p>
+
+                <p><strong>Start here:</strong></p>
+                <ul>
+                    <li>Small project or prototype? Use FAISS or pgvector in your existing database</li>
+                    <li>Production RAG with scale? Choose a dedicated vector database</li>
+                    <li>Chunk size matters more than you think experiment and measure retrieval quality</li>
+                    <li>Don't skip the indexing configuration default settings rarely fit your use case</li>
+                </ul>
+
+                <p><strong>The magic isn't in the database itself. It's in how you prepare your data, choose your embeddings, configure your indexes, and build your retrieval pipeline</strong>. Get these fundamentals right, and your RAG system will feel genuinely intelligent.</p>
+
+                <p><strong>In our next post, we'll dive into the Model Context Protocol (MCP) the emerging standard that's changing how AI systems connect to data sources</strong>. We'll explore what MCP is, why it matters for RAG applications, how it simplifies integration with tools and databases, and why understanding MCP might be crucial for building the next generation of AI applications.</p>
+
+                <p>What's your experience with vector databases? Are you running them in production, or still evaluating options? I'd love to hear about your use cases and challenges connect with me on <a href="https://www.linkedin.com/in/ankitgubrani/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p>
+            </div>
+        </article>
+    </div>
+</main>
+
+<script type="text/javascript" src="../../../resources/assets/js/script.min.js"></script>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h3 class="footer-contactus">Stay connected with us:</h3>
+                <ul class="footer-social">
+                    <li>
+                        <a href="https://www.facebook.com/codebains.co.in" class="fa fa-facebook" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="https://in.linkedin.com/in/ankitgubrani" class="fa fa-linkedin" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/ankitgubrani90" class="fa fa-twitter" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/ankit-gubrani" class="fa fa-github" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="http://stackexchange.com/users/8257088/ankit-gubrani" class="fa fa-stack-overflow" target="_blank"></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-4">
+                <ul class="list-inline floatRight noFloatMobile footer-nav">
+                    <li>
+                        <a href="https://www.codebrains.co.in/">Home</a>
+                    </li>
+                    <li class="footer-menu-divider">&sdot;</li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/ankitgubrani">About</a>
+                    </li>
+                    <li class="footer-menu-divider">&sdot;</li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/contactus">Contact</a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted small floatRight noFloatMobile"> &copy; www.codebrains.co.in 2025. All Rights Reserved</p>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

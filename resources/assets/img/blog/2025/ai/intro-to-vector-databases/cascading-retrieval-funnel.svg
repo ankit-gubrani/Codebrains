@@ -1,0 +1,134 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f8f9fa"/>
+  
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" font-size="22" font-weight="700" fill="#1a1a1a">
+    Cascading Retrieval: From Millions to the Perfect 5
+  </text>
+  
+  <!-- Funnel visualization -->
+  
+  <!-- Stage 1: Initial Corpus -->
+  <g id="stage1">
+    <path d="M 100 80 L 700 80 L 640 180 L 160 180 Z" fill="#e3f2fd" stroke="#007bff" stroke-width="3"/>
+    <text x="400" y="110" text-anchor="middle" font-size="16" font-weight="600" fill="#1a1a1a">
+      Stage 1: Broad Net (Fast Vector Search)
+    </text>
+    <text x="400" y="135" text-anchor="middle" font-size="20" font-weight="700" fill="#007bff">
+      1,000,000 Documents
+    </text>
+    <text x="400" y="160" text-anchor="middle" font-size="12" fill="#495057">
+      Approximate nearest neighbor search
+    </text>
+  </g>
+  
+  <!-- Arrow 1 -->
+  <path d="M 400 180 L 400 210" stroke="#333" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="420" y="200" font-size="11" fill="#666" font-weight="600">⚡ Fast (~50ms)</text>
+  
+  <!-- Stage 2: Top candidates -->
+  <g id="stage2">
+    <path d="M 160 210 L 640 210 L 580 310 L 220 310 Z" fill="#fff3cd" stroke="#ffc107" stroke-width="3"/>
+    <text x="400" y="235" text-anchor="middle" font-size="16" font-weight="600" fill="#1a1a1a">
+      Stage 2: Metadata Filtering
+    </text>
+    <text x="400" y="260" text-anchor="middle" font-size="20" font-weight="700" fill="#ffc107">
+      100 Candidates
+    </text>
+    <text x="400" y="285" text-anchor="middle" font-size="11" fill="#495057">
+      Filter by: date, permissions, document type
+    </text>
+  </g>
+  
+  <!-- Arrow 2 -->
+  <path d="M 400 310 L 400 340" stroke="#333" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="420" y="330" font-size="11" fill="#666" font-weight="600">🔍 Filter (~10ms)</text>
+  
+  <!-- Stage 3: Filtered results -->
+  <g id="stage3">
+    <path d="M 220 340 L 580 340 L 520 440 L 280 440 Z" fill="#d4edda" stroke="#28a745" stroke-width="3"/>
+    <text x="400" y="365" text-anchor="middle" font-size="16" font-weight="600" fill="#1a1a1a">
+      Stage 3: Precise Ranking (Reranker Model)
+    </text>
+    <text x="400" y="390" text-anchor="middle" font-size="20" font-weight="700" fill="#28a745">
+      30 Filtered Results
+    </text>
+    <text x="400" y="415" text-anchor="middle" font-size="11" fill="#495057">
+      Cross-encoder for accurate similarity scoring
+    </text>
+  </g>
+  
+  <!-- Arrow 3 -->
+  <path d="M 400 440 L 400 470" stroke="#333" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="420" y="460" font-size="11" fill="#666" font-weight="600">🎯 Precise (~100ms)</text>
+  
+  <!-- Stage 4: Final results -->
+  <g id="stage4">
+    <path d="M 280 470 L 520 470 L 460 550 L 340 550 Z" fill="#f8d7da" stroke="#dc3545" stroke-width="3"/>
+    <text x="400" y="495" text-anchor="middle" font-size="16" font-weight="600" fill="#1a1a1a">
+      Stage 4: Context Building
+    </text>
+    <text x="400" y="520" text-anchor="middle" font-size="20" font-weight="700" fill="#dc3545">
+      5 Perfect Results
+    </text>
+  </g>
+  
+  <!-- Right side: Details panel -->
+  <g id="details">
+    <rect x="660" y="160" width="120" height="400" fill="#ffffff" stroke="#dee2e6" stroke-width="2" rx="8"/>
+    <text x="720" y="180" text-anchor="middle" font-size="13" font-weight="600" fill="#1a1a1a">
+      Metrics
+    </text>
+    
+    <!-- Speed -->
+    <g transform="translate(670, 195)">
+      <rect width="100" height="80" fill="#e3f2fd" stroke="#007bff" stroke-width="1" rx="4"/>
+      <text x="50" y="18" text-anchor="middle" font-size="11" fill="#007bff" font-weight="600">⚡ Total Time</text>
+      <text x="50" y="40" text-anchor="middle" font-size="18" fill="#007bff" font-weight="700">~160ms</text>
+      <text x="50" y="60" text-anchor="middle" font-size="9" fill="#495057">Fast enough</text>
+      <text x="50" y="72" text-anchor="middle" font-size="9" fill="#495057">for real-time</text>
+    </g>
+    
+    <!-- Accuracy -->
+    <g transform="translate(670, 285)">
+      <rect width="100" height="80" fill="#d4edda" stroke="#28a745" stroke-width="1" rx="4"/>
+      <text x="50" y="18" text-anchor="middle" font-size="11" fill="#28a745" font-weight="600">🎯 Accuracy</text>
+      <text x="50" y="40" text-anchor="middle" font-size="18" fill="#28a745" font-weight="700">95%+</text>
+      <text x="50" y="60" text-anchor="middle" font-size="9" fill="#495057">Best results</text>
+      <text x="50" y="72" text-anchor="middle" font-size="9" fill="#495057">surface first</text>
+    </g>
+    
+    <!-- Cost -->
+    <g transform="translate(670, 375)">
+      <rect width="100" height="80" fill="#fff3cd" stroke="#ffc107" stroke-width="1" rx="4"/>
+      <text x="50" y="18" text-anchor="middle" font-size="11" fill="#856404" font-weight="600">💰 Cost</text>
+      <text x="50" y="40" text-anchor="middle" font-size="18" fill="#856404" font-weight="700">Low</text>
+      <text x="50" y="60" text-anchor="middle" font-size="9" fill="#495057">Expensive ops</text>
+      <text x="50" y="72" text-anchor="middle" font-size="9" fill="#495057">on few items</text>
+    </g>
+    
+    <!-- Balance -->
+    <g transform="translate(670, 465)">
+      <rect width="100" height="85" fill="#e7f3ff" stroke="#17a2b8" stroke-width="1" rx="4"/>
+      <text x="50" y="18" text-anchor="middle" font-size="11" fill="#17a2b8" font-weight="600">⚖️ Balance</text>
+      <text x="50" y="40" text-anchor="middle" font-size="10" fill="#17a2b8" font-weight="700">Perfect</text>
+      <text x="50" y="58" text-anchor="middle" font-size="8" fill="#495057">Fast broad search</text>
+      <text x="50" y="69" text-anchor="middle" font-size="8" fill="#495057">+ slow precise</text>
+      <text x="50" y="80" text-anchor="middle" font-size="8" fill="#495057">ranking</text>
+    </g>
+  </g>
+  
+  <!-- Bottom insight -->
+  <rect x="50" y="570" width="600" height="20" fill="transparent"/>
+  <text x="350" y="585" text-anchor="middle" font-size="12" fill="#856404" font-weight="600">
+    💡 Each stage is optimized for a different goal: speed → filtering → precision → context
+  </text>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#333" />
+    </marker>
+  </defs>
+</svg>

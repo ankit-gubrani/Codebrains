@@ -2647,7 +2647,6 @@ h6 {
 .contact-header {
     margin-top: 50px;
     background: url("../img/skyline-buildings-new-york-skyscrapers.jpg") no-repeat 0px -99px;
-    height: 60vh;
     background-size: cover;
     text-align: center;
     background-color: #f8f8f8;
@@ -2761,6 +2760,7 @@ h1.approach-heading {
 .contact-header h3 {
         font-size: 40px;
         margin-top: 70px;
+        padding-bottom: 50px;
 }
 .btn-lg-icon {
     width: 40px;
@@ -4265,7 +4265,7 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
     font-weight: 300;
 }
 
-.blog-content b {
+.blog-content b, strong {
   font-weight: 500;
 }
 
@@ -4290,6 +4290,10 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
   margin: 0;
   padding-left: 20px;
   line-height: 1.6;
+}
+
+.blog-post img.blog-img-desktop-65 {
+  width: 65%;
 }
 
 @media (max-width: 768px) {
@@ -4317,6 +4321,9 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
     }
     .mobile-only {
         display: block;
+    }
+    .blog-post img.blog-img-desktop-65 {
+        width: 100%;
     }
 }
 /* Styles for Blogs & deck card grid  */
@@ -4353,6 +4360,9 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
     margin-bottom: 30px;
     width: 33.33%;
 }
+img.img-width-desktop-50 {
+    width: 50%;
+}
 
 @media (max-width: 991px) {
     .blog-card-wrapper {
@@ -4362,6 +4372,9 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
 
 @media (max-width: 767px) {
     .blog-card-wrapper {
+        width: 100%;
+    }
+    img.img-width-desktop-50 {
         width: 100%;
     }
 }
@@ -4402,6 +4415,22 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
     color: #fff;
     margin-top: 20px;
     font-weight: 300;
+}
+
+.blog-image-square-wrap {
+    text-align: center;
+    display: block;
+    float: left;
+    padding: 0rem 2rem 2rem 0;
+}
+
+.blog-image-square-wrap img {
+    width: 300px;
+    border-radius: 1rem;
+}
+
+.clear-both {
+    clear: both;
 }
 
 .blogs-container {
@@ -4471,6 +4500,14 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
 .mobile-friendly-table tr:nth-child(even) {
     background-color: #f2f2f2;
 }
+.highlight-box {
+    background-color: #f0f9ff;
+    border-left: 4px solid #3b82f6;
+    padding: 20px;
+    margin: 25px 0;
+    border-radius: 8px;
+}
+
 @media (max-width: 600px) {
     .mobile-friendly-table thead {
         display: none;
