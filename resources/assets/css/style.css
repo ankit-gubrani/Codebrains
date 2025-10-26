@@ -4363,22 +4363,9 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
 img.img-width-desktop-50 {
     width: 50%;
 }
-
-@media (max-width: 991px) {
-    .blog-card-wrapper {
-        width: 50%;
-    }
+img.img-width-desktop-70 {
+    width: 70%;
 }
-
-@media (max-width: 767px) {
-    .blog-card-wrapper {
-        width: 100%;
-    }
-    img.img-width-desktop-50 {
-        width: 100%;
-    }
-}
-
 .blogs-intro-header {
     padding-top: 100px;
     padding-bottom: 100px;
@@ -4432,33 +4419,27 @@ img.img-width-desktop-50 {
 .clear-both {
     clear: both;
 }
-
 .blogs-container {
     padding: 50px 0;
 }
-
 .blog-card .date {
     color: #777;
     font-size: 0.9em;
     margin-bottom: 10px;
 }
-
 .blog-card .description {
     flex-grow: 1;
     margin-bottom: 15px;
 }
-
 .blog-card .read-more {
     align-self: flex-start;
     color: #007bff;
     text-decoration: none;
     font-weight: bold;
 }
-
 .blog-card .read-more:hover {
     text-decoration: underline;
 }
-
 .blog-card .card-image {
     width: 100%;
     height: 160px;
@@ -4466,11 +4447,11 @@ img.img-width-desktop-50 {
     overflow: hidden;
     margin-bottom: 15px;
 }
-
 .blog-card .card-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: top;
     transition: transform 0.3s ease;
 }
 
@@ -4507,7 +4488,206 @@ img.img-width-desktop-50 {
     margin: 25px 0;
     border-radius: 8px;
 }
-
+.series-intro {
+    background-color: #f8f9fa;
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.series-heading {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+.series-heading:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background-color: #2196F3;
+}
+.series-description {
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+.series-badge {
+    display: inline-block;
+    background-color: #2196F3;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+.hero-section {
+    background: linear-gradient(135deg, #0d47a1, #42a5f5);
+    color: white;
+    padding: 14rem 0;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+}
+.hero-title {
+    font-size: 5.5rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+.hero-subtitle {
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+}
+.hero-cta {
+    display: inline-block;
+    background-color: #fff;
+    color: #0d47a1;
+    padding: 0.75rem 1.5rem;
+    border-radius: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.hero-cta:hover {
+    background-color: #f5f5f5;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+.hero-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    opacity: 0.1;
+    z-index: 1;
+}
+.blog-card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+.modern-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.modern-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+.card-img-container {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+.card-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    transition: transform 0.5s ease;
+}
+.modern-card:hover .card-img-container img {
+    transform: scale(1.05);
+}
+.card-tag {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: rgba(33, 150, 243, 0.9);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.card-content {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+.card-date {
+    color: #607d8b;
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+}
+.card-date:before {
+    content: "📅";
+    margin-right: 0.5rem;
+}
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #263238;
+    line-height: 1.4;
+}
+.card-title a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+}
+.card-title a:hover {
+    color: #2196F3;
+}
+.card-description {
+    color: #546e7a;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+.card-link {
+    display: inline-flex;
+    align-items: center;
+    color: #2196F3;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin-top: auto;
+}
+.card-link:after {
+    content: "→";
+    margin-left: 0.5rem;
+    transition: transform 0.3s ease;
+}
+.card-link:hover {
+    color: #0d47a1;
+}
+.card-link:hover:after {
+    transform: translateX(5px);
+}
+.coming-soon {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 152, 0, 0.9);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
 @media (max-width: 600px) {
     .mobile-friendly-table thead {
         display: none;
@@ -4539,5 +4719,43 @@ img.img-width-desktop-50 {
         padding-right: 15px;
         font-weight: bold;
         text-align: left;
+    }
+}
+@media (max-width: 991px) {
+    .blog-card-wrapper {
+        width: 50%;
+    }
+}
+@media (max-width: 767px) {
+    .blog-card-wrapper {
+        width: 100%;
+    }
+    img.img-width-desktop-50 {
+        width: 100%;
+    }
+    img.img-width-desktop-70 {
+        width: 100%;
+    }
+    .hero-title {
+        font-size: 2rem;
+    }
+    .hero-subtitle {
+        font-size: 1.2rem;
+        max-width: 85%;
+    }
+    .blog-card-container {
+        grid-template-columns: 1fr;
+    }
+    .wave {
+        height: 96px;
+    }
+    .hero-section {
+        padding: 6rem 0;
+    }
+    .hero-title {
+        font-size: 3rem;
+        max-width: 90%;
+        margin: 0 auto;
+        padding-bottom: 20px;
     }
 }
