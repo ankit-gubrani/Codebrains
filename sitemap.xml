@@ -26,6 +26,9 @@
         <loc>https://www.codebrains.co.in/blogs</loc>
     </url>
     <url>
+        <loc>https://www.codebrains.co.in/blog/ai-building-blocks-for-modern-web</loc>
+    </url>
+    <url>
         <loc>https://www.codebrains.co.in/blog/posts/integratingwookiewithAEM</loc>
     </url>
     <url>
@@ -45,6 +48,9 @@
     </url>
     <url>
         <loc>https://www.codebrains.co.in/blog/2025/ai/model-context-protocol-the-universal-adapter-your-ai-stack-actually-needs</loc>
+    </url>
+    <url>
+        <loc>https://www.codebrains.co.in/blog/2025/ai/context-rot-silent-performance-killer-in-your-rag-system</loc>
     </url>
     <url>
         <loc>https://www.codebrains.co.in/deck/aem-integration-with-apache-mahout</loc>
