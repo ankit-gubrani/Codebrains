@@ -214,7 +214,7 @@ Result: Fast, accurate, cost-effective</code></pre>                    <p>The pr
                     <li><strong>Accuracy Degradation</strong>: The signal-to-noise ratio drops, models struggle to identify relevant information</li>
                     <li><strong>Latency Inflation</strong>: More context = more tokens = slower responses and higher costs</li>
                     <li><strong>Maintenance Nightmare</strong>: Every change to your knowledge base requires manual testing to ensure quality doesn't degrade</li>
-                    <li><strong>Team Frustration</strong>: Engineers spend more time debugging "why did the AI say that?" than building features</li>
+                    <li><strong>Team Frustration</strong>: Engineers spend more time debugging <strong>"why did the AI say that?"</strong> than building features</li>
                 </ul>                
                 <p>Context engineering prevents these problems through systematic design and continuous management.</p>                
                 <h2>The Five Pillars of Context Engineering</h2>                
@@ -500,15 +500,23 @@ Total: now ~2,500 tokens</code></pre>
                 # When a document updates, invalidate all cached contexts using it
                 self.cache.invalidate_where(lambda c: doc_id in c.dependencies)</code></pre>                <p>This is the perfect segue to our next topic: Semantic Cache, which takes this pattern even further.</p>                <h2>The Cost of Ignoring Context Engineering</h2>                <p>Let's be brutally honest about what happens when you don't engineer context deliberately.</p>                
                 <h3>Financial Waste</h3>                
-                <p><strong>Context tokens cost money.</strong> If you're sending 10x more tokens than necessary because of poor context engineering, you're burning 10x more cash.</p>                <p>Real example: A company with 1M queries/month, sending 12,000 tokens per query instead of 3,000:</p>
+                <p><strong>Context tokens cost money.</strong> If you're sending 10x more tokens than necessary because of poor context engineering, you're burning 10x more cash.</p>                
+                <p>For example: If a company with 1M queries/month, sending 12,000 tokens per query instead of 3,000:</p>
                 <ul>
-                    <li>Wasteful cost: ~$180k/year</li>
-                    <li>Optimized cost: ~$45k/year</li>
+                    <li>Wasteful cost: lets say pays ~$180k/year</li>
+                    <li>Optimized cost: might come down to ~$45k/year</li>
                     <li><strong>Savings: $135k/year</strong> just from context engineering</li>
                 </ul>                
-                <h3>Competitive Disadvantage</h3>                <p>Your competitors are building faster, more accurate AI systems. If your system is slow and inaccurate because of poor context management, you lose.</p>                <p><strong>Users don't care about your technical challenges. They compare your AI to the best AI they've used. If yours is worse, they churn.</strong></p>                
-                <h3>Engineering Velocity</h3>                <p>Poor context engineering creates a maintenance nightmare. Engineers spend more time debugging "why did the AI say that?" than shipping features.</p>                <p><strong>Every context-related bug is a drain on velocity. With proper context engineering, context "just works" and engineers can focus on actual product development.</strong></p>                
-                <h3>User Trust Erosion</h3>                <p>Every time your AI gives a wrong answer because of stale context or provides a vague answer because of context noise, you erode user trust.</p>                <p><strong>Trust is hard to build and easy to lose. Context engineering is about maintaining the trust your users have in your AI system.</strong></p>                <h2>Context Engineering in the Age of Long Context Windows</h2>                <p>Modern LLMs support massive context windows. GPT-4.1: 1 million tokens. Gemini 1.5 Pro: 2 million tokens. Claude Opus 4: 1 million tokens. Does this make context engineering obsolete?</p>                <p>Absolutely not. It makes it more important.</p>                <h3>Why Long Context Doesn't Solve the Problem</h3>                <p>Bigger context windows don't mean "dump everything and hope for the best." <strong>Research consistently shows:</strong></p>                <ul>
+                <h3>Competitive Disadvantage</h3>                
+                <p>Your competitors are building faster, more accurate AI systems. If your system is slow and inaccurate because of poor context management, you lose.</p>                <p><strong>Users don't care about your technical challenges. They compare your AI to the best AI they've used. If yours is worse, they churn.</strong></p>                
+                <h3>Engineering Velocity</h3>
+                <p>Poor context engineering creates a maintenance nightmare. Engineers spend more time debugging "why did the AI say that?" than shipping features.</p>                <p><strong>Every context-related bug is a drain on velocity. With proper context engineering, context "just works" and engineers can focus on actual product development.</strong></p>                
+                <h3>User Trust Erosion</h3>
+                <p>Every time your AI gives a wrong answer because of stale context or provides a vague answer because of context noise, you erode user trust.</p>                <p><strong>Trust is hard to build and easy to lose. Context engineering is about maintaining the trust your users have in your AI system.</strong></p>                <h2>Context Engineering in the Age of Long Context Windows</h2>                <p>Modern LLMs support massive context windows. GPT-4.1: 1 million tokens. Gemini 1.5 Pro: 2 million tokens. Claude Opus 4: 1 million tokens. Does this make context engineering obsolete?</p>                
+                <p><strong>Absolutely not. It makes it more important.</strong></p>
+                <h3>Why Long Context Doesn't Solve the Problem</h3>                
+                <p>Bigger context windows don't mean "dump everything and hope for the best." <strong>Research consistently shows:</strong></p>                
+                <ul>
                     <li>Performance degrades as context length increases, even when the model can technically process it</li>
                     <li>Cost scales linearly with tokens (2x context = 2x cost)</li>
                     <li>Latency increases with context size</li>
@@ -523,17 +531,28 @@ Total: now ~2,500 tokens</code></pre>
                     <li>Sending your entire knowledge base because "the model can handle it"</li>
                     <li>Pre-loading context "just in case" the model needs it</li>
                     <li>Avoiding retrieval optimization because "context is cheap now"</li>
-                </ul>                <p>Context engineering discipline matters even more with long context windows because the consequences of poor management are amplified.</p>                <h2>Integrating Context Engineering with Your Existing Stack</h2>                <p>You don't need to rebuild everything to implement context engineering. Here's how to integrate with what you already have.</p>                <h3>If You're Using RAG</h3>                <p>Context engineering enhances RAG:</p>                <ul>
+                </ul>                <p>Context engineering discipline matters even more with long context windows because the consequences of poor management are amplified.</p>
+                <h2>Integrating Context Engineering with Your Existing Stack</h2>
+                <p>You don't need to rebuild everything to implement context engineering. Here's how to integrate with what you already have.</p>
+                <h3>If You're Using RAG</h3>
+                <p>Context engineering enhances RAG:</p>
+                <ul>
                     <li>Apply tiered retrieval to your vector search</li>
                     <li>Implement semantic deduplication before sending chunks to LLM</li>
                     <li>Add context lifecycle management to your embedding pipeline</li>
                     <li>Build observability for your retrieval metrics</li>
-                </ul>                <h3>If You're Using MCP</h3>                <p>MCP and context engineering are complementary:</p>                <ul>
+                </ul>
+                <h3>If You're Using MCP</h3>
+                <p>MCP and context engineering are complementary:</p>
+                <ul>
                     <li>Use MCP for dynamic, on-demand context loading</li>
                     <li>Implement context budgets for MCP resource requests</li>
                     <li>Add versioning metadata to MCP resources</li>
                     <li>Build MCP servers that expose context health metrics</li>
-                </ul>                <h3>If You're Using CAG or KAG</h3>                <p>Cache and knowledge graphs benefit from context engineering:</p>                <ul>
+                </ul>
+                <h3>If You're Using CAG or KAG</h3>
+                <p>Cache and knowledge graphs benefit from context engineering:</p>
+                <ul>
                     <li>Apply context versioning to cached responses</li>
                     <li>Implement cache invalidation based on context freshness</li>
                     <li>Optimize knowledge graph traversal to stay within context budgets</li>
@@ -542,7 +561,8 @@ Total: now ~2,500 tokens</code></pre>
                 <p>Context engineering is a layer that sits across your entire AI stack, improving everything.</p>                
                 <h2>Getting Started: Your Context Engineering Roadmap</h2>                
                 <p>You're convinced. Context engineering matters. But where do you start?</p>                
-                <h3>1. Audit Your Current Context</h3>                <p>Before changing anything, measure where you are:</p>                
+                <h3>1. Audit Your Current Context</h3>                
+                <p>Before changing anything, measure where you are:</p>                
                 <ul>
                     <li>What's your average tokens per query?</li>
                     <li>What's your context composition? (retrieval vs. history vs. system)</li>
@@ -550,39 +570,45 @@ Total: now ~2,500 tokens</code></pre>
                     <li>What's your retrieval precision? (% of retrieved chunks actually used)</li>
                     <li>What's your duplication rate?</li>
                 </ul>                
-                <h3>2. Establish Context Budgets</h3>                <p>Define maximum context sizes for different query types:</p>                
+                <h3>2. Establish Context Budgets</h3>                
+                <p>Define maximum context sizes for different query types:</p>                
                 <ul>
                     <li>Simple factual queries: 2,000 tokens</li>
                     <li>Complex reasoning queries: 5,000 tokens</li>
                     <li>Personalized queries: 4,000 tokens</li>
-                </ul>                <p>Start enforcing these budgets. <strong>You'll immediately see improvements.</strong></p>                <h3>3. Implement Quick Wins</h3>                <p>Low-effort, high-impact changes:</p>                
+                </ul>                
+                <p>Start enforcing these budgets. <strong>You'll immediately see improvements.</strong></p>                <h3>3. Implement Quick Wins</h3>                <p>Low-effort, high-impact changes:</p>                
                 <ul>
                     <li>Add semantic deduplication (30 lines of code, 20-40% token reduction)</li>
                     <li>Remove conversation history for non-follow-up queries (instant savings)</li>
                     <li>Delete deprecated documentation (one-time cleanup)</li>
                     <li>Compress system prompts (easy optimization)</li>
                 </ul>                
-                <h3>4. Build Observability</h3>                <p>You need visibility:</p>                
+                <h3>4. Build Observability</h3>                
+                <p>You need visibility:</p>                
                 <ul>
                     <li>Add token counting to every query</li>
                     <li>Track retrieval metrics (precision, recall, diversity)</li>
                     <li>Build a basic context health dashboard</li>
                     <li>Set up alerts for anomalies</li>
                 </ul>                
-                <h3>5. Implement Lifecycle Management</h3>                <p>Now address long-term health:</p>                
+                <h3>5. Implement Lifecycle Management</h3>                
+                <p>Now address long-term health:</p>                
                 <ul>
                     <li>Set up embedding refresh workflows</li>
                     <li>Implement version-aware retrieval</li>
                     <li>Add semantic drift detection</li>
                     <li>Create deprecation workflows for stale content</li>
                 </ul>                
-                <h3>6. Optimize and Govern</h3>                <p>With fundamentals in place, optimize:</p>                
+                <h3>6. Optimize and Govern</h3>                
+                <p>With fundamentals in place, optimize:</p>                
                 <ul>
                     <li>Implement tiered retrieval</li>
                     <li>Add dynamic context composition</li>
                     <li>Build A/B testing framework for context changes</li>
                     <li>Establish governance policies and ownership</li>
-                </ul>                <p>This roadmap gets you from "context is an afterthought" to "context is a core competency" in four months.</p>                <h2>Key Takeaways: What You Need to Remember</h2>                <p>Here's what matters about context engineering:</p>                
+                </ul>                
+                <p>This roadmap gets you from "context is an afterthought" to "context is a core competency" in four months.</p>                <h2>Key Takeaways: What You Need to Remember</h2>                <p>Here's what matters about context engineering:</p>                
                 <ul>
                     <li><strong>Context is a first-class architectural concern</strong>: Stop treating it as an afterthought. Design it deliberately like you design databases or APIs.</li>
                     <li><strong>Context engineering prevents context rot</strong>: Without active management, your system degrades over time. Context engineering makes degradation visible and preventable.</li>
@@ -596,7 +622,9 @@ Total: now ~2,500 tokens</code></pre>
                 
                 <h2>What's Next</h2>
                 <p>You now understand how context engineering works, why it matters, and how to implement it in your AI systems. But here's a question that follows naturally: <strong>what about queries you've already answered?</strong></p>
-                <p>Every time a user asks "What's your return policy?" <strong>your system goes through the entire context engineering pipeline: retrieval, deduplication, compression, assembly.</strong> That's thorough, but it's also wasteful. What if you could recognize semantically similar queries and serve optimized responses instantly?</p>                <p>That's where Semantic Cache comes in. <strong>In our next blog, we'll explore how semantic caching takes context engineering to the next level. Unlike traditional caching (which only matches exact queries), semantic cache understands meaning.</strong> It recognizes that "How do I return an item?" and "What's your return policy?" are asking the same thing, and it can serve cached responses immediately while still maintaining freshness and accuracy.</strong></p>                <p>We'll dive into how semantic cache works, when it makes sense, and how to implement it without the pitfalls of stale responses. <strong>It's the natural evolution of context engineering, combining the precision of well-engineered context with the efficiency of intelligent caching.</strong></p>
+                <p>Every time a user asks "What's your return policy?" <strong>your system goes through the entire context engineering pipeline: retrieval, deduplication, compression, assembly.</strong> That's thorough, but it's also wasteful. What if you could recognize semantically similar queries and serve optimized responses instantly?</p>                
+                <p>That's where <strong>Semantic Cache</strong> comes in. <strong>In our next blog, we'll explore how semantic caching takes context engineering to the next level. Unlike traditional caching (which only matches exact queries), semantic cache understands meaning.</strong> It recognizes that "How do I return an item?" and "What's your return policy?" are asking the same thing, and it can serve cached responses immediately while still maintaining freshness and accuracy.</strong></p>                
+                <p>We'll dive into how semantic cache works, when it makes sense, and how to implement it without the pitfalls of stale responses. <strong>It's the natural evolution of context engineering, combining the precision of well-engineered context with the efficiency of intelligent caching.</strong></p>
                 <p>What's your experience with context engineering in production AI systems? Are you dealing with context bloat, stale embeddings, or poor retrieval precision? Are you already implementing any of these patterns? I'd love to hear about your experiences and challenges connect with me on <a href="https://www.linkedin.com/in/ankitgubrani/">LinkedIn</a>.</p>
             </div>
 </main>
