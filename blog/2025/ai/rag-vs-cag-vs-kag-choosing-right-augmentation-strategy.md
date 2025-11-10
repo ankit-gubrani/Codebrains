@@ -188,7 +188,7 @@ Here's what nobody tells you: **most production systems use a combination of all
 
 Here's what you need to remember:
 - **RAG is your foundation:** Start here for any document-based Q&A system. It's flexible, proven, and handles the unpredictable.
-- **CAG is your performance layer:** Add it when response time matters and you see query patterns. It's not about capability—it's about efficiency.
+- **CAG is your performance layer:** Add it when response time matters and you see query patterns. It's not about capability it's about efficiency.
 - **KAG is your reasoning engine:** Introduce it when your domain has structured relationships and users need answers that require connecting multiple concepts.
 - **Think in layers, not alternatives:** The best systems use all three, routed intelligently based on query characteristics.
 - **Start simple, evolve based on data:** Don't build the perfect architecture on day one. Launch with RAG, instrument heavily, and add CAG/KAG when you have evidence they're needed.
