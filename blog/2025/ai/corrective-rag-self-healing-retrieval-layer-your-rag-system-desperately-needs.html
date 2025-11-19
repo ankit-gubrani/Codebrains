@@ -1,0 +1,841 @@
+<!-- Welcome to codebrains.co.in -->
+<!-- Looking for something? Contact developer : ankit.gubrani90@gmail.com / ankit.gubrani@codebrains.co.in -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Corrective RAG: The Self-Healing Retrieval Layer Your RAG System Desperately Needs</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Ankit Gubrani">
+    <meta name="subject" content="IT services">
+    <meta name="Geography" content="California">
+    <meta name="Language" content="English">
+    <meta name="Copyright" content="Ankit Gubrani">
+    <meta name="Designer" content="Ankit Gubrani">
+    <meta name="Publisher" content="Ankit Gubrani">
+    <meta name="distribution" content="Global">    
+    <link rel="alternate" href="https://www.codebrains.co.in/" hreflang="en-in" />    
+    <meta name="Description" content="Even with great embeddings and high similarity scores, your RAG system can still retrieve the wrong documents. Corrective RAG (CRAG) solves this by validating retrieval quality and automatically correcting failures filtering bad chunks, reformulating queries, and ensuring your LLM receives only high-quality context. This guide explains why retrieval fails, how CRAG works, and why it’s an essential building block for production-grade RAG systems.">
+    <meta name="keywords" content="Corrective RAG, CRAG, retrieval augmented generation, RAG quality control, retrieval validation, context evaluation, semantic cache, context engineering, vector search accuracy, RAG debugging, AI retrieval strategies, LLM context optimization, self-healing RAG, RAG pipeline improvements, AI Building Blocks for the Modern Web" />
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@ankitgubrani90">
+    <meta name="twitter:title" content="Corrective RAG: The Self-Healing Retrieval Layer Your RAG System Desperately Needs">
+    <meta name="twitter:description" content="Corrective RAG adds a self-healing quality control layer to your RAG pipeline detecting irrelevant, outdated, or low-quality retrieved documents and fixing them before they reach your LLM. Learn how this retrieval safeguard works, why retrieval fails even with strong embeddings and vector search, and how CRAG elevates your system from blind retrieval to intelligent retrieval.">
+    <meta name="twitter:creator" content="@ankitgubrani90">
+    <meta name="twitter:image" content="https://www.codebrains.co.in/resources/assets/img/blog/2025/ai/corrective-rag/corrective-rag-hero.png">
+    <meta property="og:title" content="Corrective RAG: The Self-Healing Retrieval Layer Your RAG System Desperately Needs" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="https://www.codebrains.co.in/resources/assets/img/blog/2025/ai/corrective-rag/corrective-rag-hero.png" />
+    <meta property="og:description" content="Corrective RAG adds a self-healing quality control layer to your RAG pipeline detecting irrelevant, outdated, or low-quality retrieved documents and fixing them before they reach your LLM. Learn how this retrieval safeguard works, why retrieval fails even with strong embeddings and vector search, and how CRAG elevates your system from blind retrieval to intelligent retrieval." />
+    <meta property="og:site_name" content="Codebrains.co.in" />
+    <meta property="fb:admins" content="1627043757" />
+    <!-- Article Metadata -->
+    <meta property="article:published_time" content="2025-11-20">
+    <meta property="article:author" content="Ankit Gubrani">
+    <meta property="article:section" content="AI">
+    <meta property="article:tag" content="Semantic Cache">
+    <meta property="article:tag" content="AI Development">
+    <meta property="article:tag" content="RAG Architecture">    
+    <link rel="canonical" href="https://www.codebrains.co.in/blog/2025/ai/corrective-rag-self-healing-retrieval-layer-your-rag-system-desperately-needs">
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": "Corrective RAG: The Self-Healing Retrieval Layer Your RAG System Desperately Needs",
+            "author": {
+                "@type": "Person",
+                "name": "Ankit Gubrani",
+                "url": "https://www.linkedin.com/in/ankitgubrani/"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "Codebrains.co.in",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://www.codebrains.co.in/resources/assets/img/codebrains_newlogo.png"
+                }
+            },
+            "datePublished": "2025-11-12",
+            "dateModified": "2025-11-12",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://www.codebrains.co.in/blog/2025/ai/corrective-rag-self-healing-retrieval-layer-your-rag-system-desperately-needs"
+            },
+            "description": "Corrective RAG adds a self-healing quality control layer to your RAG pipeline detecting irrelevant, outdated, or low-quality retrieved documents and fixing them before they reach your LLM. Learn how this retrieval safeguard works, why retrieval fails even with strong embeddings and vector search, and how CRAG elevates your system from blind retrieval to intelligent retrieval."
+        }
+    </script>    <!-- Meta tag from pininterest -->
+    <meta name="p:domain_verify" content="0d3ff48344ca5856484c1cceed35a6eb"/>
+    <link rel="icon" href="../../../resources/assets/img/codebrains_transparent.png" type="image/gif" sizes="16x16">    <link rel="stylesheet" href="../../../resources/assets/css/style.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BMGLHV6YH1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());        gtag('config', 'G-BMGLHV6YH1');
+    </script>
+    <style>
+        code {
+            background-color: #f7fafc;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #e53e3e;
+            font-size: 0.95em;
+        }
+        
+        pre {
+            background-color: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+        
+        pre code {
+            background-color: transparent;
+            color: #e2e8f0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+        <div class="container topnav">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="logo">
+                    <a href="/"><img src="../../../resources/assets/img/codebrains_newlogo.png" /></a>
+                </div>
+            </div><!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="https://www.codebrains.co.in/">Home</a>
+                    </li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/contactus">Contact Us</a>
+                    </li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/ankitgubrani">About Us</a>
+                    </li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/projects">Our Work</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header><ul class='social socialshare-icons'>
+    <li>
+        <a class="fa fa-facebook socialshare-fb" href="https://www.facebook.com/sharer/sharer.php?u=www.codebrains.co.in" target="_blank" >
+            <span>Facebook</span>
+        </a>
+    </li>
+    <li>
+        <a class="fa fa-twitter socialshare-tw" href="https://twitter.com/intent/tweet?url=www.codebrains.co.in" target="_blank" >
+            <span>Twitter</span>
+        </a>
+    </li>
+    <li>
+        <a class="fa fa-linkedin socialshare-lk" href="https://www.linkedin.com/cws/share?url=www.codebrains.co.in" target="_blank">
+            <span>LinkedIn</span>
+        </a>
+    </li>
+    <li>
+        <a class="fa fa-envelope" href="mailto:ankit.gubrani@codebrains.co.in" target="_blank">
+            <span>Email us</span>
+        </a>
+    </li>
+</ul>
+<main>
+    <div class="blog-container bg-white p-8 rounded-lg shadow-2xl">
+        <article class="blog-post">
+            <header>
+                <h1>Corrective RAG: The Self-Healing Retrieval Layer Your RAG System Desperately Needs</h1>
+                <p class="blog-author-info">
+                    By <span>Ankit Gubrani</span> on
+                    <time datetime="2025-11-20">November 20, 2025</time>
+                </p>
+                <label class="eyebrow-blue"><strong>AI Building Blocks for the Modern Web</strong></label>
+            </header>
+            <div class="blog-content">
+                <p>You've mastered <a href="https://www.codebrains.co.in/blog/2025/ai/semantic-cache-smartest-way-to-speed-up-rag">semantic cache</a> to speed up your RAG system. You've implemented <a href="https://www.codebrains.co.in/blog/2025/ai/context-engineering-the-discipline-your-ai-system-desperately-needs">context engineering</a> to keep your context lean and relevant. Your retrieval metrics look solid. Your vector search is returning documents with high similarity scores. Your LLM is state-of-the-art.</p>
+                <figure style="text-align: center;" class="blog-image-square-wrap">
+                    <img src="../../../resources/assets/img/blog/2025/ai/corrective-rag/corrective-rag-hero.png" alt="Introduction to Corrective RAG" class="blog-image-square">
+                </figure>
+                <p><strong>But here's the uncomfortable truth: sometimes your retrieval still gets it wrong.</strong></p>
+                
+                <p>A user asks "What's the Python SDK installation command for the latest version?" Your vector database returns documentation chunks with 0.89 similarity scores. They look relevant. But when you actually read them, they're about the deprecated Node.js SDK, or they reference version 1.x when you're on version 3.x, or they discuss installation but for a completely different product.</p>
+                
+                <p>Traditional RAG has no mechanism to detect this failure. It just sends those irrelevant chunks to your LLM and hopes for the best. The LLM tries to make sense of the confusion, produces a vague or incorrect answer, and your user loses trust in your AI.</p>
+                
+                <p>That's the <strong>retrieval quality problem</strong>, and it's more common than you think. Even with perfect embedding models and optimal chunking strategies, retrieval fails in predictable ways. Documents get outdated. Queries are ambiguous. Similarity scores don't always correlate with actual relevance. Your knowledge base doesn't contain the answer at all.</p>
+                
+                <p><strong>What if your RAG system could detect these failures automatically and fix them before generating a response? That's what Corrective RAG (CRAG)</strong> does. It adds a quality control layer between retrieval and generation that evaluates whether your retrieved documents actually answer the question and if they don't, it takes corrective action.</p>
+                
+                <p>Think of it as having a quality inspector in your RAG pipeline who says "wait, these documents don't actually answer the question" and then either filters out the bad documents, searches for better information, or reformulates the query to get better results.</p>
+                
+                <p><strong>CRAG doesn't replace your existing RAG architecture, it enhances</strong>. It's the difference between <strong>blind retrieval</strong> (retrieving documents and assuming they're good) and <strong>intelligent retrieval</strong> (retrieving documents, validating their quality, and correcting course when needed).</p>
+                
+                <h2>What is Corrective RAG?</h2>
+                
+                <p>Corrective RAG is a retrieval framework that adds a <strong>self-correction mechanism</strong> to traditional RAG systems. Instead of blindly trusting whatever your vector database returns, <strong>CRAG evaluates the quality of retrieved documents</strong> and takes one of three actions: proceed normally if documents are high quality, filter out irrelevant documents if they're mixed quality, or trigger alternative retrieval strategies if they're low quality.</p>
+                
+                <p>From a technical standpoint, CRAG works by inserting a <strong>retrieval evaluator</strong> between your vector search and your LLM. This evaluator assigns confidence scores to retrieved documents and routes the pipeline based on those scores. It's like adding a circuit breaker to your retrieval system that prevents bad documents from reaching your LLM.</p>
+                <figure style="text-align: center;">
+                    <img class="img-width-desktop-70" src="../../../resources/assets/img/blog/2025/ai/corrective-rag/crag_pipeline_comparison.svg" alt="Traditional RAG vs CRAG Pipeline">
+                    <p>Traditional RAG vs CRAG Pipeline - Side-by-side comparison showing evaluation layer</p>
+                </figure>
+                <p>The key insight behind CRAG is this: <strong>retrieval quality is not binary</strong>. It exists on a spectrum from "perfect match" to "completely irrelevant." Traditional RAG treats everything the same. CRAG adapts its behavior based on where documents fall on that spectrum.</p>
+                
+                <h2>Why Traditional RAG Fails: The Retrieval Quality Problem</h2>
+                
+                <p>Before we dive into how CRAG works, let's understand why traditional RAG struggles with retrieval quality. The problem isn't that vector search is bad. It's that vector search is incomplete.</p>
+                
+                <h3>Problem 1: Similarity ≠ Relevance</h3>
+                
+                <p>Your vector database returns documents with high cosine similarity scores. But <strong>similarity measures how close embeddings are in vector space, not whether a document actually answers the question</strong>.</p>
+                
+                <p>Example: User asks "<i><b>How do I increase my API rate limit?</b></i>" Your vector search returns a document about "<i><b>Understanding API rate limits</b></i>" with 0.91 similarity. High score! But the document explains what rate limits are, not how to increase them. <strong>Semantically similar topic, but doesn't answer the question.</strong></p>
+                
+                <p>Traditional RAG sends this document to the LLM anyway. The LLM tries to construct an answer from irrelevant context, produces a vague response like "Contact your account manager to discuss rate limit options," and the user is frustrated because they wanted specific steps.</p>
+                
+                <h3>Problem 2: Ambiguous Queries</h3>
+                
+                <p>Users don't always ask clear, specific questions. They ask ambiguous ones. "How do I reset?" Reset what? Password? API key? Two-factor authentication? Account settings?</p>
+                
+                <p>Your vector search doesn't know, so it returns documents about all possible interpretations. Half the retrieved chunks are irrelevant to what the user actually meant. Traditional RAG sends all of them to the LLM, creating noise and confusion.</p>
+                
+                <h3>Problem 3: Missing Information</h3>
+                
+                <p>Sometimes your knowledge base simply doesn't contain the answer. A user asks about a feature released last week. Your documentation hasn't been updated yet. Your vector search returns the closest match it can find, maybe documentation about a related feature.</p>
+                
+                <p>Traditional RAG presents this as if it's the answer. The LLM, having no way to know the retrieved documents are outdated or irrelevant, generates a confident but incorrect response. Your user tries to follow instructions that don't apply, gets confused, and loses trust.</p>
+                
+                <h3>Problem 4: Context Conflicts</h3>
+                
+                <p>Your retrieved documents contradict each other. Document A says "use the <code>--legacy</code> flag for backward compatibility." Document B says "the <code>--legacy</code> flag has been deprecated as of version 3.0."</p>
+                
+                <p>Both documents have high similarity scores because they're about the same topic. But they provide conflicting information. Traditional RAG sends both to the LLM. The LLM hedges, produces an ambiguous answer, and your user doesn't know which approach to use.</p>
+                
+                <h3>The Core Limitation</h3>
+                
+                <p>Traditional RAG assumes that if your vector search returns documents, those documents are useful. But that assumption breaks down in production systems where knowledge bases are large, queries are ambiguous, and information changes frequently. <strong>You need a mechanism to validate retrieval quality and correct course when validation fails.</strong></p>
+                
+                <h2>How CRAG Actually Works: The Technical Deep Dive</h2>
+                
+                <p>Let's get into the mechanics of Corrective RAG. Understanding the architecture is critical for implementing it correctly in your own systems.</p>
+                
+                <h3>The Three-Stage Pipeline</h3>
+                
+                <p>CRAG modifies the traditional RAG pipeline by adding an evaluation and correction stage:</p>
+                
+                <div class="highlight-box">
+                    <strong>Traditional RAG:</strong><br>
+                    Query → Retrieval → Generation → Response
+                </div>
+                
+                <div class="highlight-box">
+                    <strong>Corrective RAG:</strong><br>
+                    Query → Retrieval → <strong>Evaluation → Correction (if needed)</strong> → Generation → Response
+                </div>
+                
+                <figure style="text-align: center;">
+                    <img class="img-width-desktop-70" src="../../../resources/assets/img/blog/2025/ai/corrective-rag/crag_three_stage_pipeline.svg" alt="CRAG Three-Stage Pipeline">
+                    <p>CRAG Three-Stage Pipeline: Detailed flow showing evaluation and correction paths</p>
+                </figure>
+                <h3>Stage 1: Traditional Retrieval</h3>
+                
+                <p>This stage works exactly like traditional RAG. You embed the query and search your vector database for relevant documents.</p>        
+                 <ul>
+                    <li>Convert the user's query into a vector embedding</li>
+                    <li>Search your vector database for semantically similar documents</li>
+                    <li>Retrieve the top-k results (typically 5-10 documents)</li>
+                    <li>Apply a similarity threshold (e.g., 0.7) to filter out very dissimilar results</li>
+                </ul>
+                <p>Nothing special yet. This is your standard RAG retrieval step.</p>
+                
+                <h3>Stage 2: Retrieval Evaluation</h3>
+                
+                <p>Here's where CRAG diverges. Before sending documents to the LLM, CRAG evaluates their quality. This evaluation assigns a <strong>confidence score</strong> to each document that indicates how well it answers the query.</p>
+                 <ul>
+                    <li><strong>Relevance scoring:</strong> Assess how well the document content addresses the specific query (not just semantic similarity)</li>
+                    <li><strong>Recency checking:</strong> Evaluate how current the document is based on last-updated metadata</li>
+                    <li><strong>Authority scoring:</strong> Weight documents based on source quality (official docs vs. forums)</li>
+                    <li><strong>Composite confidence:</strong> Combine these signals into a weighted score (e.g., 70% relevance, 20% recency, 10% authority)</li>
+                    <li><strong>Aggregate confidence:</strong> Calculate the average confidence across all retrieved documents</li>
+                </ul>
+                <p>The evaluation produces two outputs: per-document confidence scores and an aggregate confidence for the entire retrieval set.</p>
+                
+                <h3>Stage 3: Corrective Action</h3>
+                
+                <p>Based on evaluation scores, CRAG takes one of three actions:</p>
+                
+                <p><strong>Action 1: Proceed (High Confidence)</strong></p>
+                
+                <p>If aggregate confidence is high (typically > 0.85), documents are relevant and trustworthy. Proceed with normal RAG generation.</p>
+                
+                <ul>
+                    <li>Documents meet quality thresholds</li>
+                    <li>Prepare context from retrieved documents as-is</li>
+                    <li>Send to LLM for generation</li>
+                    <li>Return response to user</li>
+                </ul>
+                
+                <p><strong>Action 2: Filter and Refine (Medium Confidence)</strong></p>
+                
+                <p>If aggregate confidence is moderate (0.65-0.85), some documents are good, some are noise. Filter out low-confidence documents and proceed with the high-quality subset.</p>
+                <ul>
+                    <li>Keep only documents with confidence scores above threshold (e.g., > 0.7)</li>
+                    <li>If sufficient high-quality documents remain, prepare context from filtered set</li>
+                    <li>Send filtered context to LLM for generation</li>
+                    <li>If all documents filtered out, fall through to correction strategies</li>
+                </ul>
+                <p><strong>Action 3: Trigger Correction (Low Confidence)</strong></p>
+                <p>If aggregate confidence is low (< 0.65), your initial retrieval failed. Trigger corrective measures: web search, knowledge base expansion, or query reformulation.</p>
+                <ul>
+                    <li>Apply one or more correction strategies (web search, query reformulation)</li>
+                    <li>Retrieve new or supplementary documents</li>
+                    <li>Prepare context from corrected results</li>
+                    <li>Send to LLM for generation</li>
+                </ul>
+                <h2>The Three Corrective Strategies</h2>
+                
+                <p>When CRAG detects low-quality retrieval, it can apply three corrective strategies. Each strategy addresses different failure modes.</p>
+                <figure style="text-align: center;">
+                    <img class="img-width-desktop-70" src="../../../resources/assets/img/blog/2025/ai/corrective-rag/crag_correction_strategies.svg" alt="Three Correction Strategies - filter, search, reformulate">
+                    <p>Three Correction Strategies - Visual breakdown of filter, search, and reformulate</p>
+                </figure>
+                <h3>Strategy 1: Filter Bad Documents</h3>
+                <p>The simplest correction: remove documents that don't meet quality thresholds. This is useful when your retrieval returns a mix of relevant and irrelevant documents.</p>
+                <ul>
+                    <li><strong>Confidence threshold filtering:</strong> Remove any documents below a minimum confidence score (e.g., 0.7)</li>
+                    <li><strong>Semantic deduplication:</strong> Identify and remove documents that say essentially the same thing using embedding similarity</li>
+                    <li><strong>Conflict resolution:</strong> When documents contradict each other, keep the more recent or authoritative version</li>
+                    <li><strong>Minimum retention:</strong> Always keep at least one document even if all scores are low, to avoid complete failure</li>
+                </ul>
+                <p>Filtering alone often improves response quality significantly by reducing noise. <strong>If you retrieve 10 documents but only 4 are truly relevant, sending just those 4 produces better results than sending all 10.</strong></p>
+                
+                <h3>Strategy 2: Web Search Augmentation</h3>
+                
+                <p>When your knowledge base doesn't contain the answer, search the web for current information. This is particularly useful for time-sensitive queries or topics outside your knowledge base.</p>
+                
+                <ul>
+                    <li><strong>Trigger web search:</strong> Use a search API (like Tavily, Bing, or Google) to find relevant web pages</li>
+                    <li><strong>Content extraction:</strong> Pull main content from search results, removing navigation, ads, and boilerplate</li>
+                    <li><strong>Chunking and ranking:</strong> Break extracted content into chunks and score them for relevance</li>
+                    <li><strong>Source merging:</strong> Combine web documents with your filtered internal documents, with configurable priority (web-first for freshness, or internal-first for authority)</li>
+                    <li><strong>Metadata tracking:</strong> Tag web sources clearly so responses can cite external sources appropriately</li>
+                </ul>
+                
+                <p>This is where CRAG gets powerful. <strong>Your system automatically realizes "I don't have good information about this" and goes looking for better sources. No human intervention required.</strong></p>
+                
+                <h3>Strategy 3: Query Reformulation</h3>
+                
+                <p>Sometimes the query itself is the problem. It's too vague, uses unexpected terminology, or is ambiguous. Reformulate the query and re-retrieve.</p>
+                
+                <ul>
+                    <li><strong>Use LLM for reformulation:</strong> Ask the LLM to rewrite the query to be more specific, adding context from failed retrieval attempts</li>
+                    <li><strong>Generate query variations:</strong> Create multiple reformulated versions that clarify ambiguities or expand abbreviations</li>
+                    <li><strong>Re-embed and search:</strong> Convert the reformulated query into embeddings and search the vector database again</li>
+                    <li><strong>Evaluate new results:</strong> Score the new retrieval to see if quality improved</li>
+                    <li><strong>Escalation strategy:</strong> If reformulation doesn't help (confidence still low), escalate to web search as a fallback</li>
+                </ul>
+                
+                <p>Query reformulation is subtle but effective. A user asks "How do I set this up?" The system reformulates to "How do I set up [product name] authentication?" and suddenly retrieval works because the query is specific.</p>
+                
+                <h2>Evaluating Retrieval Quality: The Heart of CRAG</h2>
+                
+                <p>The effectiveness of CRAG depends entirely on your retrieval evaluator. <strong>If your evaluator is accurate, CRAG catches bad retrievals and fixes them. If your evaluator is inaccurate, CRAG makes things worse</strong> by filtering good documents or unnecessarily triggering corrections.</p>
+                
+                <p>Let's explore how to build an effective evaluator.</p>
+                
+                <h3>Evaluation Signal 1: Semantic Relevance</h3>
+                
+                <p>Does the document content actually address the query? This goes beyond vector similarity. You need to assess whether the document contains information that helps answer the specific question asked.</p>
+                
+                <pre><code>def compute_relevance(query, document):
+    # Use a cross-encoder model for precise relevance scoring
+    # Cross-encoders jointly encode query and document
+    relevance_score = cross_encoder.predict(query, document.text)
+    
+    # Alternatively, use LLM-as-judge
+    # prompt = f"Does this document answer the query?\nQuery: {query}\nDocument: {document.text}\nAnswer (yes/no):"
+    # judgment = llm.generate(prompt)
+    # relevance_score = 1.0 if 'yes' in judgment.lower() else 0.0
+    
+    return relevance_score
+                </code></pre>
+                
+                <p>Cross-encoder models are particularly effective for this task. Unlike bi-encoders (used in vector search), cross-encoders see both query and document together and can assess relevance more accurately. The trade-off is speed: cross-encoders are slower, but that's acceptable for a quality check after retrieval.</p>
+                
+                <h3>Evaluation Signal 2: Temporal Freshness</h3>
+                
+                <p>Is the document current, or is it outdated? This matters enormously for technical documentation, product features, and policy information.</p>
+                
+                <pre><code>def compute_recency(document):
+    # Check document metadata
+    last_updated = document.metadata.get('last_updated')
+    
+    if not last_updated:
+        return 0.5  # Unknown age - moderate penalty
+    
+    # Calculate age in days
+    age_days = (datetime.now() - last_updated).days
+    
+    # Decay function - fresher is better
+    if age_days < 30:
+        return 1.0  # Very fresh
+    elif age_days < 90:
+        return 0.8  # Recent
+    elif age_days < 180:
+        return 0.6  # Moderately old
+    elif age_days < 365:
+        return 0.4  # Old
+    else:
+        return 0.2  # Very old
+                </code></pre>
+                
+                <p>Temporal freshness prevents CRAG from confidently using outdated information. A document last updated three years ago gets penalized, triggering correction strategies that might find more current information.</p>
+                
+                <h3>Evaluation Signal 3: Source Authority</h3>
+                
+                <p>Is this document from an authoritative source? Official documentation is more trustworthy than community forum posts. Product specifications are more reliable than marketing blog posts.</p>
+                
+                <pre><code>def compute_authority(document):
+    source_type = document.metadata.get('source_type')
+    
+    authority_scores = {
+        'official_docs': 1.0,
+        'api_reference': 1.0,
+        'internal_kb': 0.9,
+        'verified_blog': 0.7,
+        'community_forum': 0.5,
+        'external_blog': 0.4,
+        'unknown': 0.3,
+    }
+    
+    return authority_scores.get(source_type, 0.3)
+                </code></pre>
+                
+                <p>Authority scoring helps CRAG prefer high-quality sources and deprioritize or filter out unreliable ones.</p>
+                
+                <h3>Evaluation Signal 4: Content Completeness</h3>
+                
+                <p>Does the document provide a complete answer, or just a partial one? This is harder to assess programmatically but critical for quality.</p>
+                <p>This LLM-as-judge approach adds cost but significantly improves evaluation accuracy. For production systems, consider caching completeness scores for documents to amortize the cost.</p>
+                
+                <h3>Combining Signals: The Composite Score</h3>
+                
+                <p>Combine multiple signals into a single confidence score:</p>
+                
+                <pre><code>def compute_confidence(query, document):
+    relevance = compute_relevance(query, document)
+    recency = compute_recency(document)
+    authority = compute_authority(document)
+    completeness = compute_completeness(query, document)
+    
+    # Weighted combination
+    confidence = (
+        relevance * 0.50 +      # Most important
+        completeness * 0.25 +   # Second most important
+        recency * 0.15 +        # Context-dependent importance
+        authority * 0.10        # Tiebreaker
+    )
+    
+    return confidence
+                </code></pre>
+                
+                <p>Adjust weights based on your domain. For rapidly changing products, increase recency weight. For stable reference material, increase authority weight.</p>
+                
+                <h2>CRAG in Action: A Real-World Example</h2>
+                
+                <p>Let's walk through a concrete example to see how CRAG handles a challenging query.</p>
+                
+                <p><strong>Scenario: Enterprise API Documentation Chatbot</strong></p>
+                
+                <p>User asks: "What's the rate limit for the new GraphQL endpoint?"</p>
+                
+                <h3>Step 1: Initial Retrieval</h3>
+                
+                <pre><code># Traditional RAG retrieves these documents:
+    documents = [
+        {
+            'text': 'Our REST API has a rate limit of 100 requests per minute...',
+            'similarity': 0.87,
+            'last_updated': '2023-06-15'
+        },
+        {
+            'text': 'GraphQL queries allow you to request exactly the data you need...',
+            'similarity': 0.84,
+            'last_updated': '2024-11-01'
+        },
+        {
+            'text': 'Rate limiting is enforced based on your API key tier...',
+            'similarity': 0.82,
+            'last_updated': '2024-08-20'
+        }
+    ]       </code></pre>
+                
+                <p>Traditional RAG would send all three documents to the LLM. But look closely: none of them actually answer the question about GraphQL endpoint rate limits specifically.</p>
+                
+                <h3>Step 2: Quality Evaluation</h3>
+                
+                <pre><code># CRAG evaluates each document
+    scores = [
+        {
+            'doc': documents[0],
+            'relevance': 0.6,  # About rate limits, but REST not GraphQL
+            'recency': 0.3,    # 18 months old
+            'authority': 1.0,  # Official docs
+            'completeness': 0.4,  # Doesn't answer GraphQL question
+            'confidence': 0.52
+        },
+        {
+            'doc': documents[1],
+            'relevance': 0.5,  # About GraphQL, but not rate limits
+            'recency': 0.95,   # Very recent
+            'authority': 1.0,  # Official docs
+            'completeness': 0.2,  # Doesn't mention limits
+            'confidence': 0.48
+        },
+        {
+            'doc': documents[2],
+            'relevance': 0.7,  # About rate limiting in general
+            'recency': 0.75,   # Recent enough
+            'authority': 1.0,  # Official docs
+            'completeness': 0.3,  # Generic, not specific to GraphQL
+            'confidence': 0.59
+        }
+    ]
+
+    avg_confidence = 0.53  # Low!</code></pre>
+                
+                <p>CRAG detects that average confidence is low (0.53 < 0.65). <strong>The retrieved documents are topically related but don't actually answer the specific question.</strong></p>
+                
+                <h3>Step 3: Corrective Action</h3>
+                
+                <p>CRAG triggers correction. First, it tries query reformulation:</p>
+                
+                <pre><code># Reformulate the query
+    reformulated = "GraphQL API endpoint rate limit requests per minute"
+
+    # Re-retrieve
+    new_documents = vector_db.search(embed(reformulated), top_k=5)
+
+    # Still low confidence?
+    # Escalate to web search
+    web_results = web_search("GraphQL endpoint rate limit [company] API")
+
+    # Extract relevant content from official blog or changelog
+    web_doc = {
+        'text': 'Our new GraphQL endpoint (beta) has a rate limit of 200 requests per minute for Pro accounts...',
+        'source': 'company_blog',
+        'date': '2024-11-05',
+        'url': 'https://company.com/blog/graphql-beta'
+    }
+
+    # Evaluate web result
+    web_confidence = evaluate(query, web_doc) # 0.89 - High!
+
+    # Use web result as primary source
+    final_documents = [web_doc] + filter_low_confidence(new_documents)</code></pre>
+                
+                <h3>Step 4: Generation with Corrected Context</h3>
+                
+                <pre><code>context = prepare_context(final_documents)
+    response = llm.generate(query, context)
+
+    # Response: "The GraphQL endpoint (currently in beta) has a rate limit 
+    # of 200 requests per minute for Pro accounts. This was recently announced 
+    # in our November 5th blog post. Note that this is higher than our REST 
+    # API limit of 100 requests per minute."</code></pre>
+                
+                <p>CRAG automatically detected that the knowledge base didn't have the answer, searched the web for current information, found the relevant blog post, and produced an accurate response with proper attribution. <strong>Traditional RAG would have cobbled together a vague answer from the irrelevant documents.</strong></p>
+                
+                <h2>Multi-Source Retrieval: Combining Knowledge Bases and Web Search</h2>
+                
+                <p>One of CRAG's most powerful patterns is intelligent multi-source retrieval. Your internal knowledge base is your primary source, but when it fails, CRAG can seamlessly fall back to external sources.</p>
+                <h3>The Multi-Source Strategy</h3>
+                <figure style="text-align: center;">
+                    <img class="img-width-desktop-70" src="../../../resources/assets/img/blog/2025/ai/corrective-rag/multisource_strategy_svg.svg" alt="Multi-Source CRAG Strategy">
+                </figure>
+                <p>This strategy gives you the best of both worlds: <strong>fast, private responses from your knowledge base when possible, and fresh, comprehensive responses from the web when necessary</strong>.</p>
+                
+                <h3>When to Use Multi-Source CRAG</h3>
+                
+                <p>Multi-source CRAG shines in specific scenarios:</p>
+                
+                <p><strong>Scenario 1: Enterprise Search with Public Context</strong></p>
+                
+                <p>Your company's internal documentation is authoritative for your products, but users also need context from industry standards, competitor analysis, or general best practices. CRAG retrieves from internal docs first, then supplements with curated web sources when needed.</p>
+                
+                <p><strong>Scenario 2: Research Assistants</strong></p>
+                
+                <p>Academic or market research tools need both proprietary research databases and current public information. CRAG ensures you're not missing recent developments by automatically checking web sources when your database lacks information.</p>
+                
+                <p><strong>Scenario 3: Customer Support with Product Updates</strong></p>
+                
+                <p>Your documentation might lag behind rapid product releases. CRAG can detect when documentation is outdated and supplement with recent release notes, blog announcements, or community discussions.</p>
+                
+                <h3>Implementation Considerations</h3>
+                
+                <p>When implementing multi-source CRAG, consider:</p>
+                
+                <p><strong>Source Priority:</strong> Define clear priority rules. Internal documents might be more authoritative, but web sources might be fresher. Your evaluation function should weight these factors appropriately.</p>
+                
+                <p><strong>Cost Management:</strong> Web search APIs have costs. Don't trigger web search for every query. Use it as a fallback when internal retrieval confidence is low.</p>
+                
+                <p><strong>Attribution:</strong> Always cite sources clearly. Users need to know whether information came from official docs or external sources.</p>
+                
+                <p><strong>Security:</strong> Be careful about what queries you send to external search APIs. Sanitize them to avoid leaking sensitive information.</p>
+                <h2>Common Pitfalls: Where CRAG Goes Wrong</h2>
+                
+                <p>CRAG is powerful, but it's easy to implement incorrectly. Here are the mistakes I see teams make repeatedly.</p>
+                
+                <h3>Pitfall 1: Over-Sensitive Evaluation</h3>
+                <p><strong>The Problem:</strong> Your evaluator is too strict. It assigns low confidence to perfectly good documents, triggering unnecessary corrections.</p>
+                <p><strong>The Result:</strong> You're constantly hitting web search APIs or reformulating queries even when your initial retrieval was fine. Latency spikes. Costs explode. Users wait longer for answers that aren't meaningfully better.</p>
+                <p><strong>The Solution:</strong> Tune your confidence thresholds carefully. Start conservative (0.75 threshold) and gradually tighten. Monitor false negatives: how often does CRAG trigger corrections when the original documents were actually fine?</p>
+                
+                <h3>Pitfall 2: Under-Sensitive Evaluation</h3>
+                
+                <p><strong>The Problem:</strong> Your evaluator is too lenient. It assigns high confidence to mediocre documents, and CRAG proceeds with bad context.</p>
+                
+                <p><strong>The Result:</strong> CRAG adds overhead (evaluation cost) without benefits. You're essentially running traditional RAG with extra steps.</p>
+                
+                <p><strong>The Solution:</strong> Monitor false positives: how often does CRAG proceed with high confidence but produce wrong answers? Tighten thresholds and add more evaluation signals.</p>
+                
+                <h3>Pitfall 3: Ignoring Domain Context</h3>
+                
+                <p><strong>The Problem:</strong> You use the same CRAG configuration for all queries, ignoring that different domains need different correction strategies.</p>
+                
+                <p><strong>The Example:</strong> For "What's the capital of France?" you don't need web search. Your knowledge base has this. But for "What's the weather in Paris today?" you absolutely need web search.</p>
+                
+                <p><strong>The Solution:</strong> Implement query-type routing.</p>
+                
+                <h3>Pitfall 4: Poor Web Search Integration</h3>
+                
+                <p><strong>The Problem:</strong> You trigger web search but don't properly extract, filter, or rank web results. Web pages are noisy: headers, footers, navigation, ads. <strong>Sending raw HTML to your LLM creates garbage context.</strong></p>
+                
+                <p><strong>The Solution:</strong> Invest in robust web content extraction.</p>
+                
+                <h3>Pitfall 5: No Correction Strategy Ordering</h3>
+                
+                <p><strong>The Problem:</strong> You apply all corrections simultaneously or in random order, wasting resources and time.</p>
+                
+                <p><strong>The Solution:</strong> Apply corrections in order of cost-effectiveness.</p>
+                
+                <p>This cascading approach minimizes latency and cost while maximizing correction success rate.</p>
+                
+                <h2>Integrating CRAG with Semantic Cache and Context Engineering</h2>
+                
+                <p>CRAG doesn't exist in isolation. It's part of a larger intelligent RAG architecture. Let's see how it integrates with the techniques we've discussed previously.</p>
+                
+                <h3>CRAG + Semantic Cache</h3>
+                
+                <p>Semantic cache and CRAG are perfect complements. Here's how they work together:</p>
+                <figure style="text-align: center;">
+                    <img class="img-width-desktop-70" src="../../../resources/assets/img/blog/2025/ai/corrective-rag/crag_semantic_cache_integration.svg" alt="CRAG + Semantic Cache Integration">
+                </figure>
+                <p>Key insight: <strong>only cache high-confidence CRAG responses</strong>. If CRAG had to apply corrections and still ended up with moderate confidence, don't cache. You don't want to serve potentially incorrect cached responses.</p>
+                
+                <h3>CRAG + Context Engineering</h3>
+                
+                <p>CRAG is essentially a form of context engineering: it's about ensuring the context you send to your LLM is high quality. The techniques integrate naturally:</p>
+                
+                <p><strong>CRAG handles retrieval quality.</strong> It ensures you retrieve the right documents.</p>
+                
+                <p><strong>Context engineering handles context optimization.</strong> It ensures you assemble and format those documents efficiently.</p>
+                
+                <figure style="text-align: center;">
+                    <img class="img-width-desktop-70" src="../../../resources/assets/img/blog/2025/ai/corrective-rag/crag_context_engineering_integration.svg" alt="CRAG + Context Engineering Integration">
+                </figure>
+                
+                <p>Together, CRAG and context engineering create a system that <strong>retrieves the right information and presents it optimally</strong>. CRAG prevents garbage in. Context engineering maximizes signal-to-noise ratio. The LLM gets the best possible foundation for generation.</p>
+                
+                <h2>When to Use CRAG vs Traditional RAG</h2>
+                
+                <p>CRAG isn't always necessary. Sometimes traditional RAG is sufficient. Here's how to decide:</p>
+                
+                <h3>Use Traditional RAG When:</h3>
+                
+                <ul>
+                    <li><strong>Your knowledge base is stable and comprehensive.</strong> If you have complete documentation that rarely changes, retrieval quality is naturally high. CRAG adds overhead without benefits.</li>
+                    <li><strong>Queries are simple and well-scoped.</strong> "What's your return policy?" has a clear answer in your docs. Traditional RAG handles this fine.</li>
+                    <li><strong>Latency is critical and accuracy is acceptable.</strong> If you need sub-second responses and 80% accuracy is good enough, skip CRAG evaluation overhead.</li>
+                    <li><strong>You're in a controlled domain.</strong> Internal tools with trained users who ask predictable questions don't need correction mechanisms.</li>
+                </ul>
+                
+                <h3>Use CRAG When:</h3>
+                
+                <ul>
+                    <li><strong>Your knowledge base has gaps.</strong> If users frequently ask about topics you don't have documentation for, CRAG's web search augmentation is invaluable.</li>
+                    <li><strong>Information changes rapidly.</strong> Product updates, policy changes, or breaking news mean your knowledge base is often outdated. CRAG detects staleness and corrects.</li>
+                    <li><strong>Queries are complex or ambiguous.</strong> When users ask vague questions or queries that require synthesis across multiple sources, CRAG's correction loop helps.</li>
+                    <li><strong>Accuracy is critical.</strong> Customer support, medical information, legal guidance, financial advice all require high accuracy. CRAG's validation prevents confidently wrong answers.</li>
+                    <li><strong>You're integrating multiple data sources.</strong> When combining internal docs, web sources, and real-time data, CRAG's quality evaluation ensures you prioritize the right sources.</li>
+                </ul>
+                
+                <h3>The Hybrid Approach</h3>
+                
+                <p>In production, many teams use a hybrid approach: traditional RAG for straightforward queries, CRAG for complex ones.</p>
+                
+                <ul>
+                    <li><strong>Assess query complexity:</strong> Use a classifier to determine if a query is simple, medium, or complex based on length, ambiguity, specificity, and domain</li>
+                    <li><strong>Simple queries (fast path):</strong> Use traditional RAG with no evaluation overhead - just retrieve and generate (estimated 40-50% of queries)</li>
+                    <li><strong>Medium queries (filter path):</strong> Apply CRAG evaluation and filtering only, skip expensive corrections unless confidence is very low (estimated 30-40% of queries)</li>
+                    <li><strong>Complex queries (full CRAG):</strong> Use complete CRAG pipeline with all correction strategies available - reformulation, web search, iteration loops (estimated 10-20% of queries)</li>
+                    <li><strong>Dynamic threshold adjustment:</strong> Lower confidence thresholds for simple queries (0.80), higher for complex ones (0.90)</li>
+                </ul>
+                
+                <p>This gives you the best of both worlds: <strong>fast responses for simple queries, thorough correction for complex ones</strong>.</p>
+                
+                <h2>Implementation Guide: Building Your First CRAG System</h2>
+                
+                <p>Let's walk through implementing a basic CRAG system from scratch. We'll build incrementally, starting with evaluation and adding correction strategies.</p>
+                
+                <h3>Step 1: Set Up Baseline RAG</h3>
+                
+                <p>Start with traditional RAG working correctly:</p>        
+                <ul>
+                    <li>Query embedding using your chosen model (e.g., OpenAI's text-embedding-3-small)</li>
+                    <li>Vector database search returning top-k similar documents</li>
+                    <li>Context preparation from retrieved documents</li>
+                    <li>LLM generation with the assembled context</li>
+                    <li>Basic error handling and response formatting</li>
+                </ul>
+                
+                <h3>Step 2: Add Retrieval Evaluation</h3>
+                
+                <p>Implement a simple evaluator using an LLM as judge:</p>
+                
+                <ul>
+                    <li><strong>Create evaluation prompts:</strong> Ask the LLM to score document relevance on a 0.0-1.0 scale</li>
+                    <li><strong>Key evaluation criteria:</strong> Does the document contain information that directly answers the query? Is it current and accurate? Is it complete?</li>
+                    <li><strong>Use a cheaper model:</strong> GPT-4o-mini or similar for cost-effective evaluation</li>
+                    <li><strong>Set temperature to 0:</strong> Ensure consistent, deterministic scoring</li>
+                    <li><strong>Parse scores safely:</strong> Handle cases where LLM output isn't a clean number, default to moderate confidence (0.5)</li>
+                    <li><strong>Calculate aggregate:</strong> Average individual document scores to get overall retrieval confidence</li>
+                </ul>
+                
+                <h3>Step 3: Implement Filter Correction</h3>
+                
+                <p>Add filtering for low-quality documents:</p>
+                
+                <ul>
+                    <li>Set a confidence threshold (start with 0.6)</li>
+                    <li>Filter out documents below the threshold</li>
+                    <li>Keep at least one document even if all scores are low (prevents complete failure)</li>
+                    <li>Return filtered set for context preparation</li>
+                </ul>
+                
+                <h3>Step 4: Add Web Search Correction</h3>
+                
+                <p>Integrate web search for missing information:</p>
+                
+                <ul>
+                    <li><strong>Choose a search API:</strong> Tavily, Bing, or Google Custom Search</li>
+                    <li><strong>Trigger conditions:</strong> Only search when confidence is below threshold (e.g., 0.65)</li>
+                    <li><strong>Extract content:</strong> Pull main text from search results, remove HTML boilerplate</li>
+                    <li><strong>Format as documents:</strong> Structure web results with URL, content, and source metadata</li>
+                    <li><strong>Merge strategies:</strong> Combine web results with filtered internal documents (configurable priority)</li>
+                </ul>
+                
+                <h3>Step 5: Combine into CRAG Pipeline</h3>
+                
+                <p>Bring it all together:</p>
+                
+                <ul>
+                    <li><strong>Stage 1 - Retrieve:</strong> Get documents from vector database</li>
+                    <li><strong>Stage 2 - Evaluate:</strong> Score each document and calculate aggregate confidence</li>
+                    <li><strong>Stage 3 - Route:</strong> Based on confidence, choose action (proceed / filter / correct)</li>
+                    <li><strong>High confidence (&gt;0.85):</strong> Use retrieved docs as-is</li>
+                    <li><strong>Medium confidence (0.65-0.85):</strong> Apply filtering</li>
+                    <li><strong>Low confidence (&lt;0.65):</strong> Trigger web search</li>
+                    <li><strong>Stage 4 - Generate:</strong> Send final context to LLM</li>
+                    <li><strong>Add logging:</strong> Track which path was taken, confidence scores, and correction triggers</li>
+                </ul>
+                <p>This is a minimal but functional CRAG system. <strong>You can now test it, measure improvements, and iterate.</strong></p>
+                
+                <h2>Key Takeaways: What You Need to Remember</h2>
+                
+                <p>Here's what matters about Corrective RAG:</p>
+                
+                <ul>
+                    <li><strong>Retrieval quality isn't binary:</strong> Documents exist on a spectrum from perfect to irrelevant. CRAG adapts behavior based on that spectrum instead of blindly trusting vector similarity.</li>
+                    <li><strong>Evaluation is everything:</strong> CRAG's effectiveness depends entirely on accurate retrieval evaluation. Invest in robust evaluators that combine multiple signals: relevance, recency, authority, completeness.</li>
+                    <li><strong>Correction strategies cascade:</strong> Apply cheap corrections first (filtering), then moderate ones (reformulation), then expensive ones (web search). This minimizes latency and cost.</li>
+                    <li><strong>Multi-source retrieval unlocks power:</strong> Combining private knowledge bases with public web search gives you comprehensive coverage without maintaining encyclopedic internal docs.</li>
+                    <li><strong>CRAG complements other techniques:</strong> It works beautifully with semantic cache (only cache high-confidence responses) and context engineering (optimize the context you ultimately send).</li>
+                    <li><strong>Not every query needs correction:</strong> 60-80% of queries have high-confidence retrieval and skip correction entirely. CRAG adds minimal overhead for these common cases.</li>
+                    <li><strong>Measure everything:</strong> Track correction trigger rates, success rates, accuracy improvements, and latency distributions. Data-driven tuning is essential.</li>
+                    <li><strong>Start simple, add sophistication:</strong> Begin with basic evaluation and filtering. Add web search and reformulation after you've validated the core concept.</li>
+                </ul>
+                
+                <h2>What's Next: The RAG Playbook</h2>
+                
+                <p>You now understand <strong>how Corrective RAG strengthens your RAG pipeline spotting bad retrievals, evaluating document quality, and auto-correcting context before it reaches your LLM.</strong></p>
+                <p>But that naturally leads to the next question: <strong>is fixing retrieval mistakes enough?</strong></p>
+                <p>CRAG is powerful, but it’s still just one strategy in a much larger retrieval ecosystem. Modern RAG uses many patterns hybrid search, rerankers, query expansion, agentic retrieval, graph-augmented flows each with its own accuracy, latency, and cost trade-offs.</p>
+                <p>So the next step is to zoom out and understand the full landscape.</p>
+                <p>In our next blog, <strong>The RAG Playbook</strong>, we’ll map every important retrieval strategy, explain when each one shines, and show you how to choose the right approach for your use case whether you’re building support bots, research assistants, code copilots, or enterprise knowledge systems.</p>
+                
+                <p>What's your experience with retrieval quality in production RAG systems? Have you implemented any correction mechanisms? Are you dealing with knowledge base gaps or outdated information? I'd love to hear about your challenges and approaches. Connect with me on <a href="https://www.linkedin.com/in/ankitgubrani/">LinkedIn</a>.</p>
+
+            </div>
+</main>
+<script type="text/javascript" src="../../../resources/assets/js/script.min.js"></script>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h3 class="footer-contactus">Stay connected with us:</h3>
+                <ul class="footer-social">
+                    <li>
+                        <a href="https://www.facebook.com/codebains.co.in" class="fa fa-facebook" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="https://in.linkedin.com/in/ankitgubrani" class="fa fa-linkedin" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/ankitgubrani90" class="fa fa-twitter" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/ankit-gubrani" class="fa fa-github" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="http://stackexchange.com/users/8257088/ankit-gubrani" class="fa fa-stack-overflow" target="_blank"></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-4">
+                <ul class="list-inline floatRight noFloatMobile footer-nav">
+                    <li>
+                        <a href="https://www.codebrains.co.in/">Home</a>
+                    </li>
+                    <li class="footer-menu-divider">&sdot;</li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/ankitgubrani">About</a>
+                    </li>
+                    <li class="footer-menu-divider">&sdot;</li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/contactus">Contact</a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted small floatRight noFloatMobile"> &copy; www.codebrains.co.in 2025. All Rights Reserved</p>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
