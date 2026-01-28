@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <!-- Background -->
+  <rect width="800" height="450" fill="#f8f9fa"/>
+  
+  <!-- Title with warning icon -->
+  <g id="title">
+    <polygon points="400,30 420,70 380,70" fill="#e74c3c"/>
+    <circle cx="400" cy="55" r="3" fill="#ffffff"/>
+    <rect x="398" y="45" width="4" height="8" fill="#ffffff"/>
+    
+    <text x="400" y="100" font-family="Arial, sans-serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#e74c3c">
+      Critical Risk Factors
+    </text>
+  </g>
+  
+  <!-- Risk 1: Security -->
+  <g id="risk-security">
+    <rect x="50" y="140" width="200" height="260" rx="12" fill="#ffffff" stroke="#e74c3c" stroke-width="3"/>
+    
+    <!-- Icon -->
+    <circle cx="150" cy="180" r="30" fill="#e74c3c" opacity="0.2"/>
+    <text x="150" y="195" font-family="Arial, sans-serif" font-size="40" text-anchor="middle">🔓</text>
+    
+    <!-- Title -->
+    <text x="150" y="240" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#e74c3c">
+      Security
+    </text>
+    <text x="150" y="260" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#e74c3c">
+      Vulnerabilities
+    </text>
+    
+    <!-- Details -->
+    <text x="150" y="290" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#2c3e50">
+      • Open ports
+    </text>
+    <text x="150" y="310" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#2c3e50">
+      • No hardening
+    </text>
+    <text x="150" y="330" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#2c3e50">
+      • External access risk
+    </text>
+    <text x="150" y="350" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#2c3e50">
+      • Not battle-tested
+    </text>
+    
+    <!-- Severity -->
+    <rect x="70" y="365" width="160" height="20" rx="5" fill="#e74c3c" opacity="0.2"/>
+    <text x="150" y="380" font-family="Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" fill="#c0392b">
+      SEVERITY: HIGH
+    </text>
+  </g>
+  
+  <!-- Risk 2: Hallucinations -->
+  <g id="risk-hallucinations">
+    <rect x="300" y="140" width="200" height="260" rx="12" fill="#ffffff" stroke="#f39c12" stroke-width="3"/>
+    
+    <!-- Icon -->
+    <circle cx="400" cy="180" r="30" fill="#f39c12" opacity="0.2"/>
+    <text x="400" y="195" font-family="Arial, sans-serif" font-size="40" text-anchor="middle">⚠️</text>
+    
+    <!-- Title -->
+    <text x="400" y="240" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#f39c12">
+      AI Hallucinations
+    </text>
+    <text x="400" y="260" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#f39c12">
+      → Real Actions
+    </text>
+    
+    <!-- Details -->
+    <text x="400" y="290" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#2c3e50">
+      • Unintended emails
+    </text>
+    <text x="400" y="310" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#2c3e50">
+      • File deletion
+    </text>
+    <text x="400" y="330" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#2c3e50">
+      • System changes
+    </text>
+    <text x="400" y="350" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#2c3e50">
+      • Data corruption
+    </text>
+    
+    <!-- Severity -->
+    <rect x="320" y="365" width="160" height="20" rx="5" fill="#f39c12" opacity="0.2"/>
+    <text x="400" y="380" font-family="Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" fill="#d68910">
+      SEVERITY: CRITICAL
+    </text>
+  </g>
+  
+  <!-- Risk 3: Costs -->
+  <g id="risk-costs">
+    <rect x="550" y="140" width="200" height="260" rx="12" fill="#ffffff" stroke="#e67e22" stroke-width="3"/>
+    
+    <!-- Icon -->
+    <circle cx="650" cy="180" r="30" fill="#e67e22" opacity="0.2"/>
+    <text x="650" y="195" font-family="Arial, sans-serif" font-size="40" text-anchor="middle">💰</text>
+    
+    <!-- Title -->
+    <text x="650" y="240" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#e67e22">
+      Cost
+    </text>
+    <text x="650" y="260" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#e67e22">
+      Explosions
+    </text>
+    
+    <!-- Details -->
+    <text x="650" y="290" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#2c3e50">
+      • Millions of tokens
+    </text>
+    <text x="650" y="310" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#2c3e50">
+      • Background tasks
+    </text>
+    <text x="650" y="330" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#2c3e50">
+      • $100s per day
+    </text>
+    <text x="650" y="350" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#2c3e50">
+      • Unexpected bills
+    </text>
+    
+    <!-- Severity -->
+    <rect x="570" y="365" width="160" height="20" rx="5" fill="#e67e22" opacity="0.2"/>
+    <text x="650" y="380" font-family="Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" fill="#ca6f1e">
+      SEVERITY: MEDIUM-HIGH
+    </text>
+  </g>
+  
+  <!-- Footer recommendation -->
+  <g id="footer">
+    <rect x="50" y="415" width="700" height="25" rx="5" fill="#34495e"/>
+    <text x="400" y="433" font-family="Arial, sans-serif" font-size="13" font-weight="bold" text-anchor="middle" fill="#ffffff">
+      Recommendation: Install on dedicated secondary machine • Monitor costs • Review all actions
+    </text>
+  </g>
+</svg>
