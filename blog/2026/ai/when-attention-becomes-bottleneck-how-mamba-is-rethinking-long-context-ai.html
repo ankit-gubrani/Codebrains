@@ -1,0 +1,673 @@
+<!-- Welcome to codebrains.co.in -->
+<!-- Looking for something? Contact developer : ankit.gubrani90@gmail.com / ankit.gubrani@codebrains.co.in -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>When Attention Becomes a Bottleneck: How Mamba Is Rethinking Long-Context AI</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Ankit Gubrani">
+    <meta name="subject" content="IT services">
+    <meta name="Geography" content="California">
+    <meta name="Language" content="English">
+    <meta name="Copyright" content="Ankit Gubrani">
+    <meta name="Designer" content="Ankit Gubrani">
+    <meta name="Publisher" content="Ankit Gubrani">
+    <meta name="distribution" content="Global">
+
+    <link rel="alternate" href="https://www.codebrains.co.in/" hreflang="en-in" />
+
+    <meta name="Description" content="Transformer attention scales quadratically. Learn how Mamba and state space models solve the long-context problem and what it means for your AI architecture.">
+    <meta name="Keywords" content="Mamba state space model explained, SSM vs transformer architecture, long context LLM inference cost, selective state space model, Mamba vs transformer comparison, quadratic attention problem, O(n2) attention complexity, Mamba 2 structured state space duality, hybrid attention SSM model, LLM long context window cost, state space model hidden state, efficient transformer alternatives, AI architecture for engineers, AI building blocks modern web, transformer attention explained, LLM architecture series, Mamba long context, state space model AI, Mamba SSM production, long context AI model, transformer bottleneck, Mamba 2 Mamba 3, linear time sequence model, AI model inference memory, AI web engineering">
+
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@ankitgubrani90">
+    <meta name="twitter:title" content="When Attention Becomes a Bottleneck: How Mamba Is Rethinking Long-Context AI">
+    <meta name="twitter:description" content="Transformer attention scales quadratically. Learn how Mamba and state space models solve the long-context problem and what it means for your AI architecture.">
+    <meta name="twitter:creator" content="@ankitgubrani90">
+    <meta name="twitter:image" content="https://www.codebrains.co.in/resources/assets/img/blog/2026/ai/when_attention_becomes_bottleneck/when_attention_becomes_bottleneck.png">
+    <!-- Open Graph data -->
+    <meta property="og:title" content="When Attention Becomes a Bottleneck: How Mamba Is Rethinking Long-Context AI" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="https://www.codebrains.co.in/resources/assets/img/blog/2026/ai/when_attention_becomes_bottleneck/when_attention_becomes_bottleneck.png" />
+    <meta property="og:description" content="Transformer attention scales quadratically. Learn how Mamba and state space models solve the long context problem and what it means for your AI architecture." />
+    <meta property="og:site_name" content="Codebrains.co.in" />
+    <meta property="fb:admins" content="1627043757" />
+
+    <link rel="canonical" href="https://www.codebrains.co.in/blog/2026/ai/when-attention-becomes-bottleneck-how-mamba-is-rethinking-long-context-ai" />
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": "When Attention Becomes a Bottleneck: How Mamba Is Rethinking Long-Context AI",
+            "author": {
+                "@type": "Person",
+                "name": "Ankit Gubrani",
+                "url": "https://www.linkedin.com/in/ankitgubrani/"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "Codebrains.co.in",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://www.codebrains.co.in/resources/assets/img/codebrains_newlogo.png"
+                }
+            },
+            "datePublished": "2026-02-10",
+            "dateModified": "2026-02-10",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://www.codebrains.co.in/blog/2026/ai/when-attention-becomes-bottleneck-how-mamba-is-rethinking-long-context-ai"
+            },
+            "description": "Transformer attention scales quadratically. Learn how Mamba and state space models solve the long-context problem and what it means for your AI architecture."
+        }
+    </script>
+
+    <!-- Meta tag from pininterest -->
+    <meta name="p:domain_verify" content="0d3ff48344ca5856484c1cceed35a6eb"/>
+    <link rel="icon" href="../../../resources/assets/img/codebrains_transparent.png" type="image/gif" sizes="16x16">
+
+    <link rel="stylesheet" href="../../../resources/assets/css/style.css">
+
+    <style>
+
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BMGLHV6YH1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-BMGLHV6YH1');
+    </script>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+        <div class="container topnav">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="logo">
+                    <a href="/"><img src="../../../resources/assets/img/codebrains_newlogo.png" /></a>
+                </div>
+            </div><!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="https://www.codebrains.co.in/">Home</a>
+                    </li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/contactus">Contact Us</a>
+                    </li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/ankitgubrani">About Us</a>
+                    </li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/blogs">Blogs</a>
+                    </li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/projects">Our Work</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<ul class='social socialshare-icons'>
+    <li>
+        <a class="fa fa-facebook socialshare-fb" href="https://www.facebook.com/sharer/sharer.php?u=www.codebrains.co.in" target="_blank" >
+            <span>Facebook</span>
+        </a>
+    </li>
+    <li>
+        <a class="fa fa-twitter socialshare-tw" href="https://twitter.com/intent/tweet?url=www.codebrains.co.in" target="_blank" >
+            <span>Twitter</span>
+        </a>
+    </li>
+    <li>
+        <a class="fa fa-linkedin socialshare-lk" href="https://www.linkedin.com/cws/share?url=www.codebrains.co.in" target="_blank">
+            <span>LinkedIn</span>
+        </a>
+    </li>
+    <li>
+        <a class="fa fa-envelope" href="mailto:ankit.gubrani@codebrains.co.in" target="_blank">
+            <span>Email us</span>
+        </a>
+    </li>
+</ul>
+
+<main>
+    <div class="blog-container bg-white p-8 rounded-lg shadow-2xl">
+        <article class="blog-post">
+            <header>
+                <h1>When Attention Becomes a Bottleneck: How Mamba Is Rethinking Long-Context AI</h1>
+                <p class="blog-author-info">
+                    By <span>Ankit Gubrani</span> on
+                    <time datetime="2026-03-23">March 24, 2026</time>
+                </p>
+                <label class="eyebrow-blue"><strong>AI Building Blocks for the Modern Web</strong></label>
+            </header>
+
+            <div class="blog-content">
+                <section>
+                    <p>
+                        In the <a href="https://www.codebrains.co.in/blog/2026/ai/how-llms-actually-think-transformers-and-attention-explained">previous post</a>, we walked through how transformers work and why attention is such a powerful mechanism. We ended on a note that <strong>attention has a cost, and that cost grows fast as your sequences get longer.</strong> This post is about what that cost looks like in practice, why it matters for the systems you build, and what the industry has come up with to solve it.
+                    </p>
+                    <p>
+                        The short version: a fundamentally different kind of model called <strong>Mamba</strong> has emerged that <strong>sidesteps the attention bottleneck entirely.</strong> To understand why that matters, we need to first understand exactly what problem it solves.
+                    </p>
+                </section>
+
+                <section>
+                    <h2><strong>The Quadratic Problem, Made Concrete</strong></h2>
+                    <p>
+                        When a transformer processes a sequence, <strong>every token attends to every other token.</strong> That is the whole point of attention. It gives the model a global view of the context. But that global view comes with a price tag.
+                    </p>
+                    <p>
+                        The compute required grows quadratically with sequence length. <strong>If you double the number of tokens, you quadruple the compute.</strong> At 4,000 tokens, this is fine. At 32,000 tokens, things get noticeably heavier. At 128,000 tokens, you are looking at memory and compute requirements that are orders of magnitude larger. This is the <strong>O(n²) attention problem</strong>.
+                    </p>
+
+                    <!-- SVG 1: Quadratic vs Linear scaling -->
+                    <svg viewBox="0 0 720 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:720px;display:block;margin:2rem auto;font-family:inherit;">
+                        <rect width="720" height="340" fill="#f8fafc" rx="12"/>
+                        <text x="360" y="32" text-anchor="middle" font-size="15" font-weight="700" fill="#1e293b">Compute Cost vs Sequence Length</text>
+
+                        <!-- Axes -->
+                        <line x1="70" y1="290" x2="660" y2="290" stroke="#94a3b8" stroke-width="1.5"/>
+                        <line x1="70" y1="50" x2="70" y2="290" stroke="#94a3b8" stroke-width="1.5"/>
+
+                        <!-- X axis labels -->
+                        <text x="70" y="310" text-anchor="middle" font-size="11" fill="#64748b">4k</text>
+                        <text x="210" y="310" text-anchor="middle" font-size="11" fill="#64748b">32k</text>
+                        <text x="350" y="310" text-anchor="middle" font-size="11" fill="#64748b">64k</text>
+                        <text x="490" y="310" text-anchor="middle" font-size="11" fill="#64748b">96k</text>
+                        <text x="630" y="310" text-anchor="middle" font-size="11" fill="#64748b">128k</text>
+                        <text x="365" y="328" text-anchor="middle" font-size="11" fill="#64748b">Tokens</text>
+
+                        <!-- Y axis label -->
+                        <text x="20" y="175" text-anchor="middle" font-size="11" fill="#64748b" transform="rotate(-90,20,175)">Compute Cost</text>
+
+                        <!-- Quadratic curve (transformer) -->
+                        <polyline
+                            points="70,285 210,250 350,195 490,115 630,50"
+                            fill="none"
+                            stroke="#ef4444"
+                            stroke-width="3"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+
+                        <!-- Linear line (Mamba) -->
+                        <polyline
+                            points="70,285 210,260 350,240 490,218 630,196"
+                            fill="none"
+                            stroke="#22c55e"
+                            stroke-width="3"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-dasharray="8,4"
+                        />
+
+                        <!-- Labels -->
+                        <rect x="455" y="58" width="185" height="26" rx="5" fill="#fef2f2"/>
+                        <text x="548" y="76" text-anchor="middle" font-size="12" fill="#ef4444" font-weight="600">Transformer O(n²)</text>
+
+                        <rect x="455" y="158" width="160" height="26" rx="5" fill="#f0fdf4"/>
+                        <text x="535" y="176" text-anchor="middle" font-size="12" fill="#22c55e" font-weight="600">Mamba O(n)</text>
+
+                        <!-- Annotation arrow at 128k -->
+                        <line x1="630" y1="50" x2="630" y2="196" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,3"/>
+                        <text x="636" y="125" font-size="10" fill="#94a3b8">~4x gap</text>
+                        <text x="636" y="137" font-size="10" fill="#94a3b8">at 128k</text>
+                    </svg>
+
+                    <p>
+                        <strong>Think about what this means for a production RAG system.</strong> If you are indexing long legal documents, processing full codebases, or ingesting multi-turn conversation histories, you are not working with 4,000 tokens. You are regularly hitting 50,000 to 200,000 tokens. And every time you push that context window further, the transformer pays an increasingly steep price in compute, latency, and GPU memory.
+                    </p>
+                    <p>
+                        This is not a hypothetical scaling concern. <strong>It is a real architectural constraint today.</strong> So the question is: is there a smarter way to process long sequences?
+                    </p>
+
+                    <!-- SVG 1b: Transformer Attention vs SSM Hidden State (side-by-side) -->
+                    <svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:720px;display:block;margin:2rem auto;font-family:inherit;">
+                        <rect width="720" height="400" fill="#f8fafc" rx="12"/>
+                        <text x="360" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#1e293b">How Each Architecture Processes Tokens</text>
+
+                        <!-- LEFT PANEL: Transformer Attention -->
+                        <rect x="20" y="48" width="330" height="330" rx="10" fill="#fff" stroke="#fca5a5" stroke-width="1.5"/>
+                        <text x="185" y="72" text-anchor="middle" font-size="13" font-weight="700" fill="#dc2626">Transformer Attention</text>
+                        <text x="185" y="88" text-anchor="middle" font-size="10" fill="#94a3b8">Every token talks to every other token</text>
+
+                        <!-- 6 token circles in a ring -->
+                        <!-- Top center -->
+                        <circle cx="185" cy="130" r="22" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+                        <text x="185" cy="130" text-anchor="middle" font-size="9" fill="#991b1b" dy="4">T1</text>
+                        <!-- Top right -->
+                        <circle cx="268" cy="175" r="22" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+                        <text x="268" cy="175" text-anchor="middle" font-size="9" fill="#991b1b" dy="4">T2</text>
+                        <!-- Bottom right -->
+                        <circle cx="268" cy="255" r="22" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+                        <text x="268" cy="255" text-anchor="middle" font-size="9" fill="#991b1b" dy="4">T3</text>
+                        <!-- Bottom center -->
+                        <circle cx="185" cy="300" r="22" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+                        <text x="185" cy="300" text-anchor="middle" font-size="9" fill="#991b1b" dy="4">T4</text>
+                        <!-- Bottom left -->
+                        <circle cx="102" cy="255" r="22" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+                        <text x="102" cy="255" text-anchor="middle" font-size="9" fill="#991b1b" dy="4">T5</text>
+                        <!-- Top left -->
+                        <circle cx="102" cy="175" r="22" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+                        <text x="102" cy="175" text-anchor="middle" font-size="9" fill="#991b1b" dy="4">T6</text>
+
+                        <!-- All-to-all connection lines (drawn before circles so they appear behind) -->
+                        <!-- T1 to all -->
+                        <line x1="185" y1="152" x2="246" y2="175" stroke="#fca5a5" stroke-width="1.2" opacity="0.7"/>
+                        <line x1="185" y1="152" x2="246" y2="255" stroke="#fca5a5" stroke-width="1.2" opacity="0.7"/>
+                        <line x1="185" y1="152" x2="185" y2="278" stroke="#fca5a5" stroke-width="1.2" opacity="0.7"/>
+                        <line x1="185" y1="152" x2="124" y2="255" stroke="#fca5a5" stroke-width="1.2" opacity="0.7"/>
+                        <line x1="185" y1="152" x2="124" y2="175" stroke="#fca5a5" stroke-width="1.2" opacity="0.7"/>
+                        <!-- T2 to others -->
+                        <line x1="268" y1="197" x2="268" y2="233" stroke="#fca5a5" stroke-width="1.2" opacity="0.7"/>
+                        <line x1="268" y1="197" x2="207" y2="300" stroke="#fca5a5" stroke-width="1.2" opacity="0.7"/>
+                        <line x1="268" y1="197" x2="124" y2="255" stroke="#fca5a5" stroke-width="1.2" opacity="0.7"/>
+                        <line x1="268" y1="197" x2="124" y2="175" stroke="#fca5a5" stroke-width="1.2" opacity="0.7"/>
+                        <!-- T3 to others -->
+                        <line x1="268" y1="255" x2="207" y2="300" stroke="#fca5a5" stroke-width="1.2" opacity="0.7"/>
+                        <line x1="268" y1="255" x2="124" y2="255" stroke="#fca5a5" stroke-width="1.2" opacity="0.7"/>
+                        <line x1="268" y1="255" x2="124" y2="175" stroke="#fca5a5" stroke-width="1.2" opacity="0.7"/>
+                        <!-- T4 to others -->
+                        <line x1="185" y1="278" x2="124" y2="255" stroke="#fca5a5" stroke-width="1.2" opacity="0.7"/>
+                        <line x1="185" y1="278" x2="124" y2="175" stroke="#fca5a5" stroke-width="1.2" opacity="0.7"/>
+                        <!-- T5 to T6 -->
+                        <line x1="124" y1="233" x2="124" y2="197" stroke="#fca5a5" stroke-width="1.2" opacity="0.7"/>
+
+                        <!-- Redraw circles on top of lines -->
+                        <circle cx="185" cy="130" r="22" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+                        <text x="185" y="134" text-anchor="middle" font-size="10" font-weight="700" fill="#991b1b">T1</text>
+                        <circle cx="268" cy="175" r="22" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+                        <text x="268" y="179" text-anchor="middle" font-size="10" font-weight="700" fill="#991b1b">T2</text>
+                        <circle cx="268" cy="255" r="22" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+                        <text x="268" y="259" text-anchor="middle" font-size="10" font-weight="700" fill="#991b1b">T3</text>
+                        <circle cx="185" cy="300" r="22" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+                        <text x="185" y="304" text-anchor="middle" font-size="10" font-weight="700" fill="#991b1b">T4</text>
+                        <circle cx="102" cy="255" r="22" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+                        <text x="102" y="259" text-anchor="middle" font-size="10" font-weight="700" fill="#991b1b">T5</text>
+                        <circle cx="102" cy="175" r="22" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+                        <text x="102" y="179" text-anchor="middle" font-size="10" font-weight="700" fill="#991b1b">T6</text>
+
+                        <rect x="50" y="348" width="270" height="22" rx="5" fill="#fef2f2"/>
+                        <text x="185" y="363" text-anchor="middle" font-size="11" fill="#dc2626" font-weight="600">n × n connections = O(n²) cost</text>
+
+                        <!-- RIGHT PANEL: SSM Hidden State -->
+                        <rect x="370" y="48" width="330" height="330" rx="10" fill="#fff" stroke="#a78bfa" stroke-width="1.5"/>
+                        <text x="535" y="72" text-anchor="middle" font-size="13" font-weight="700" fill="#7c3aed">SSM / Mamba Hidden State</text>
+                        <text x="535" y="88" text-anchor="middle" font-size="10" fill="#94a3b8">Each token updates one compressed state</text>
+
+                        <!-- Tokens as a vertical column -->
+                        <rect x="400" y="105" width="60" height="28" rx="6" fill="#ede9fe" stroke="#a78bfa" stroke-width="1.5"/>
+                        <text x="430" y="124" text-anchor="middle" font-size="10" font-weight="700" fill="#6d28d9">T1</text>
+
+                        <rect x="400" y="148" width="60" height="28" rx="6" fill="#ede9fe" stroke="#a78bfa" stroke-width="1.5"/>
+                        <text x="430" y="167" text-anchor="middle" font-size="10" font-weight="700" fill="#6d28d9">T2</text>
+
+                        <rect x="400" y="191" width="60" height="28" rx="6" fill="#ede9fe" stroke="#a78bfa" stroke-width="1.5"/>
+                        <text x="430" y="210" text-anchor="middle" font-size="10" font-weight="700" fill="#6d28d9">T3</text>
+
+                        <rect x="400" y="234" width="60" height="28" rx="6" fill="#ede9fe" stroke="#a78bfa" stroke-width="1.5"/>
+                        <text x="430" y="253" text-anchor="middle" font-size="10" font-weight="700" fill="#6d28d9">T4</text>
+
+                        <rect x="400" y="277" width="60" height="28" rx="6" fill="#ede9fe" stroke="#a78bfa" stroke-width="1.5"/>
+                        <text x="430" y="296" text-anchor="middle" font-size="10" font-weight="700" fill="#6d28d9">T5</text>
+
+                        <!-- Hidden state box (rolling) -->
+                        <rect x="530" y="160" width="130" height="110" rx="10" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+                        <text x="595" y="188" text-anchor="middle" font-size="11" font-weight="700" fill="#7c3aed">Hidden</text>
+                        <text x="595" y="203" text-anchor="middle" font-size="11" font-weight="700" fill="#7c3aed">State</text>
+                        <text x="595" y="222" text-anchor="middle" font-size="9" fill="#94a3b8">(fixed size,</text>
+                        <text x="595" y="234" text-anchor="middle" font-size="9" fill="#94a3b8">always updated)</text>
+                        <text x="595" y="256" text-anchor="middle" font-size="20" fill="#7c3aed">h</text>
+
+                        <!-- Arrows from tokens to hidden state -->
+                        <line x1="460" y1="119" x2="526" y2="195" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowPurple2)"/>
+                        <line x1="460" y1="162" x2="526" y2="205" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowPurple2)"/>
+                        <line x1="460" y1="205" x2="526" y2="215" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrowPurple2)"/>
+                        <line x1="460" y1="248" x2="526" y2="225" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowPurple2)"/>
+                        <line x1="460" y1="291" x2="526" y2="235" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowPurple2)"/>
+
+                        <!-- Output arrow from hidden state -->
+                        <line x1="595" y1="270" x2="595" y2="318" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrowPurple2)"/>
+                        <rect x="520" y="320" width="150" height="28" rx="6" fill="#ede9fe" stroke="#a78bfa" stroke-width="1"/>
+                        <text x="595" y="338" text-anchor="middle" font-size="10" fill="#7c3aed" font-weight="600">Output (from state)</text>
+
+                        <rect x="385" y="348" width="300" height="22" rx="5" fill="#f5f3ff"/>
+                        <text x="535" y="363" text-anchor="middle" font-size="11" fill="#7c3aed" font-weight="600">n updates to one state = O(n) cost</text>
+
+                        <defs>
+                            <marker id="arrowPurple2" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                                <path d="M1,1 L7,4 L1,7 Z" fill="#a78bfa"/>
+                            </marker>
+                        </defs>
+                    </svg>
+
+                </section>
+
+                <section>
+                    <h2><strong>Enter State Space Models: A Different Mental Model</strong></h2>
+                    <p>
+                        Before Mamba, there was a class of models called <strong>State Space Models (SSMs)</strong>. The idea behind SSMs comes from control theory and signal processing, but you do not need that background to grasp the key insight.
+                    </p>
+                    <p>
+                        Instead of looking at every token in relation to every other token, <strong>an SSM maintains a compressed "hidden state."</strong> Think of it as a rolling summary of everything the model has seen so far. As each new token arrives, the model updates that summary. When it needs to produce an output, it reads from that summary.
+                    </p>
+                    <p>
+                        A useful analogy: imagine reading a long book. <strong>A transformer re-reads every page before writing each new sentence. An SSM keeps a running set of notes and updates them as it reads.</strong> It never re-reads the whole book, just updates and refers to its notes.
+                    </p>
+                    <p>
+                        This makes SSMs naturally <strong>linear in compute cost</strong>. No matter how long the sequence gets, you are always just updating a fixed-size hidden state. That is a fundamental architectural advantage over attention.
+                    </p>
+                    <p>
+                        The catch? <strong>Early SSMs had a problem: they treated all tokens equally.</strong> Every word, whether it was a critical decision point or a filler word, got the same weight when updating the hidden state. That made them weaker than transformers at tasks that require selectively remembering specific pieces of information far back in a sequence.
+                    </p>
+                </section>
+
+                <section>
+                    <h2><strong>Mamba: Teaching the Model to Be Selective</strong></h2>
+                    <p>
+                        Mamba, introduced by Albert Gu and Tri Dao in late 2023, took SSMs and added one critical upgrade: <strong>selectivity</strong>. Instead of using fixed parameters to update the hidden state, <strong>Mamba makes those parameters input-dependent.</strong> The model learns, based on what it is currently reading, what to hold on to and what to let go.
+                    </p>
+
+                    <!-- SVG 2: SSM vs Mamba selective state -->
+                    <svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:720px;display:block;margin:2rem auto;font-family:inherit;">
+                        <rect width="720" height="320" fill="#f8fafc" rx="12"/>
+                        <text x="360" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#1e293b">Vanilla SSM vs Mamba: The Selectivity Difference</text>
+
+                        <!-- Left: Vanilla SSM -->
+                        <rect x="30" y="50" width="310" height="240" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1.5"/>
+                        <text x="185" y="75" text-anchor="middle" font-size="13" font-weight="700" fill="#64748b">Vanilla SSM</text>
+
+                        <!-- Tokens -->
+                        <rect x="50" y="90" width="55" height="30" rx="6" fill="#e2e8f0"/>
+                        <text x="77" y="110" text-anchor="middle" font-size="11" fill="#475569">Token 1</text>
+                        <rect x="115" y="90" width="55" height="30" rx="6" fill="#e2e8f0"/>
+                        <text x="142" y="110" text-anchor="middle" font-size="11" fill="#475569">Token 2</text>
+                        <rect x="180" y="90" width="55" height="30" rx="6" fill="#e2e8f0"/>
+                        <text x="207" y="110" text-anchor="middle" font-size="11" fill="#475569">Token 3</text>
+                        <rect x="245" y="90" width="55" height="30" rx="6" fill="#e2e8f0"/>
+                        <text x="272" y="110" text-anchor="middle" font-size="11" fill="#475569">Token 4</text>
+
+                        <!-- Fixed weights arrows -->
+                        <line x1="77" y1="120" x2="77" y2="155" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
+                        <line x1="142" y1="120" x2="142" y2="155" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
+                        <line x1="207" y1="120" x2="207" y2="155" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
+                        <line x1="272" y1="120" x2="272" y2="155" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
+                        <text x="185" y="145" text-anchor="middle" font-size="10" fill="#94a3b8">fixed update weights</text>
+
+                        <!-- Hidden state box -->
+                        <rect x="80" y="160" width="180" height="36" rx="8" fill="#dbeafe" stroke="#93c5fd" stroke-width="1.5"/>
+                        <text x="170" y="183" text-anchor="middle" font-size="12" font-weight="600" fill="#1d4ed8">Hidden State</text>
+
+                        <line x1="170" y1="196" x2="170" y2="226" stroke="#93c5fd" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+                        <rect x="100" y="228" width="140" height="32" rx="6" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1"/>
+                        <text x="170" y="249" text-anchor="middle" font-size="11" fill="#3b82f6">Output (no selectivity)</text>
+
+                        <!-- Right: Mamba -->
+                        <rect x="380" y="50" width="310" height="240" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1.5"/>
+                        <text x="535" y="75" text-anchor="middle" font-size="13" font-weight="700" fill="#7c3aed">Mamba (Selective)</text>
+
+                        <!-- Tokens with importance -->
+                        <rect x="396" y="90" width="55" height="30" rx="6" fill="#e2e8f0"/>
+                        <text x="423" y="110" text-anchor="middle" font-size="11" fill="#475569">Token 1</text>
+                        <rect x="461" y="90" width="55" height="30" rx="6" fill="#fde68a" stroke="#fbbf24" stroke-width="1.5"/>
+                        <text x="488" y="110" text-anchor="middle" font-size="11" fill="#92400e" font-weight="700">Token 2</text>
+                        <rect x="526" y="90" width="55" height="30" rx="6" fill="#e2e8f0"/>
+                        <text x="553" y="110" text-anchor="middle" font-size="11" fill="#475569">Token 3</text>
+                        <rect x="591" y="90" width="55" height="30" rx="6" fill="#fde68a" stroke="#fbbf24" stroke-width="1.5"/>
+                        <text x="618" y="110" text-anchor="middle" font-size="11" fill="#92400e" font-weight="700">Token 4</text>
+
+                        <!-- Selective arrows (thick for important) -->
+                        <line x1="423" y1="120" x2="470" y2="155" stroke="#d1d5db" stroke-width="1.5" stroke-dasharray="4,3"/>
+                        <line x1="488" y1="120" x2="490" y2="155" stroke="#f59e0b" stroke-width="3" marker-end="url(#arrowGold)"/>
+                        <line x1="553" y1="120" x2="515" y2="155" stroke="#d1d5db" stroke-width="1.5" stroke-dasharray="4,3"/>
+                        <line x1="618" y1="120" x2="545" y2="155" stroke="#f59e0b" stroke-width="3" marker-end="url(#arrowGold)"/>
+                        <text x="535" y="145" text-anchor="middle" font-size="10" fill="#94a3b8">input-dependent weights</text>
+
+                        <!-- Hidden state box -->
+                        <rect x="430" y="160" width="210" height="36" rx="8" fill="#ede9fe" stroke="#a78bfa" stroke-width="1.5"/>
+                        <text x="535" y="183" text-anchor="middle" font-size="12" font-weight="600" fill="#7c3aed">Selective Hidden State</text>
+
+                        <line x1="535" y1="196" x2="535" y2="226" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arrowPurple)"/>
+                        <rect x="455" y="228" width="160" height="32" rx="6" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="1"/>
+                        <text x="535" y="249" text-anchor="middle" font-size="11" fill="#7c3aed">Output (context-aware)</text>
+
+                        <!-- Arrow defs -->
+                        <defs>
+                            <marker id="arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                                <path d="M1,1 L7,4 L1,7 Z" fill="#94a3b8"/>
+                            </marker>
+                            <marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                                <path d="M1,1 L7,4 L1,7 Z" fill="#93c5fd"/>
+                            </marker>
+                            <marker id="arrowGold" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                                <path d="M1,1 L7,4 L1,7 Z" fill="#f59e0b"/>
+                            </marker>
+                            <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                                <path d="M1,1 L7,4 L1,7 Z" fill="#a78bfa"/>
+                            </marker>
+                        </defs>
+                    </svg>
+
+                    <p>
+                        Think of it like an experienced journalist taking notes at a long press conference. <strong>A junior reporter writes down everything equally. The experienced journalist knows which statements matter, which are just filler, and edits their notes in real time.</strong> Mamba is the experienced journalist.
+                    </p>
+                    <p>
+                        This change makes Mamba much more competitive with transformers on tasks that require nuanced understanding over long sequences, while still processing in linear time.
+                    </p>
+                    <p>
+                        In benchmarks, <strong>Mamba matched or outperformed similarly sized transformers on language tasks</strong> while using significantly less memory and running faster at inference, especially as sequence lengths grew beyond 32k tokens.
+                    </p>
+                </section>
+
+                <section>
+                    <h2><strong>Mamba 2 and 3: Closing the Gap with Transformers</strong></h2>
+                    <p>
+                        The original Mamba was a strong proof of concept. But it still had gaps. <strong>Transformers had years of optimization behind them</strong>, hardware-efficient kernels, and techniques like FlashAttention. Mamba needed to catch up.
+                    </p>
+                    <p>
+                        <strong>Mamba 2</strong> introduced the idea of Structured State Space Duality (SSD). This sounds complex, but the practical implication is meaningful: the authors showed that Mamba's selective state space mechanism is mathematically related to a restricted form of attention. That meant <strong>Mamba 2 could be optimized using similar hardware-level tricks that made transformers fast.</strong> The result was a model that was up to eight times faster to train than Mamba 1, with better performance on language modeling tasks.
+                    </p>
+                    <p>
+                        <strong>Mamba 3</strong> went further by focusing on training stability and hybrid architectures. One of the most interesting directions here is mixing Mamba layers with a small number of full attention layers. <strong>The insight is that you do not have to choose one or the other.</strong> Use Mamba for the bulk of the long-context processing, and sprinkle in attention heads where precise recall from specific positions is critical. This hybrid approach gets the best of both worlds.
+                    </p>
+                    <p>
+                        Several production-leaning models today, including some from AI labs experimenting with efficient inference, use exactly this kind of hybrid design. <strong>It is a sign that the industry has stopped thinking of these as competing approaches and started thinking of them as complementary tools.</strong>
+                    </p>
+                </section>
+
+                <section>
+                    <h2><strong>Mamba vs Transformers: Where Each Actually Wins</strong></h2>
+                    <p>
+                        This is not a "Mamba is better" or "transformers are better" conversation. Both are genuinely useful depending on the task. Here is an honest breakdown.
+                    </p>
+
+                    <!-- SVG 3: Comparison table visual -->
+                    <svg viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:720px;display:block;margin:2rem auto;font-family:inherit;">
+                        <rect width="720" height="420" fill="#f8fafc" rx="12"/>
+                        <text x="360" y="32" text-anchor="middle" font-size="15" font-weight="700" fill="#1e293b">Mamba vs Transformers: Head-to-Head</text>
+
+                        <!-- Header row -->
+                        <rect x="30" y="48" width="240" height="40" rx="6" fill="#1e293b"/>
+                        <text x="150" y="73" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Criterion</text>
+                        <rect x="278" y="48" width="200" height="40" rx="6" fill="#7c3aed"/>
+                        <text x="378" y="73" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Mamba</text>
+                        <rect x="486" y="48" width="204" height="40" rx="6" fill="#0ea5e9"/>
+                        <text x="588" y="73" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Transformer</text>
+
+                        <!-- Row data -->
+                        <!-- Row 1 -->
+                        <rect x="30" y="96" width="240" height="44" rx="0" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+                        <text x="150" y="123" text-anchor="middle" font-size="12" fill="#334155">Long-context processing</text>
+                        <rect x="278" y="96" width="200" height="44" fill="#f0fdf4" stroke="#e2e8f0" stroke-width="1"/>
+                        <text x="378" y="123" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">✓ Wins (linear cost)</text>
+                        <rect x="486" y="96" width="204" height="44" fill="#fef2f2" stroke="#e2e8f0" stroke-width="1"/>
+                        <text x="588" y="123" text-anchor="middle" font-size="12" fill="#dc2626">Expensive at 100k+</text>
+
+                        <!-- Row 2 -->
+                        <rect x="30" y="140" width="240" height="44" rx="0" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+                        <text x="150" y="167" text-anchor="middle" font-size="12" fill="#334155">Inference memory usage</text>
+                        <rect x="278" y="140" width="200" height="44" fill="#f0fdf4" stroke="#e2e8f0" stroke-width="1"/>
+                        <text x="378" y="167" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">✓ Wins (fixed state)</text>
+                        <rect x="486" y="140" width="204" height="44" fill="#fef2f2" stroke="#e2e8f0" stroke-width="1"/>
+                        <text x="588" y="167" text-anchor="middle" font-size="12" fill="#dc2626">Grows with context</text>
+
+                        <!-- Row 3 -->
+                        <rect x="30" y="184" width="240" height="44" rx="0" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+                        <text x="150" y="211" text-anchor="middle" font-size="12" fill="#334155">Streaming / real-time</text>
+                        <rect x="278" y="184" width="200" height="44" fill="#f0fdf4" stroke="#e2e8f0" stroke-width="1"/>
+                        <text x="378" y="211" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">✓ Wins (O(1) step)</text>
+                        <rect x="486" y="184" width="204" height="44" fill="#fef2f2" stroke="#e2e8f0" stroke-width="1"/>
+                        <text x="588" y="211" text-anchor="middle" font-size="12" fill="#dc2626">Re-attends each step</text>
+
+                        <!-- Row 4 -->
+                        <rect x="30" y="228" width="240" height="44" rx="0" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+                        <text x="150" y="255" text-anchor="middle" font-size="12" fill="#334155">In-context learning</text>
+                        <rect x="278" y="228" width="200" height="44" fill="#fef2f2" stroke="#e2e8f0" stroke-width="1"/>
+                        <text x="378" y="255" text-anchor="middle" font-size="12" fill="#dc2626">Weaker</text>
+                        <rect x="486" y="228" width="204" height="44" fill="#f0fdf4" stroke="#e2e8f0" stroke-width="1"/>
+                        <text x="588" y="255" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">✓ Wins</text>
+
+                        <!-- Row 5 -->
+                        <rect x="30" y="272" width="240" height="44" rx="0" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+                        <text x="150" y="299" text-anchor="middle" font-size="12" fill="#334155">Precise positional recall</text>
+                        <rect x="278" y="272" width="200" height="44" fill="#fef2f2" stroke="#e2e8f0" stroke-width="1"/>
+                        <text x="378" y="299" text-anchor="middle" font-size="12" fill="#dc2626">Can lose detail</text>
+                        <rect x="486" y="272" width="204" height="44" fill="#f0fdf4" stroke="#e2e8f0" stroke-width="1"/>
+                        <text x="588" y="299" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">✓ Wins</text>
+
+                        <!-- Row 6 -->
+                        <rect x="30" y="316" width="240" height="44" rx="0" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+                        <text x="150" y="343" text-anchor="middle" font-size="12" fill="#334155">Tooling and ecosystem</text>
+                        <rect x="278" y="316" width="200" height="44" fill="#fef2f2" stroke="#e2e8f0" stroke-width="1"/>
+                        <text x="378" y="343" text-anchor="middle" font-size="12" fill="#dc2626">Still maturing</text>
+                        <rect x="486" y="316" width="204" height="44" fill="#f0fdf4" stroke="#e2e8f0" stroke-width="1"/>
+                        <text x="588" y="343" text-anchor="middle" font-size="12" fill="#16a34a" font-weight="700">✓ Wins (years of work)</text>
+
+                        <!-- Bottom label -->
+                        <text x="360" y="402" text-anchor="middle" font-size="11" fill="#94a3b8">Hybrid architectures combine both to get the best of each</text>
+                    </svg>
+
+                    <p>
+                        The key trade-off to internalize: <strong>Mamba is excellent at processing long sequences efficiently, but transformers are better at precisely locating specific information</strong> within a context. If your task is "understand the general meaning of this 200-page document," Mamba has an edge. If your task is "find the exact clause in paragraph 47 that contradicts paragraph 112," transformers are still more reliable.
+                    </p>
+                    <p>
+                        This is why hybrid models are gaining traction. They use Mamba-style layers for the long-range context sweep, and targeted attention layers for the precise recall tasks.
+                    </p>
+                </section>
+
+                <section>
+                    <h2><strong>What This Means for Your Architecture</strong></h2>
+                    <p>
+                        If you are building production AI systems today, <strong>Mamba is probably not a drop-in replacement for the transformer-based models you are already using.</strong> The ecosystem, tooling, and pretrained model availability are still catching up. But there are real situations where you should be paying attention to SSM-based or hybrid models.
+                    </p>
+                    <p>
+                        <strong>Consider a Mamba-based or hybrid model when:</strong>
+                    </p>
+                    <ul>
+                        <li><strong>You are processing very long documents, codebases, or conversation histories regularly</strong> (50k to 200k tokens).</li>
+                        <li>Inference latency and memory cost are constraints, especially in streaming or real-time response scenarios.</li>
+                        <li>You are building on edge devices or memory-constrained infrastructure.</li>
+                        <li>Your task is more about summarization, synthesis, or general comprehension over long context rather than precise fact retrieval.</li>
+                    </ul>
+                    <p>
+                        <strong>Stick with transformer-based models when:</strong>
+                    </p>
+                    <ul>
+                        <li>Your context windows are moderate (under 32k tokens) and cost is not a primary concern.</li>
+                        <li><strong>You need strong few-shot learning, precise retrieval from prompts, or reliable positional accuracy.</strong></li>
+                        <li>You are relying on a rich ecosystem of fine-tuned models, integrations, and evaluation tooling.</li>
+                        <li>You need a battle-tested model with broad benchmark coverage and community support.</li>
+                    </ul>
+                    <p>
+                        For most web engineering teams building AI features today, the most practical takeaway is this: <strong>understanding that the architecture underneath an LLM shapes its cost and capability profile</strong> helps you ask better questions when evaluating models. Not every 128k-context model is equal. How it handles that context, whether through quadratic attention or something more efficient, changes the economics significantly.
+                    </p>
+                </section>
+
+                <section>
+                    <h2><strong>Wrapping Up</strong></h2>
+                    <p>
+                        Let us take a step back and look at the arc of this series so far.
+                    </p>
+                    <p>
+                        In the <a href="https://www.codebrains.co.in/blog/2026/ai/how-llms-actually-think-transformers-and-attention-explained">previous post</a>, we covered how transformers work. <strong>Attention is what made them so powerful</strong>: the ability to look at every token in relation to every other token, in a single pass, gave the model a rich global understanding of context. That was a genuine leap forward, and it is why transformers became the default architecture for almost everything in AI.
+                    </p>
+                    <p>
+                        In this post, we looked at the cost that comes with that power. <strong>Attention scales quadratically, and at long context lengths that becomes a real constraint</strong> in terms of memory, compute, and latency. State Space Models offered a different approach: a compressed rolling hidden state that processes sequences in linear time. Mamba took that further by making the state selective, so the model learns what to remember and what to drop. Mamba 2 and 3 closed the performance gap with transformers, and today hybrid architectures are emerging that combine the strengths of both.
+                    </p>
+                    <p>
+                        The pattern here is worth noting. <strong>Each generation of architecture did not throw out what came before. It identified a specific limitation and addressed it directly.</strong> Transformers fixed the memory problem of RNNs. SSMs fixed the quadratic cost of attention. Mamba fixed the selectivity problem of vanilla SSMs. This is how architectural progress actually works in practice.
+                    </p>
+                    <p>
+                        In the next post, we continue that thread. We will look at another foundational building block of the transformer that has sat quietly in every model since 2017, rarely explained and rarely questioned, until researchers started prodding at it and found something unexpected. <strong>That building block is the residual connection, and it turns out the story behind it is more interesting than most engineers realise.</strong>
+                    </p>
+                    <p>
+                        Connect with me on <a href="https://www.linkedin.com/in/ankitgubrani/">LinkedIn</a> if you want to be notified when the next post goes live.
+                    </p>
+                </section>
+
+            </div>
+        </article>
+    </div>
+</main>
+
+<script type="text/javascript" src="../../../resources/assets/js/script.min.js"></script>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h3 class="footer-contactus">Stay connected with us:</h3>
+                <ul class="footer-social">
+                    <li>
+                        <a href="https://www.facebook.com/codebains.co.in" class="fa fa-facebook" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="https://in.linkedin.com/in/ankitgubrani" class="fa fa-linkedin" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/ankitgubrani90" class="fa fa-twitter" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/ankit-gubrani" class="fa fa-github" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="http://stackexchange.com/users/8257088/ankit-gubrani" class="fa fa-stack-overflow" target="_blank"></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-4">
+                <ul class="list-inline floatRight noFloatMobile footer-nav">
+                    <li>
+                        <a href="https://www.codebrains.co.in/">Home</a>
+                    </li>
+                    <li class="footer-menu-divider">&sdot;</li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/ankitgubrani">About</a>
+                    </li>
+                    <li class="footer-menu-divider">&sdot;</li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/contactus">Contact</a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted small floatRight noFloatMobile"> &copy; www.codebrains.co.in 2026. All Rights Reserved</p>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
