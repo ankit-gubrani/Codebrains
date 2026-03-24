@@ -1,0 +1,655 @@
+<!-- Welcome to codebrains.co.in -->
+<!-- Looking for something? Contact developer : ankit.gubrani90@gmail.com / ankit.gubrani@codebrains.co.in -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>The Same Trick That Made Transformers Great Just Made Them Better</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Ankit Gubrani">
+    <meta name="subject" content="IT services">
+    <meta name="Geography" content="California">
+    <meta name="Language" content="English">
+    <meta name="Copyright" content="Ankit Gubrani">
+    <meta name="Designer" content="Ankit Gubrani">
+    <meta name="Publisher" content="Ankit Gubrani">
+    <meta name="distribution" content="Global">
+
+    <link rel="alternate" href="https://www.codebrains.co.in/" hreflang="en-in" />
+
+    <meta name="Description" content="Residual connections have been in every transformer since 2017. The Kimi team just found a smarter way to do them. Learn how Attention Residuals fix signal dilution across depth and reach the same model performance at 1.25x less compute.">
+    <meta name="keywords" content="attention residuals, transformer architecture, residual connections, AttnRes, Block AttnRes, Kimi AI paper, deep learning optimization, LLM internals, transformer depth, PreNorm dilution, transformer training efficiency, AI architecture 2026">
+
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@ankitgubrani90">
+    <meta name="twitter:title" content="The Same Trick That Made Transformers Great Just Made Them Better">
+    <meta name="twitter:description" content="Residual connections have been in every transformer since 2017. The Kimi team just found a smarter way to do them. Learn how Attention Residuals fix signal dilution across depth and reach the same model performance at 1.25x less compute.">
+    <meta name="twitter:creator" content="@ankitgubrani90">
+    <meta name="twitter:image" content="https://www.codebrains.co.in/resources/assets/img/blog/2026/ai/when_attention_becomes_bottleneck/when_attention_becomes_bottleneck.png">
+    <!-- Open Graph data -->
+    <meta property="og:title" content="The Same Trick That Made Transformers Great Just Made Them Better" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="https://www.codebrains.co.in/resources/assets/img/blog/2026/ai/when_attention_becomes_bottleneck/when_attention_becomes_bottleneck.png" />
+    <meta property="og:description" content="Residual connections have been in every transformer since 2017. The Kimi team just found a smarter way to do them. Learn how Attention Residuals fix signal dilution across depth and reach the same model performance at 1.25x less compute." />
+    <meta property="og:site_name" content="Codebrains.co.in" />
+    <meta property="fb:admins" content="1627043757" />
+
+    <link rel="canonical" href="https://www.codebrains.co.in/blog/2026/ai/same-trick-that-made-transformers-great-just-made-them-better" />
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": "The Same Trick That Made Transformers Great Just Made Them Better",
+            "author": {
+                "@type": "Person",
+                "name": "Ankit Gubrani",
+                "url": "https://www.linkedin.com/in/ankitgubrani/"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "Codebrains.co.in",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://www.codebrains.co.in/resources/assets/img/codebrains_newlogo.png"
+                }
+            },
+            "datePublished": "2026-02-10",
+            "dateModified": "2026-02-10",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://www.codebrains.co.in/blog/2026/ai/same-trick-that-made-transformers-great-just-made-them-better"
+            },
+            "description": "Residual connections have been in every transformer since 2017. The Kimi team just found a smarter way to do them. Learn how Attention Residuals fix signal dilution across depth and reach the same model performance at 1.25x less compute."
+        }
+    </script>
+
+    <!-- Meta tag from pininterest -->
+    <meta name="p:domain_verify" content="0d3ff48344ca5856484c1cceed35a6eb"/>
+    <link rel="icon" href="../../../resources/assets/img/codebrains_transparent.png" type="image/gif" sizes="16x16">
+
+    <link rel="stylesheet" href="../../../resources/assets/css/style.css">
+
+    <style>
+
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BMGLHV6YH1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-BMGLHV6YH1');
+    </script>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+        <div class="container topnav">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="logo">
+                    <a href="/"><img src="../../../resources/assets/img/codebrains_newlogo.png" /></a>
+                </div>
+            </div><!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="https://www.codebrains.co.in/">Home</a>
+                    </li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/contactus">Contact Us</a>
+                    </li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/ankitgubrani">About Us</a>
+                    </li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/blogs">Blogs</a>
+                    </li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/projects">Our Work</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<ul class='social socialshare-icons'>
+    <li>
+        <a class="fa fa-facebook socialshare-fb" href="https://www.facebook.com/sharer/sharer.php?u=www.codebrains.co.in" target="_blank" >
+            <span>Facebook</span>
+        </a>
+    </li>
+    <li>
+        <a class="fa fa-twitter socialshare-tw" href="https://twitter.com/intent/tweet?url=www.codebrains.co.in" target="_blank" >
+            <span>Twitter</span>
+        </a>
+    </li>
+    <li>
+        <a class="fa fa-linkedin socialshare-lk" href="https://www.linkedin.com/cws/share?url=www.codebrains.co.in" target="_blank">
+            <span>LinkedIn</span>
+        </a>
+    </li>
+    <li>
+        <a class="fa fa-envelope" href="mailto:ankit.gubrani@codebrains.co.in" target="_blank">
+            <span>Email us</span>
+        </a>
+    </li>
+</ul>
+
+<main>
+    <div class="blog-container bg-white p-8 rounded-lg shadow-2xl">
+        <article class="blog-post">
+            <header>
+                <h1>The Same Trick That Made Transformers Great Just Made Them Better</h1>
+                <p class="blog-author-info">
+                    By <span>Ankit Gubrani</span> on
+                    <time datetime="2026-03-25">March 25, 2026</time>
+                </p>
+                <label class="eyebrow-blue"><strong>AI Building Blocks for the Modern Web</strong></label>
+            </header>
+            <div class="blog-content">
+                <section>
+                    <p>
+                        In the <a href="https://www.codebrains.co.in/blog/2026/ai/how-llms-actually-think-transformers-and-attention-explained">first post of this series</a>, we walked through how transformers work and why attention was such a breakthrough. In the <a href="https://www.codebrains.co.in/blog/2026/ai/same-trick-that-made-transformers-great-just-made-them-better">second post</a>, we looked at what happens when attention itself becomes the bottleneck, and how architectures like Mamba are rethinking long-context processing.
+                    </p>
+                    <figure style="text-align: center;" class="blog-image-square-wrap">
+                        <img class="img-responsive" src="../../../resources/assets/img/blog/2026/ai/block_attention_residual/block_attention_residual.png" alt="How LLMs Actually Think: Transformers and Attention Explained">
+                    </figure>
+                    <p>
+                        This third post closes the series by going back inside the transformer and poking at something most people have never thought to question: <strong>the residual connection</strong>.
+                    </p>
+                    <p>
+                        Every transformer since the original 2017 paper has used them. Every LLM you have worked with has them. They are in GPT, LLaMA, Claude, Gemini. They are so standard that they barely get mentioned in architecture discussions. They are just... there.
+                    </p>
+                    <p>
+                        In March 2026, the Kimi team published a paper called <a href="https://arxiv.org/abs/2603.15031" target="_blank">Attention Residuals</a> that asked a question nobody thought to ask: <strong>what if the way we have been doing residual connections is subtly wrong, and there is a better way?</strong>
+                    </p>
+                    <p>
+                        The answer turns out to be more interesting than you might expect.
+                    </p>
+                </section>
+        
+                <section>
+                    <h2><strong>A Quick Refresher: What Residual Connections Actually Do</strong></h2>
+                    <p>
+                        Before we get to the problem, let us make sure the foundation is solid.
+                    </p>
+                    <p>
+                        When a transformer processes your input, it runs it through a stack of layers. Each layer does some work, usually attention followed by a feed-forward network, and produces an output. That output then becomes the input for the next layer. Simple enough.
+                    </p>
+                    <p>
+                        But there is a problem with very deep networks: <strong>vanishing gradients</strong>. During training, the model learns by computing how wrong its output was and then propagating that error signal backwards through all the layers. In very deep networks, that error signal tends to get smaller and smaller as it travels back. By the time it reaches the early layers, there is almost nothing left to learn from. Those layers get stuck.
+                    </p>
+                    <p>
+                        ResNet solved this in 2015 with a beautifully simple idea: instead of just passing the transformed output to the next layer, <strong>also add back the original input</strong>. So if a layer takes in <em>x</em> and produces <em>F(x)</em>, the next layer receives <em>F(x) + x</em> rather than just <em>F(x)</em>.
+                    </p>
+                    <p>
+                        Think of it like a highway running alongside a series of processing stations. The main flow goes through each station and gets transformed. But there is always a direct lane bypassing each station. If a station is broken or unhelpful, the signal can just flow through the bypass unchanged. <strong>Residual connections are gradient highways. They give the error signal a direct path back through the network and prevent it from disappearing.</strong>
+                    </p>
+                    <p>
+                        Transformers adopted this immediately and it worked brilliantly. Training became more stable, models could be made much deeper, and performance improved. Residual connections became part of the standard recipe. Nobody questioned them much after that.
+                    </p>
+                    <p>
+                        Until now.
+                    </p>
+                </section>
+        
+                <section>
+                    <h2><strong>The Hidden Problem: Uniform Accumulation</strong></h2>
+                    <p>
+                        Here is what happens when you stack many residual layers on top of each other. At each layer, you add the current layer's output back to the running total. By the time you reach layer 50 in a deep model, the hidden state is the sum of contributions from all 49 layers before it, each added with equal weight.
+                    </p>
+                    <p>
+                        Every layer contributes equally. Layer 1 gets as much say as layer 49. <strong>There is no mechanism for a later layer to say "I need more from layer 3 and less from layer 47."</strong> It is just a straight addition, every time, all the way down.
+                    </p>
+                    <p>
+                        The Kimi team identified the consequence of this: in very deep networks, <strong>early-layer signals get progressively buried</strong>. As you go deeper, each layer's output gets added to a growing pile. The pile gets bigger. The relative contribution of any single early layer shrinks as a fraction of the whole. By the later layers, the signal that layer 1 put in is a tiny whisper beneath fifty layers of noise.
+                    </p>
+                    <p>
+                        Imagine a cocktail party where everyone is talking at the same volume. The people who spoke first are still technically in the conversation, but their voices are getting drowned out by every new person who joins. The conversation keeps growing, and the earliest contributions get buried under the weight of everything that came after them.
+                    </p>
+                    <p>
+                        That is what is happening inside a deep transformer with standard residual connections. <strong>The model has no way to selectively listen to earlier layers. It just accumulates everything equally and hopes the relevant signals survive.</strong>
+                    </p>
+        
+                    <!-- SVG 1: Standard Residual vs AttnRes depth-wise comparison -->
+                    <svg viewBox="0 0 760 500" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:760px;display:block;margin:2rem auto;font-family:sans-serif;">
+                        <defs>
+                            <marker id="arrow-gray" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                                <path d="M0,0 L0,6 L8,3 z" fill="#9ca3af"/>
+                            </marker>
+                            <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                                <path d="M0,0 L0,6 L8,3 z" fill="#3b82f6"/>
+                            </marker>
+                            <marker id="arrow-blue-thin" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                                <path d="M0,0 L0,6 L8,3 z" fill="#93c5fd"/>
+                            </marker>
+                            <marker id="arrow-blue-bold" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                                <path d="M0,0 L0,6 L8,3 z" fill="#1d4ed8"/>
+                            </marker>
+                        </defs>
+        
+                        <!-- Background -->
+                        <rect width="760" height="500" rx="12" fill="#0f172a"/>
+        
+                        <!-- Title -->
+                        <text x="380" y="36" text-anchor="middle" fill="#f1f5f9" font-size="15" font-weight="700">Standard Residuals vs Attention Residuals (AttnRes)</text>
+                        <text x="380" y="56" text-anchor="middle" fill="#94a3b8" font-size="11">How each layer pulls from prior layers in a deep transformer stack</text>
+        
+                        <!-- LEFT SIDE: Standard Residual -->
+                        <text x="190" y="85" text-anchor="middle" fill="#f8fafc" font-size="13" font-weight="700">Standard Residual</text>
+                        <text x="190" y="102" text-anchor="middle" fill="#94a3b8" font-size="10">Uniform weights — every layer adds equally</text>
+        
+                        <!-- Layer boxes left side -->
+                        <!-- Layer 1 -->
+                        <rect x="140" y="120" width="100" height="36" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+                        <text x="190" y="143" text-anchor="middle" fill="#cbd5e1" font-size="12">Layer 1</text>
+        
+                        <!-- Layer 2 -->
+                        <rect x="140" y="195" width="100" height="36" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+                        <text x="190" y="218" text-anchor="middle" fill="#cbd5e1" font-size="12">Layer 2</text>
+        
+                        <!-- Layer 3 -->
+                        <rect x="140" y="270" width="100" height="36" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+                        <text x="190" y="293" text-anchor="middle" fill="#cbd5e1" font-size="12">Layer 3</text>
+        
+                        <!-- Layer N -->
+                        <rect x="140" y="370" width="100" height="36" rx="6" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+                        <text x="190" y="393" text-anchor="middle" fill="#93c5fd" font-size="12">Layer N</text>
+        
+                        <!-- Dots -->
+                        <text x="190" y="340" text-anchor="middle" fill="#64748b" font-size="18">•••</text>
+        
+                        <!-- Uniform arrows left (all same weight, gray) -->
+                        <!-- L1 -> L2 main -->
+                        <line x1="190" y1="156" x2="190" y2="192" stroke="#9ca3af" stroke-width="2" marker-end="url(#arrow-gray)"/>
+                        <!-- L2 -> L3 main -->
+                        <line x1="190" y1="231" x2="190" y2="267" stroke="#9ca3af" stroke-width="2" marker-end="url(#arrow-gray)"/>
+        
+                        <!-- Residual bypass arrows left side (uniform weight) -->
+                        <!-- L1 bypass to L2 -->
+                        <path d="M 240 138 Q 265 138 265 213 Q 265 231 240 231" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow-gray)"/>
+                        <!-- L1 bypass to L3 -->
+                        <path d="M 240 138 Q 280 138 280 288 Q 280 306 240 306" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow-gray)"/>
+                        <!-- L2 bypass to L3 -->
+                        <path d="M 240 213 Q 270 213 270 288 Q 270 306 240 306" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow-gray)"/>
+        
+                        <!-- Equal weight labels -->
+                        <text x="271" y="180" fill="#64748b" font-size="9">+1</text>
+                        <text x="285" y="245" fill="#64748b" font-size="9">+1</text>
+                        <text x="276" y="260" fill="#64748b" font-size="9">+1</text>
+        
+                        <!-- "uniform" label -->
+                        <rect x="110" y="455" width="160" height="24" rx="5" fill="#1e293b"/>
+                        <text x="190" y="471" text-anchor="middle" fill="#94a3b8" font-size="10">All weights fixed = 1 (uniform)</text>
+        
+                        <!-- DIVIDER -->
+                        <line x1="380" y1="70" x2="380" y2="470" stroke="#334155" stroke-width="1" stroke-dasharray="5,4"/>
+        
+                        <!-- RIGHT SIDE: AttnRes -->
+                        <text x="570" y="85" text-anchor="middle" fill="#f8fafc" font-size="13" font-weight="700">Attention Residuals (AttnRes)</text>
+                        <text x="570" y="102" text-anchor="middle" fill="#94a3b8" font-size="10">Learned weights — each layer selectively pulls from prior</text>
+        
+                        <!-- Layer boxes right side -->
+                        <rect x="520" y="120" width="100" height="36" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+                        <text x="570" y="143" text-anchor="middle" fill="#cbd5e1" font-size="12">Layer 1</text>
+        
+                        <rect x="520" y="195" width="100" height="36" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+                        <text x="570" y="218" text-anchor="middle" fill="#cbd5e1" font-size="12">Layer 2</text>
+        
+                        <rect x="520" y="270" width="100" height="36" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+                        <text x="570" y="293" text-anchor="middle" fill="#cbd5e1" font-size="12">Layer 3</text>
+        
+                        <rect x="520" y="370" width="100" height="36" rx="6" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+                        <text x="570" y="393" text-anchor="middle" fill="#93c5fd" font-size="12">Layer N</text>
+        
+                        <text x="570" y="340" text-anchor="middle" fill="#64748b" font-size="18">•••</text>
+        
+                        <!-- Main flow arrows right -->
+                        <line x1="570" y1="156" x2="570" y2="192" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow-blue)"/>
+                        <line x1="570" y1="231" x2="570" y2="267" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow-blue)"/>
+        
+                        <!-- Selective arrows right: varying thickness = varying weight -->
+                        <!-- L1 -> L2 strong weight (thick) -->
+                        <path d="M 620 138 Q 650 138 650 213 Q 650 231 620 231" fill="none" stroke="#1d4ed8" stroke-width="3.5" marker-end="url(#arrow-blue-bold)"/>
+                        <text x="655" y="180" fill="#60a5fa" font-size="9" font-weight="700">0.7</text>
+        
+                        <!-- L1 -> L3 weak weight (thin) -->
+                        <path d="M 620 138 Q 668 138 668 288 Q 668 306 620 306" fill="none" stroke="#93c5fd" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arrow-blue-thin)"/>
+                        <text x="673" y="245" fill="#64748b" font-size="9">0.1</text>
+        
+                        <!-- L2 -> L3 medium weight -->
+                        <path d="M 620 213 Q 660 213 660 288 Q 660 306 620 306" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow-blue)"/>
+                        <text x="665" y="262" fill="#60a5fa" font-size="9">0.4</text>
+        
+                        <!-- Learned label -->
+                        <rect x="490" y="455" width="160" height="24" rx="5" fill="#1e3a5f"/>
+                        <text x="570" y="471" text-anchor="middle" fill="#93c5fd" font-size="10">Weights learned per input (softmax)</text>
+        
+                        <!-- Legend line thickness -->
+                        <line x1="400" y1="420" x2="430" y2="420" stroke="#1d4ed8" stroke-width="3.5"/>
+                        <text x="435" y="424" fill="#94a3b8" font-size="9">High contribution</text>
+                        <line x1="400" y1="436" x2="430" y2="436" stroke="#93c5fd" stroke-width="1" stroke-dasharray="3,3"/>
+                        <text x="435" y="440" fill="#94a3b8" font-size="9">Low contribution</text>
+                    </svg>
+        
+                </section>
+        
+                <section>
+                    <h2><strong>PreNorm Does Not Fix This</strong></h2>
+                    <p>
+                        You might be thinking: "Wait, don't modern transformers use layer normalization? Doesn't that fix the signal dilution problem?"
+                    </p>
+                    <p>
+                        It is a fair question. Most LLMs today use what is called <strong>Pre-Layer Normalization (PreNorm)</strong>, where the input to each sub-layer gets normalized before going through attention or the feed-forward network. This was specifically introduced to stabilize training in deeper models.
+                    </p>
+                    <p>
+                        But here is the thing: normalization stabilizes the values, it does not fix the underlying structure of how layers accumulate. <strong>PreNorm addresses the scale of the signals. It does not address the selection problem.</strong> Even after normalization, every prior layer still contributes with equal structural weight to the next. The accumulation is still uniform. The burial of early signals is still happening.
+                    </p>
+                    <p>
+                        The Kimi paper validates this directly. Their experiments show that even with PreNorm, the hidden state magnitudes grow with depth in a way that causes progressively less uniform gradient distribution across layers. Later layers receive much stronger gradients than earlier ones. The model is effectively learning unevenly, with the deeper layers doing the heavy lifting while earlier layers contribute less and less.
+                    </p>
+                    <p>
+                        <strong>Normalization smooths the ride. It does not fix the route.</strong>
+                    </p>
+                </section>
+        
+                <section>
+                    <h2><strong>The Fix: Apply Attention Across Depth, Not Just Sequence</strong></h2>
+                    <p>
+                        This is where the Kimi team's insight gets elegant. Transformers already have a proven mechanism for selective aggregation: <strong>attention</strong>. We use it to selectively pull information from different tokens in the sequence. Why not use the same principle to selectively pull information from different layers in the depth?
+                    </p>
+                    <p>
+                        That is exactly what <strong>Attention Residuals (AttnRes)</strong> do. Instead of summing all prior layer outputs with equal weight, AttnRes applies a softmax attention over the outputs of all preceding layers. Each layer computes a <strong>pseudo-query vector</strong> that represents "what kind of prior representation do I need right now?" That query is then compared against the outputs of every earlier layer, and the most relevant ones are weighted more heavily.
+                    </p>
+                    <p>
+                        Going back to our cocktail party analogy: instead of everyone's voice contributing equally, imagine you now have noise-canceling headphones that you can tune. You dial up the voices that are relevant to what you are trying to understand and dial down the ones that are not. <strong>The earlier speakers do not get buried anymore. If what they said is relevant, the model can actively surface it.</strong>
+                    </p>
+                    <p>
+                        The mechanism mirrors the Q/K/V attention you already know from the sequence dimension, just rotated to work across the depth dimension. The input to each layer does not just get the previous layer's output added to it. It gets a <strong>dynamically weighted blend of all previous layer outputs</strong>, where the weights are computed based on the current input.
+                    </p>
+                    <p>
+                        This means the model can, for example, reach back to layer 3's output when processing in layer 30 if that is where the most relevant representation lives. <strong>Depth becomes just another dimension that attention can navigate.</strong>
+                    </p>
+                </section>
+        
+                <section>
+                    <h2><strong>Block Attention Residuals: Making It Practical at Scale</strong></h2>
+                    <p>
+                        Full AttnRes has one practical problem: attending over every prior layer output in a very deep model gets expensive. If you have 96 layers and every layer attends over all 95 before it, you are adding a significant memory and compute overhead on top of an already large model. That is fine in a research paper but hard to deploy in practice.
+                    </p>
+                    <p>
+                        The Kimi paper introduces a smarter variant called <strong>Block Attention Residuals (Block AttnRes)</strong> to handle exactly this.
+                    </p>
+                    <p>
+                        The idea is simple: instead of attending over every individual layer, the model groups layers into blocks and attends over <strong>block-level representations</strong>. Think of it like chapters in a book. Instead of referencing every individual page to write a new paragraph, you reference the chapter summaries. You still get selective depth-wise attention, but at a much lower memory cost.
+                    </p>
+        
+                    <!-- SVG 2: Block AttnRes chunking diagram -->
+                    <svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:760px;display:block;margin:2rem auto;font-family:sans-serif;">
+                        <defs>
+                            <marker id="arrow-teal" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                                <path d="M0,0 L0,6 L8,3 z" fill="#14b8a6"/>
+                            </marker>
+                            <marker id="arrow-amber" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                                <path d="M0,0 L0,6 L8,3 z" fill="#f59e0b"/>
+                            </marker>
+                        </defs>
+        
+                        <rect width="760" height="380" rx="12" fill="#0f172a"/>
+                        <text x="380" y="34" text-anchor="middle" fill="#f1f5f9" font-size="15" font-weight="700">Block Attention Residuals (Block AttnRes)</text>
+                        <text x="380" y="52" text-anchor="middle" fill="#94a3b8" font-size="11">Layers grouped into blocks. Each block attends to block-level summaries, not every individual layer.</text>
+        
+                        <!-- Block 1 -->
+                        <rect x="40" y="80" width="160" height="120" rx="8" fill="#134e4a" stroke="#14b8a6" stroke-width="1.5"/>
+                        <text x="120" y="102" text-anchor="middle" fill="#99f6e4" font-size="12" font-weight="700">Block 1</text>
+                        <rect x="60" y="112" width="120" height="22" rx="4" fill="#0f3d39"/>
+                        <text x="120" y="127" text-anchor="middle" fill="#5eead4" font-size="10">Layers 1 - 4</text>
+                        <rect x="60" y="140" width="120" height="22" rx="4" fill="#0f766e" stroke="#2dd4bf" stroke-width="1"/>
+                        <text x="120" y="155" text-anchor="middle" fill="#ccfbf1" font-size="10" font-weight="600">Block Summary</text>
+                        <text x="120" y="192" text-anchor="middle" fill="#94a3b8" font-size="9">(avg / learned repr.)</text>
+        
+                        <!-- Block 2 -->
+                        <rect x="220" y="80" width="160" height="120" rx="8" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+                        <text x="300" y="102" text-anchor="middle" fill="#bfdbfe" font-size="12" font-weight="700">Block 2</text>
+                        <rect x="240" y="112" width="120" height="22" rx="4" fill="#172554"/>
+                        <text x="300" y="127" text-anchor="middle" fill="#93c5fd" font-size="10">Layers 5 - 8</text>
+                        <rect x="240" y="140" width="120" height="22" rx="4" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1"/>
+                        <text x="300" y="155" text-anchor="middle" fill="#eff6ff" font-size="10" font-weight="600">Block Summary</text>
+                        <text x="300" y="192" text-anchor="middle" fill="#94a3b8" font-size="9">(avg / learned repr.)</text>
+        
+                        <!-- Block 3 (current) -->
+                        <rect x="400" y="80" width="160" height="120" rx="8" fill="#3b1f5e" stroke="#a855f7" stroke-width="1.5"/>
+                        <text x="480" y="102" text-anchor="middle" fill="#e9d5ff" font-size="12" font-weight="700">Block 3 (Current)</text>
+                        <rect x="420" y="112" width="120" height="22" rx="4" fill="#2d1458"/>
+                        <text x="480" y="127" text-anchor="middle" fill="#d8b4fe" font-size="10">Layers 9 - 12</text>
+                        <rect x="420" y="140" width="120" height="22" rx="4" fill="#7e22ce" stroke="#c084fc" stroke-width="1"/>
+                        <text x="480" y="155" text-anchor="middle" fill="#faf5ff" font-size="10" font-weight="600">Being Computed</text>
+                        <text x="480" y="192" text-anchor="middle" fill="#c084fc" font-size="9">attends to Block 1 &amp; 2</text>
+        
+                        <!-- Dots -->
+                        <text x="610" y="145" fill="#64748b" font-size="20">···</text>
+        
+                        <!-- Arrows from Block 1 summary -> Block 3 -->
+                        <path d="M 180 151 Q 300 230 420 151" fill="none" stroke="#14b8a6" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrow-teal)"/>
+                        <text x="285" y="222" fill="#14b8a6" font-size="10" text-anchor="middle">Selective attention weight</text>
+        
+                        <!-- Arrows from Block 2 summary -> Block 3 -->
+                        <path d="M 360 151 Q 390 200 420 151" fill="none" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#arrow-teal)"/>
+        
+                        <!-- Memory comparison bar -->
+                        <text x="380" y="268" text-anchor="middle" fill="#f1f5f9" font-size="12" font-weight="700">Memory Footprint Comparison</text>
+        
+                        <!-- Full AttnRes bar -->
+                        <text x="100" y="292" text-anchor="middle" fill="#94a3b8" font-size="10">Full AttnRes</text>
+                        <rect x="160" y="280" width="400" height="16" rx="3" fill="#7f1d1d"/>
+                        <text x="568" y="293" fill="#fca5a5" font-size="10">High</text>
+        
+                        <!-- Block AttnRes bar -->
+                        <text x="100" y="318" text-anchor="middle" fill="#94a3b8" font-size="10">Block AttnRes</text>
+                        <rect x="160" y="306" width="160" height="16" rx="3" fill="#14532d"/>
+                        <text x="328" y="319" fill="#86efac" font-size="10">Manageable (~1/N blocks)</text>
+        
+                        <!-- Standard Residual bar -->
+                        <text x="100" y="344" text-anchor="middle" fill="#94a3b8" font-size="10">Standard Residual</text>
+                        <rect x="160" y="332" width="60" height="16" rx="3" fill="#1e3a5f"/>
+                        <text x="228" y="345" fill="#93c5fd" font-size="10">Baseline</text>
+        
+                        <text x="380" y="370" text-anchor="middle" fill="#475569" font-size="10">Block AttnRes trades a small amount of overhead for significantly better signal distribution</text>
+                    </svg>
+        
+                    <p>
+                        The paper also introduces two implementation techniques to make this production-ready: <strong>cache-based pipeline communication</strong> (so the block summaries do not need to be recomputed every time) and a <strong>two-phase computation strategy</strong> that sequences the attention operations to avoid memory spikes during training.
+                    </p>
+                    <p>
+                        The result is something the paper explicitly calls a "drop-in replacement" for standard residual connections. <strong>You do not need to redesign your architecture. You swap in Block AttnRes, retrain, and the model gets better without growing significantly in cost.</strong>
+                    </p>
+                </section>
+        
+                <section>
+                    <h2><strong>What the Benchmarks Actually Show</strong></h2>
+                    <p>
+                        The Kimi team tested this at real scale. They integrated AttnRes into their Kimi Linear architecture, a 48-billion-parameter model (with 3B activated parameters, meaning it is a Mixture-of-Experts style model) and pre-trained it on 1.4 trillion tokens.
+                    </p>
+                    <p>
+                        The headline results are worth stating clearly:
+                    </p>
+                    <ul>
+                        <li><strong>AttnRes produces more uniform output magnitudes across depth.</strong> The hidden states no longer grow uncontrollably as you go deeper. The signal from early layers stays proportionally meaningful throughout the whole network.</li>
+                        <li><strong>Gradient distribution becomes more even across all layers.</strong> Earlier layers actually receive meaningful gradient signal during training, which means they learn more effectively. The whole model trains as a team rather than having the deeper layers carry most of the load.</li>
+                        <li><strong>Downstream task performance improves across the board.</strong> Every evaluated benchmark showed gains, not just selected cherry-picked ones.</li>
+                        <li><strong>The scaling law experiments show consistent improvement across model sizes.</strong> This is not a trick that only works at a specific scale. The benefit holds as the model grows.</li>
+                    </ul>
+                    <p>
+                        The compute efficiency story is also compelling. The paper's scaling law analysis suggests that <strong>AttnRes models reach the same performance point as standard residual models at roughly 1.25x less compute</strong>. Put differently: for the same training budget, you get a better model. Or for the same model quality, you spend less.
+                    </p>
+        
+                    <!-- SVG 3: Performance vs Compute -->
+                    <svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:600px;display:block;margin:2rem auto;font-family:sans-serif;">
+                        <rect width="600" height="300" rx="12" fill="#0f172a"/>
+                        <text x="300" y="30" text-anchor="middle" fill="#f1f5f9" font-size="14" font-weight="700">Compute Efficiency: AttnRes vs Standard Residual</text>
+                        <text x="300" y="48" text-anchor="middle" fill="#94a3b8" font-size="10">Reaching the same performance point requires ~1.25x less compute with AttnRes</text>
+        
+                        <!-- Axes -->
+                        <line x1="70" y1="240" x2="540" y2="240" stroke="#334155" stroke-width="1.5"/>
+                        <line x1="70" y1="80" x2="70" y2="240" stroke="#334155" stroke-width="1.5"/>
+        
+                        <!-- Axis labels -->
+                        <text x="305" y="268" text-anchor="middle" fill="#64748b" font-size="11">Training Compute</text>
+                        <text x="22" y="165" fill="#64748b" font-size="11" transform="rotate(-90,22,165)">Performance</text>
+        
+                        <!-- Standard residual curve (higher compute needed) -->
+                        <path d="M 100 220 Q 200 190 310 155 Q 400 128 490 110" fill="none" stroke="#ef4444" stroke-width="2.5"/>
+                        <text x="495" y="108" fill="#fca5a5" font-size="10">Standard</text>
+        
+                        <!-- AttnRes curve (same performance, less compute) -->
+                        <path d="M 100 215 Q 185 178 275 148 Q 360 122 450 108" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+                        <text x="455" y="106" fill="#86efac" font-size="10">AttnRes</text>
+        
+                        <!-- Target performance line -->
+                        <line x1="70" y1="130" x2="540" y2="130" stroke="#475569" stroke-width="1" stroke-dasharray="5,4"/>
+                        <text x="545" y="134" fill="#64748b" font-size="9">Target</text>
+        
+                        <!-- Intersection points -->
+                        <!-- Standard hits target at x=420 -->
+                        <circle cx="420" cy="130" r="5" fill="#ef4444"/>
+                        <!-- AttnRes hits target at x=336 (1.25x less) -->
+                        <circle cx="336" cy="130" r="5" fill="#22c55e"/>
+        
+                        <!-- Bracket showing 1.25x gap -->
+                        <line x1="336" y1="155" x2="420" y2="155" stroke="#f59e0b" stroke-width="1.5" marker-start="url(#arrow-amber)" marker-end="url(#arrow-amber)"/>
+                        <text x="378" y="172" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="700">~1.25x compute saved</text>
+        
+                        <!-- Tick labels x axis -->
+                        <text x="100" y="255" text-anchor="middle" fill="#475569" font-size="9">Low</text>
+                        <text x="305" y="255" text-anchor="middle" fill="#475569" font-size="9">Medium</text>
+                        <text x="490" y="255" text-anchor="middle" fill="#475569" font-size="9">High</text>
+                    </svg>
+        
+                </section>
+        
+                <section>
+                    <h2><strong>Why This Matters Beyond the Numbers</strong></h2>
+                    <p>
+                        Step back and look at the pattern across this series.
+                    </p>
+                    <p>
+                        In post one, we looked at how transformers use attention across the <em>sequence</em> dimension to let every token selectively pull context from every other token. That was the core insight that made transformers so powerful.
+                    </p>
+                    <p>
+                        In post two, we looked at how that attention mechanism has a quadratic cost, and how architectures like Mamba are rethinking how to process long sequences by replacing global attention with a selective, compressed hidden state.
+                    </p>
+                    <p>
+                        Now in this post, the Kimi team has taken the same principle of <strong>selective, learned aggregation</strong> and applied it to an entirely different dimension of the transformer: <strong>depth</strong>.
+                    </p>
+                    <p>
+                        The transformer already knew how to selectively attend across tokens. AttnRes teaches it to selectively attend across layers. <strong>The same tool that solved the sequence aggregation problem turns out to also solve the depth aggregation problem.</strong>
+                    </p>
+                    <p>
+                        This is what good architectural thinking looks like. Not inventing an entirely new mechanism, but recognizing that a mechanism you already have is solving a structurally similar problem elsewhere, and applying it there too.
+                    </p>
+                    <p>
+                        It also suggests that residual connections, despite being in every transformer for nearly a decade, were never really solving the problem they appeared to solve. They were a workaround for vanishing gradients that introduced a different problem: uniform, undifferentiated accumulation across depth. AttnRes is the cleaner solution.
+                    </p>
+                </section>
+        
+                <section>
+                    <h2><strong>What Should You Take Away From This?</strong></h2>
+                    <p>
+                        If you are an engineer building on top of LLMs rather than training them from scratch, you will not be swapping in AttnRes yourself today. But there are a few things worth keeping in your mental model:
+                    </p>
+                    <p>
+                        <strong>Architecture details shape model behavior in ways that benchmarks alone do not reveal.</strong> A model trained with AttnRes has a fundamentally different internal signal structure than one trained with standard residuals. If Kimi's results hold up across the industry, expect to see AttnRes adopted broadly over the next year or two, the same way PreNorm got quietly adopted after the original transformer papers.
+                    </p>
+                    <p>
+                        <strong>Efficiency gains compound.</strong> A 1.25x compute improvement might sound modest. But at the scale modern LLMs are trained, and at the volume of inference calls a production system handles, that is a very large number. Architectural improvements that seem small in percentage terms translate to enormous savings at scale.
+                    </p>
+                    <p>
+                        <strong>The "standard" parts of an architecture are worth questioning.</strong> Residual connections had been in every transformer for eight years before anyone seriously asked whether uniform accumulation was the right design. AttnRes is proof that interrogating the parts you assumed were solved can yield real gains.
+                    </p>
+                </section>
+        
+                <section>
+                    <h2><strong>Wrapping Up the Series</strong></h2>
+                    <p>
+                        Let us close the loop on this three-part arc.
+                    </p>
+                    <p>
+                        We started with <a href="https://www.codebrains.co.in/blog/2026/ai/how-llms-actually-think-transformers-and-attention-explained">how transformers work</a>: tokens, embeddings, attention, and the repeating block structure that makes deep learning powerful.
+                    </p>
+                    <p>
+                        We moved to <a href="https://www.codebrains.co.in/blog/2026/ai/same-trick-that-made-transformers-great-just-made-them-better">how transformers get challenged</a>: the quadratic cost of attention at long contexts, and how Mamba proposes a fundamentally different way to handle long sequences.
+                    </p>
+                    <p>
+                        And we finished with <strong>how the internals of transformers are still being refined</strong>: residual connections, a mechanism so embedded in the architecture it became invisible, turning out to have a real flaw that a well-targeted application of attention can fix.
+                    </p>
+                    <p>
+                        The common thread across all three posts is this: <strong>these architectures are not finished. They are actively evolving.</strong> The engineers and researchers working on them are still finding things that were assumed to be solved but were not quite. Understanding the foundations, the way attention works, what residuals are doing, where the costs come from, puts you in a much better position to reason about this evolution as it happens.
+                    </p>
+                    <p>
+                        If you want to read the original Kimi paper, you can find it here: <a href="https://arxiv.org/abs/2603.15031" target="_blank">Attention Residuals (arXiv:2603.15031)</a>.
+                    </p>
+                    <p>
+                        Connect with me on <a href="https://www.linkedin.com/in/ankitgubrani/" target="_blank">LinkedIn</a> if you have questions or want to discuss where this goes next.
+                    </p>
+                </section>
+        
+            </div>
+        </article>
+    </div>
+</main>
+
+<script type="text/javascript" src="../../../resources/assets/js/script.min.js"></script>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h3 class="footer-contactus">Stay connected with us:</h3>
+                <ul class="footer-social">
+                    <li>
+                        <a href="https://www.facebook.com/codebains.co.in" class="fa fa-facebook" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="https://in.linkedin.com/in/ankitgubrani" class="fa fa-linkedin" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/ankitgubrani90" class="fa fa-twitter" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/ankit-gubrani" class="fa fa-github" target="_blank"></a>
+                    </li>
+                    <li>
+                        <a href="http://stackexchange.com/users/8257088/ankit-gubrani" class="fa fa-stack-overflow" target="_blank"></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-4">
+                <ul class="list-inline floatRight noFloatMobile footer-nav">
+                    <li>
+                        <a href="https://www.codebrains.co.in/">Home</a>
+                    </li>
+                    <li class="footer-menu-divider">&sdot;</li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/ankitgubrani">About</a>
+                    </li>
+                    <li class="footer-menu-divider">&sdot;</li>
+                    <li>
+                        <a href="https://www.codebrains.co.in/contactus">Contact</a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted small floatRight noFloatMobile"> &copy; www.codebrains.co.in 2026. All Rights Reserved</p>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
