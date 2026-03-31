@@ -1,0 +1,376 @@
+---
+title: "PageIndex: The Reasoning-Based RAG Engine That Thinks Before It Retrieves"
+date: 2026-03-17
+series: "ai-building-blocks"
+seriesLabel: "AI Building Blocks for the Modern Web"
+part: 10
+description: "Explore reasoning-based retrieval and how PageIndex challenges traditional vector RAG. Learn when to use it, its architecture, and why it works better for long structured documents."
+ogImage: "/resources/assets/img/blog/2026/ai/pageindex/page_index.png"
+tags: ["reasoning based retrieval", "PageIndex", "vectorless RAG", "reasoning RAG", "vector RAG vs reasoning RAG", "hierarchical retrieval AI", "document structure retrieval", "limitations of vector search in RAG", "embedding based retrieval problems", "LLM retrieval techniques", "structured document retrieval", "tree based indexing AI", "explainable AI retrieval", "RAG architecture patterns", "retrieval system design for LLMs", "alternatives to embedding based RAG", "best retrieval strategy for long documents", "PageIndex vs vector database RAG", "future of retrieval systems"]
+canonicalUrl: "https://www.codebrains.co.in/blog/2026/ai/pageIndex-reasoning-based-rag-engine-that-thinks-before-it-retrieves"
+---
+
+You've built a RAG system. You've tuned your chunk sizes, picked the right embedding model, and dialed in your similarity thresholds. And yet, **it still gets things wrong.**
+
+A user asks, *"How many days do I have to raise a dispute after receiving an invoice?"* Simple question. The answer is definitely somewhere in the contract. Your vector search returns chunks about payment terms, invoicing schedules, and billing procedures. They look relevant. The similarity scores are solid. But none of them contain the actual dispute window, because that specific rule lives in the **"Dispute Resolution" section three chapters away**. Your chunking strategy split it off, embedded it separately, and it scored just low enough to get skipped.
+
+**The answer was in the document. Your system just couldn't find it.**
+
+This is not a tuning problem. It is a **fundamental limitation of how vector RAG thinks about documents.** And it is exactly the problem that **PageIndex** was designed to solve.
+
+PageIndex takes a radically different approach. Instead of embedding chunks and hoping similarity search lands on the right ones, it **builds a hierarchical understanding of the entire document** and uses an LLM to *reason* its way to the right answer. **No vectors. No similarity scores. Just structured thinking.**
+
+Let's unpack why this matters and how it works.
+
+## **The Problem with Vector RAG**
+
+Vector RAG works by converting your documents into **numerical representations called embeddings**, then storing them in a vector database. When a query comes in, it gets embedded too, and the system finds the chunks whose embeddings are closest in that high-dimensional space. **Closest embeddings presumably means most semantically similar content.**
+
+For a lot of use cases, this works beautifully. Short Q&A, product FAQs, knowledge bases with well-scoped topics. But the moment you throw a long, structured document at it like a **90-page legal contract, a technical specification, or a financial report**, the cracks start showing.
+
+
+
+<div>
+<svg viewBox="0 0 820 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:820px;display:block;margin:2rem auto;" aria-label="The chunking problem in Vector RAG">
+                    <defs>
+                        <marker id="arr1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                            <path d="M0,0 L0,6 L8,3 z" fill="#94a3b8"/>
+                        </marker>
+                    </defs>
+                    {/*  Background  */}
+                    <rect width="820" height="340" fill="#0f172a" rx="12"/>
+                    <text x="410" y="34" text-anchor="middle" fill="#f8fafc" font-family="Georgia, serif" font-size="15" font-weight="bold">The Chunking Problem: When Answers Get Split Apart</text>
+        
+                    {/*  Document  */}
+                    <rect x="30" y="56" width="180" height="240" fill="#1e293b" rx="8" stroke="#334155" stroke-width="1.5"/>
+                    <text x="120" y="76" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="11">ORIGINAL DOCUMENT</text>
+                    <rect x="44" y="86" width="152" height="22" fill="#1d4ed8" rx="3"/>
+                    <text x="120" y="101" text-anchor="middle" fill="#bfdbfe" font-family="monospace" font-size="10">Section 3: Payment Terms</text>
+                    <rect x="44" y="114" width="152" height="22" fill="#1d4ed8" rx="3" opacity="0.6"/>
+                    <text x="120" y="129" text-anchor="middle" fill="#bfdbfe" font-family="monospace" font-size="10">3.1 Invoicing Schedule</text>
+                    <rect x="44" y="142" width="152" height="22" fill="#dc2626" rx="3"/>
+                    <text x="120" y="157" text-anchor="middle" fill="#fecaca" font-family="monospace" font-size="10">6.2 Dispute Window: 30 days</text>
+                    <rect x="44" y="170" width="152" height="22" fill="#1d4ed8" rx="3" opacity="0.6"/>
+                    <text x="120" y="185" text-anchor="middle" fill="#bfdbfe" font-family="monospace" font-size="10">3.3 Late Payment Fees</text>
+                    <rect x="44" y="198" width="152" height="22" fill="#1d4ed8" rx="3" opacity="0.4"/>
+                    <text x="120" y="213" text-anchor="middle" fill="#bfdbfe" font-family="monospace" font-size="10">5.0 Termination</text>
+                    <rect x="44" y="226" width="152" height="22" fill="#1d4ed8" rx="3" opacity="0.3"/>
+                    <text x="120" y="241" text-anchor="middle" fill="#bfdbfe" font-family="monospace" font-size="10">6.0 Dispute Resolution</text>
+                    <rect x="44" y="254" width="152" height="30" fill="#1d4ed8" rx="3" opacity="0.2"/>
+                    <text x="120" y="273" text-anchor="middle" fill="#bfdbfe" font-family="monospace" font-size="10">...</text>
+        
+                    {/*  Arrow: document to chunks  */}
+                    <line x1="212" y1="176" x2="280" y2="176" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr1)"/>
+                    <text x="246" y="168" text-anchor="middle" fill="#64748b" font-family="monospace" font-size="10">chunk</text>
+        
+                    {/*  Chunks  */}
+                    <rect x="282" y="70" width="170" height="46" fill="#1e293b" rx="6" stroke="#334155" stroke-width="1.2"/>
+                    <text x="367" y="88" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9">CHUNK A</text>
+                    <text x="367" y="104" text-anchor="middle" fill="#60a5fa" font-family="monospace" font-size="9">Section 3: Payment Terms...</text>
+        
+                    <rect x="282" y="126" width="170" height="46" fill="#1e293b" rx="6" stroke="#334155" stroke-width="1.2"/>
+                    <text x="367" y="144" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9">CHUNK B</text>
+                    <text x="367" y="160" text-anchor="middle" fill="#60a5fa" font-family="monospace" font-size="9">3.1 Invoicing schedule...</text>
+        
+                    <rect x="282" y="182" width="170" height="46" fill="#1e293b" rx="6" stroke="#dc2626" stroke-width="1.5"/>
+                    <text x="367" y="200" text-anchor="middle" fill="#fca5a5" font-family="monospace" font-size="9">CHUNK C (has the answer!)</text>
+                    <text x="367" y="216" text-anchor="middle" fill="#fca5a5" font-family="monospace" font-size="9">6.2 Dispute window: 30 days</text>
+        
+                    <rect x="282" y="238" width="170" height="46" fill="#1e293b" rx="6" stroke="#334155" stroke-width="1.2"/>
+                    <text x="367" y="256" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9">CHUNK D</text>
+                    <text x="367" y="272" text-anchor="middle" fill="#60a5fa" font-family="monospace" font-size="9">3.3 Late payment fees...</text>
+        
+                    {/*  Arrow: chunks to vector search  */}
+                    <line x1="454" y1="176" x2="520" y2="176" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr1)"/>
+                    <text x="487" y="168" text-anchor="middle" fill="#64748b" font-family="monospace" font-size="10">embed</text>
+        
+                    {/*  Vector Search Box  */}
+                    <rect x="522" y="100" width="150" height="152" fill="#1e293b" rx="8" stroke="#7c3aed" stroke-width="1.5"/>
+                    <text x="597" y="120" text-anchor="middle" fill="#c4b5fd" font-family="monospace" font-size="11" font-weight="bold">VECTOR SEARCH</text>
+                    <text x="597" y="140" text-anchor="middle" fill="#64748b" font-family="monospace" font-size="9">Query: "dispute invoice"</text>
+                    <text x="597" y="162" text-anchor="middle" fill="#60a5fa" font-family="monospace" font-size="9">Chunk A: 0.82 sim</text>
+                    <text x="597" y="178" text-anchor="middle" fill="#60a5fa" font-family="monospace" font-size="9">Chunk B: 0.78 sim</text>
+                    <text x="597" y="194" text-anchor="middle" fill="#fca5a5" font-family="monospace" font-size="9">Chunk C: 0.66 sim (skipped!)</text>
+                    <text x="597" y="210" text-anchor="middle" fill="#60a5fa" font-family="monospace" font-size="9">Chunk D: 0.72 sim</text>
+                    <text x="597" y="234" text-anchor="middle" fill="#fbbf24" font-family="monospace" font-size="9">Returns A, B, D</text>
+        
+                    {/*  Arrow to result  */}
+                    <line x1="674" y1="176" x2="738" y2="176" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr1)"/>
+                    {/*  Result box  */}
+                    <rect x="740" y="140" width="56" height="72" fill="#7f1d1d" rx="6" stroke="#dc2626" stroke-width="1.5"/>
+                    <text x="768" y="162" text-anchor="middle" fill="#fca5a5" font-family="monospace" font-size="9" font-weight="bold">WRONG</text>
+                    <text x="768" y="178" text-anchor="middle" fill="#fca5a5" font-family="monospace" font-size="9">Answer</text>
+                    <text x="768" y="194" text-anchor="middle" fill="#fca5a5" font-family="monospace" font-size="9">returned</text>
+        
+                    <text x="410" y="324" text-anchor="middle" fill="#475569" font-family="monospace" font-size="10">Chunk C (dispute window) scored lowest because it lives in a different section. Vector RAG missed it.</text>
+                </svg>
+</div>
+
+
+
+### Chunking destroys context
+
+To fit documents into a vector store, you have to break them apart. And **no matter how smart your chunking strategy is, splitting a document always risks tearing apart information that belongs together.** A sentence on page 12 might only make sense in the context of a table on page 7. A number on page 34 might only be meaningful when read alongside a definition on page 2.
+
+**Once you split it, that relationship is gone.**
+
+### Similarity is not the same as relevance
+
+Vector search finds chunks that are *semantically similar* to the query. But **the chunk that actually answers the question might use completely different vocabulary.** "How many days to raise a dispute?" could map poorly to a chunk that says "the receiving party must notify within thirty calendar days," simply because the embedding model captures different surface features.
+
+**High similarity score does not guarantee the right answer is inside.** And a chunk buried further down the similarity ranking might be the exact one you needed.
+
+### Long documents are structurally rich, embeddings are structurally blind
+
+A well-written legal contract or compliance document has a deliberate structure. Sections, sub-sections, definitions, cross-references. **That structure is meaningful. It tells a reader where to look.** But vector embeddings flatten all of that. A chunk has no awareness of whether it came from Section 1 or Section 14, whether it is a definition or an obligation, or whether it references something three pages back.
+
+For long structured documents, **vector RAG is essentially reading the document in random order and hoping it finds the right paragraph.**
+
+## **Enter Reasoning-Based Retrieval**
+
+Think about how an experienced lawyer reads a contract. **They don't randomly flip to a page and hope the answer is there.** They know the structure of the document. They know that dispute resolution terms live in a specific section. They know that definitions in Section 1 govern terms used in Section 8. They navigate the document deliberately, **using their understanding of structure to guide where they look.**
+
+That is reasoning-based retrieval. Instead of computing similarity across flattened chunks, **it builds an understanding of the document's structure first, then uses that understanding to navigate toward the answer.**
+
+The key insight is this: **retrieval is a reading comprehension task, not a search task.** A search engine finds documents that match your query. A reader understands the document and knows where to look.
+
+PageIndex is a retrieval engine built around that insight.
+
+## **What is PageIndex?**
+
+PageIndex is a **vectorless, reasoning-based RAG engine.** It does not use embeddings. It does not run similarity search. Instead, it indexes documents by building a **hierarchical tree of summaries** and then uses an LLM to navigate that tree at query time, reasoning its way down to the relevant content.
+
+The name gives it away. **PageIndex thinks about documents the way an index in the back of a book does.** A book index doesn't embed the content. It captures the structure and tells you exactly where to look.
+
+### The hierarchical tree
+
+When you index a document with PageIndex, it processes the document in pages or logical sections and builds a tree where:
+
+* The **leaves** are the raw pages or sections of the document
+* The **parent nodes** are LLM-generated summaries of groups of pages
+* The **root node** is a high-level summary of the entire document
+
+Each level of the tree captures a different level of abstraction. **The root tells you what the document is about overall. The mid-level nodes tell you what each chapter or major section covers. The leaves give you the actual text.**
+
+When a query comes in, the LLM starts at the root and asks: *which branch of this tree is most likely to contain the answer?* It picks a branch and descends. **At each level it re-evaluates and keeps narrowing until it reaches the relevant pages.**
+
+
+
+<div>
+<svg viewBox="0 0 820 420" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:820px;display:block;margin:2rem auto;" aria-label="PageIndex hierarchical tree structure">
+                <defs>
+                    <marker id="arr2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                        <path d="M0,0 L0,6 L8,3 z" fill="#7c3aed"/>
+                    </marker>
+                    <marker id="arr3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                        <path d="M0,0 L0,6 L8,3 z" fill="#22c55e"/>
+                    </marker>
+                </defs>
+                <rect width="820" height="420" fill="#0f172a" rx="12"/>
+                <text x="410" y="30" text-anchor="middle" fill="#f8fafc" font-family="Georgia, serif" font-size="15" font-weight="bold">PageIndex: Hierarchical Tree + LLM Navigation</text>
+    
+                {/*  ROOT  */}
+                <rect x="300" y="48" width="220" height="52" fill="#4c1d95" rx="8" stroke="#7c3aed" stroke-width="2"/>
+                <text x="410" y="68" text-anchor="middle" fill="#e9d5ff" font-family="Georgia, serif" font-size="11" font-weight="bold">ROOT SUMMARY</text>
+                <text x="410" y="86" text-anchor="middle" fill="#c4b5fd" font-family="monospace" font-size="9">Full document overview generated by LLM</text>
+    
+                {/*  Lines to mid-level  */}
+                <line x1="340" y1="100" x2="200" y2="158" stroke="#7c3aed" stroke-width="1.5" marker-end="url(#arr2)"/>
+                <line x1="410" y1="100" x2="410" y2="158" stroke="#7c3aed" stroke-width="1.5" marker-end="url(#arr2)"/>
+                <line x1="480" y1="100" x2="620" y2="158" stroke="#7c3aed" stroke-width="1.5" marker-end="url(#arr2)"/>
+    
+                {/*  MID LEVEL nodes  */}
+                <rect x="100" y="160" width="200" height="52" fill="#1e1b4b" rx="8" stroke="#6366f1" stroke-width="1.5"/>
+                <text x="200" y="180" text-anchor="middle" fill="#a5b4fc" font-family="Georgia, serif" font-size="10" font-weight="bold">CHAPTER SUMMARY A</text>
+                <text x="200" y="198" text-anchor="middle" fill="#818cf8" font-family="monospace" font-size="9">Sections 1-3: Definitions &amp; Scope</text>
+    
+                <rect x="310" y="160" width="200" height="52" fill="#1e1b4b" rx="8" stroke="#6366f1" stroke-width="1.5"/>
+                <text x="410" y="180" text-anchor="middle" fill="#a5b4fc" font-family="Georgia, serif" font-size="10" font-weight="bold">CHAPTER SUMMARY B</text>
+                <text x="410" y="198" text-anchor="middle" fill="#818cf8" font-family="monospace" font-size="9">Sections 4-6: Obligations &amp; Liability</text>
+    
+                <rect x="520" y="160" width="200" height="52" fill="#1e1b4b" rx="8" stroke="#6366f1" stroke-width="1.5"/>
+                <text x="620" y="180" text-anchor="middle" fill="#a5b4fc" font-family="Georgia, serif" font-size="10" font-weight="bold">CHAPTER SUMMARY C</text>
+                <text x="620" y="198" text-anchor="middle" fill="#818cf8" font-family="monospace" font-size="9">Sections 7-10: Termination &amp; Disputes</text>
+    
+                {/*  Lines from mid B to leaves  */}
+                <line x1="370" y1="212" x2="290" y2="280" stroke="#6366f1" stroke-width="1.2" marker-end="url(#arr2)"/>
+                <line x1="410" y1="212" x2="410" y2="280" stroke="#6366f1" stroke-width="1.2" marker-end="url(#arr2)"/>
+                <line x1="450" y1="212" x2="530" y2="280" stroke="#6366f1" stroke-width="1.2" marker-end="url(#arr2)"/>
+    
+                {/*  LEAF nodes under B  */}
+                <rect x="228" y="282" width="124" height="44" fill="#14532d" rx="6" stroke="#22c55e" stroke-width="1.5"/>
+                <text x="290" y="300" text-anchor="middle" fill="#86efac" font-family="monospace" font-size="9" font-weight="bold">PAGE / SECTION</text>
+                <text x="290" y="316" text-anchor="middle" fill="#4ade80" font-family="monospace" font-size="9">Sec 4: Indemnification</text>
+    
+                <rect x="348" y="282" width="124" height="44" fill="#7f1d1d" rx="6" stroke="#ef4444" stroke-width="2"/>
+                <text x="410" y="300" text-anchor="middle" fill="#fca5a5" font-family="monospace" font-size="9" font-weight="bold">PAGE / SECTION</text>
+                <text x="410" y="316" text-anchor="middle" fill="#f87171" font-family="monospace" font-size="9">Sec 5: Liability Cap $2M</text>
+    
+                <rect x="468" y="282" width="124" height="44" fill="#14532d" rx="6" stroke="#22c55e" stroke-width="1.5"/>
+                <text x="530" y="300" text-anchor="middle" fill="#86efac" font-family="monospace" font-size="9" font-weight="bold">PAGE / SECTION</text>
+                <text x="530" y="316" text-anchor="middle" fill="#4ade80" font-family="monospace" font-size="9">Sec 6: Exclusions</text>
+    
+                {/*  LLM navigation path indicator  */}
+                <text x="410" y="360" text-anchor="middle" fill="#fbbf24" font-family="Georgia, serif" font-size="12" font-weight="bold">LLM Navigation Path for "What is the liability cap?"</text>
+                <text x="410" y="380" text-anchor="middle" fill="#fbbf24" font-family="monospace" font-size="10">Root  -->  Chapter B (Obligations &amp; Liability)  -->  Section 5 (Liability Cap)</text>
+                <text x="410" y="400" text-anchor="middle" fill="#475569" font-family="monospace" font-size="9">No embeddings. No similarity search. Pure structured reasoning.</text>
+            </svg>
+</div>
+
+
+
+## **How PageIndex Works: Step by Step**
+
+### Phase 1: Indexing
+
+When you feed a document into PageIndex, it does not embed anything. Instead it runs through the following steps:
+
+1. **Page-level processing:** The document is split into logical units, typically pages or sections. These become the leaf nodes of the tree.
+2. **Bottom-up summarization:** The LLM reads groups of pages and generates a summary for each group. These become the mid-level nodes.
+3. **Recursive summarization:** Groups of mid-level summaries are themselves summarized, building up toward the root.
+4. **Tree construction:** The final result is a tree where each node has a summary and pointers to its children.
+
+**This indexing step is compute-intensive** because it requires multiple LLM calls to build the summaries. But **it only happens once per document.** The payoff comes at query time.
+
+### Phase 2: Query and Navigation
+
+When a query arrives, PageIndex does something fundamentally different from vector RAG. **Instead of comparing the query against all chunks in parallel, it starts at the root and navigates the tree step by step.**
+
+1. **Start at the root:** The LLM reads the root summary and the query, then decides which branch is most likely to contain the answer.
+2. **Descend the tree:** The LLM moves to the selected branch and reads its children's summaries. It picks the most promising one.
+3. **Continue until leaves:** The process repeats until the LLM reaches the leaf level and identifies the specific page or section that contains the answer.
+4. **Read the full leaf:** The actual raw text of the selected page is retrieved.
+
+### Phase 3: Answer Generation
+
+Once the relevant page or section is retrieved, it gets sent to the LLM along with the original query for final answer generation. This is the same generation step as in traditional RAG, **except the context is far more targeted.**
+
+Because the LLM navigated to the right content rather than guessing from similarity scores, **the context it receives is almost always the exact content needed to answer the question.**
+
+
+
+<div>
+<svg viewBox="0 0 820 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:820px;display:block;margin:2rem auto;" aria-label="PageIndex query flow step by step">
+                <defs>
+                    <marker id="arr4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                        <path d="M0,0 L0,6 L8,3 z" fill="#60a5fa"/>
+                    </marker>
+                </defs>
+                <rect width="820" height="260" fill="#0f172a" rx="12"/>
+                <text x="410" y="30" text-anchor="middle" fill="#f8fafc" font-family="Georgia, serif" font-size="14" font-weight="bold">PageIndex: Query Flow</text>
+    
+                {/*  Step boxes  */}
+                <rect x="20" y="54" width="130" height="68" fill="#1e293b" rx="8" stroke="#3b82f6" stroke-width="1.5"/>
+                <text x="85" y="76" text-anchor="middle" fill="#93c5fd" font-family="Georgia, serif" font-size="11" font-weight="bold">1. Query In</text>
+                <text x="85" y="94" text-anchor="middle" fill="#60a5fa" font-family="monospace" font-size="9">"What is the</text>
+                <text x="85" y="108" text-anchor="middle" fill="#60a5fa" font-family="monospace" font-size="9">liability cap?"</text>
+    
+                <line x1="152" y1="88" x2="180" y2="88" stroke="#60a5fa" stroke-width="1.5" marker-end="url(#arr4)"/>
+    
+                <rect x="182" y="54" width="140" height="68" fill="#1e293b" rx="8" stroke="#3b82f6" stroke-width="1.5"/>
+                <text x="252" y="74" text-anchor="middle" fill="#93c5fd" font-family="Georgia, serif" font-size="11" font-weight="bold">2. Read Root</text>
+                <text x="252" y="92" text-anchor="middle" fill="#60a5fa" font-family="monospace" font-size="9">LLM reads doc</text>
+                <text x="252" y="107" text-anchor="middle" fill="#60a5fa" font-family="monospace" font-size="9">summary, picks branch</text>
+    
+                <line x1="324" y1="88" x2="352" y2="88" stroke="#60a5fa" stroke-width="1.5" marker-end="url(#arr4)"/>
+    
+                <rect x="354" y="54" width="140" height="68" fill="#1e293b" rx="8" stroke="#3b82f6" stroke-width="1.5"/>
+                <text x="424" y="74" text-anchor="middle" fill="#93c5fd" font-family="Georgia, serif" font-size="11" font-weight="bold">3. Descend Tree</text>
+                <text x="424" y="92" text-anchor="middle" fill="#60a5fa" font-family="monospace" font-size="9">Reads chapter summaries,</text>
+                <text x="424" y="107" text-anchor="middle" fill="#60a5fa" font-family="monospace" font-size="9">narrows to best section</text>
+    
+                <line x1="496" y1="88" x2="524" y2="88" stroke="#60a5fa" stroke-width="1.5" marker-end="url(#arr4)"/>
+    
+                <rect x="526" y="54" width="128" height="68" fill="#1e293b" rx="8" stroke="#3b82f6" stroke-width="1.5"/>
+                <text x="590" y="74" text-anchor="middle" fill="#93c5fd" font-family="Georgia, serif" font-size="11" font-weight="bold">4. Read Leaf</text>
+                <text x="590" y="92" text-anchor="middle" fill="#60a5fa" font-family="monospace" font-size="9">Full raw text of</text>
+                <text x="590" y="107" text-anchor="middle" fill="#60a5fa" font-family="monospace" font-size="9">target page retrieved</text>
+    
+                <line x1="656" y1="88" x2="684" y2="88" stroke="#60a5fa" stroke-width="1.5" marker-end="url(#arr4)"/>
+    
+                <rect x="686" y="54" width="114" height="68" fill="#14532d" rx="8" stroke="#22c55e" stroke-width="2"/>
+                <text x="743" y="74" text-anchor="middle" fill="#86efac" font-family="Georgia, serif" font-size="11" font-weight="bold">5. Answer</text>
+                <text x="743" y="92" text-anchor="middle" fill="#4ade80" font-family="monospace" font-size="9">LLM generates</text>
+                <text x="743" y="107" text-anchor="middle" fill="#4ade80" font-family="monospace" font-size="9">precise answer</text>
+    
+                {/*  Indexing phase label  */}
+                <rect x="20" y="160" width="780" height="74" fill="#1e293b" rx="8" stroke="#334155" stroke-width="1"/>
+                <text x="410" y="184" text-anchor="middle" fill="#94a3b8" font-family="Georgia, serif" font-size="12" font-weight="bold">Indexing Phase (Done Once, Offline)</text>
+                <text x="410" y="204" text-anchor="middle" fill="#64748b" font-family="monospace" font-size="10">Document  -->  Page Splits  -->  Bottom-up LLM Summarization  -->  Hierarchical Tree Stored</text>
+                <text x="410" y="222" text-anchor="middle" fill="#475569" font-family="monospace" font-size="9">No embeddings generated. No vector database. Tree is stored in structured format (JSON / graph).</text>
+            </svg>
+</div>
+
+
+
+## **When You Should Use PageIndex**
+
+PageIndex is not a replacement for vector RAG everywhere. **It is purpose-built for a specific class of problems where structure matters and accuracy is non-negotiable.**
+
+### Long, structured documents
+
+Contracts, technical specifications, compliance manuals, regulatory filings, research reports. **Any document where the answer could live in a specific section and missing that section would mean a wrong answer.** These are exactly the cases where chunking destroys context and PageIndex's tree navigation thrives.
+
+### Compliance, finance, and legal workloads
+
+When a compliance officer asks your system whether a policy document meets a regulatory requirement, **"close enough" is not acceptable.** A wrong answer drawn from a mis-retrieved chunk could have real consequences. PageIndex's structured navigation significantly reduces the chance of missing a critical clause.
+
+### Single-document deep-dive applications
+
+Contract review tools, due diligence assistants, policy analysis tools. **Anywhere the user is drilling deep into one specific document and expects precise, cited answers.** PageIndex gives you that precision.
+
+### When document structure carries meaning
+
+If the fact that something is in Section 3.2 versus an appendix changes how you interpret it, **you need a retrieval system that respects that structure. PageIndex does. Vector RAG does not.**
+
+## **When NOT to Use PageIndex**
+
+PageIndex comes with real tradeoffs. **It is worth being honest about where it struggles.**
+
+### Websites and unstructured content
+
+Web pages, blog posts, and marketing content **don't have the kind of hierarchical structure that PageIndex relies on.** Building a meaningful tree over a flat web page doesn't add value and wastes LLM compute. Stick with vector RAG for these.
+
+### Large-scale multi-document systems
+
+If you're running a knowledge base with thousands of documents and users are searching across all of them, PageIndex doesn't scale the same way. **Vector RAG with its O(1) approximate nearest neighbor search is the right tool for that problem.** PageIndex's navigation tree is a per-document construct. It's not designed for cross-corpus search.
+
+### Low-latency applications
+
+**Tree navigation means multiple sequential LLM calls.** Even with a fast model, each step in the navigation chain adds latency. If you need sub-second responses, PageIndex will feel slow. Vector search returns results in milliseconds. The tree walk does not.
+
+### High-volume query throughput
+
+Each query triggers several LLM calls. At scale, **the cost and rate-limit implications are significant.** If you're handling tens of thousands of queries per minute, the economics of PageIndex are difficult to justify compared to a single embedding lookup.
+
+## **Vector RAG vs PageIndex: The Clear Comparison**
+
+Here's how the two approaches line up across the dimensions that matter most in production systems.
+
+| Dimension | Vector RAG | PageIndex |
+| --- | --- | --- |
+| Core mechanism | Embedding similarity search | LLM tree navigation |
+| Indexing cost | Low (embed and store) | High (multi-step LLM summarization) |
+| Query latency | Very low (ms) | Higher (multiple LLM hops) |
+| Accuracy on long docs | Inconsistent (chunking errors) | High (structured navigation) |
+| Handles document structure | No (flattens structure) | Yes (tree mirrors structure) |
+| Cost per query | Very low | Higher (multiple LLM calls) |
+| Best for | FAQs, web content, large corpora | Legal, compliance, finance, deep docs |
+| Infrastructure needed | Vector database required | No vector DB (tree stored as JSON/graph) |
+| Determinism | Deterministic (same query, same result) | Varies (LLM navigation can differ) |
+
+## **Final Thoughts: Where Does PageIndex Fit?**
+
+PageIndex is not trying to replace vector RAG. **It is solving a different problem.** And understanding that distinction is what makes you a better architect.
+
+Vector RAG is fast, cheap, and scales incredibly well across large corpora. For most web-scale search and knowledge base use cases, it is the right tool. But the moment you are dealing with long, structured documents where precision matters, **chunking becomes your enemy and similarity search becomes an unreliable guide.**
+
+PageIndex flips the retrieval model on its head. It says: instead of finding the needle by brute-force comparing every piece of hay, **let's understand the structure of the haystack first.** The LLM navigates like an expert reader, not a search engine.
+
+In practice, the most robust production systems will likely use both. **Vector RAG handles the wide, fast, multi-document retrieval layer. PageIndex handles the deep, precise, single-document analysis layer.** Together, they cover a far wider range of real-world retrieval scenarios than either approach alone.
+
+As LLMs get faster and cheaper, the latency and cost penalties of tree navigation will continue to shrink. **The structural advantage of PageIndex will remain.** That is a compelling trajectory for workloads where accuracy is not negotiable.
+
+**The future of retrieval is not one approach winning. It is knowing which approach to reach for based on the shape of the problem in front of you.**
+
+Stay tuned, and as always, if you've worked with PageIndex or reasoning-based retrieval in production, I'd love to hear what you've learned. Connect with me on [LinkedIn](https://www.linkedin.com/in/ankitgubrani/ "https://www.linkedin.com/in/ankitgubrani/").

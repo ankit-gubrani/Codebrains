@@ -1,0 +1,47 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths({ paginate }) {
+  const allPosts = await getCollection('blog');
+
+  const seriesSlugs = [...new Set(
+    allPosts
+      .filter(p => p.data.series)
+      .map(p => p.data.series)
+  )];
+
+  return seriesSlugs.flatMap(series => {
+    const seriesPosts = allPosts
+      .filter(p => p.data.series === series)
+      .sort((a, b) => (a.data.part ?? 0) - (b.data.part ?? 0));
+
+    return paginate(seriesPosts, {
+      params: { series },
+      pageSize: 8,
+    });
+  });
+}
+
+const { page, params } = Astro.props;
+const seriesLabel = page.data[0]?.data.seriesLabel ?? params.series;
+---
+<BaseLayout title={`${seriesLabel} | codebrains.co.in`} description={seriesLabel as string} canonicalUrl={`https://www.codebrains.co.in${Astro.url.pathname}`}>
+  <div class="container main-container">
+    <h1>{seriesLabel}</h1>
+    {page.data.map(post => (
+      <article style="margin-bottom: 2rem;">
+        <img src={post.data.ogImage} alt={post.data.title} loading="lazy" style="max-width:300px; border-radius:8px;" />
+        <br />
+        <span style="font-weight: bold; color: #005bc4;">Part {post.data.part}</span>
+        <h3><a href={`/blog/${post.id}`}>{post.data.title}</a></h3>
+        <p>{post.data.description}</p>
+        <a href={`/blog/${post.id}`}>Read more</a>
+      </article>
+    ))}
+    <nav style="margin-top:2rem; font-size: 1.2rem;">
+      {page.url.prev && <a href={page.url.prev}>&larr; Previous Page</a>}
+      {page.url.next && <a href={page.url.next} style="margin-left: 1rem;">Next Page &rarr;</a>}
+    </nav>
+  </div>
+</BaseLayout>

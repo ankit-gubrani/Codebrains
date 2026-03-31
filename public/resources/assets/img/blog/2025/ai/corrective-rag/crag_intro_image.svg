@@ -1,0 +1,104 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="errorGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#ee5a6f;stop-opacity:0.8" />
+    </linearGradient>
+    <linearGradient id="successGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#51cf66;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#37b24d;stop-opacity:0.8" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="400" fill="url(#bgGradient)"/>
+  
+  <!-- Title -->
+  <text x="400" y="50" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="white" text-anchor="middle">
+    Corrective RAG (CRAG)
+  </text>
+  
+  <!-- Broken Retrieval (Left Side) -->
+  <g transform="translate(100, 120)">
+    <!-- Query Box -->
+    <rect x="0" y="0" width="120" height="40" rx="5" fill="white" opacity="0.9"/>
+    <text x="60" y="25" font-family="Arial, sans-serif" font-size="14" fill="#2c3e50" text-anchor="middle">Query</text>
+    
+    <!-- Arrow down -->
+    <path d="M 60 40 L 60 70" stroke="white" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+    
+    <!-- Bad Documents -->
+    <g transform="translate(0, 80)">
+      <rect x="0" y="0" width="120" height="80" rx="5" fill="url(#errorGradient)"/>
+      <text x="60" y="25" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle" font-weight="bold">❌ Low Quality</text>
+      <text x="60" y="45" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">Irrelevant</text>
+      <text x="60" y="60" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">Outdated</text>
+      <text x="60" y="75" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">Conflicting</text>
+    </g>
+    
+    <!-- Arrow to bad result -->
+    <path d="M 60 160 L 60 190" stroke="#ff6b6b" stroke-width="3" fill="none" stroke-dasharray="5,5"/>
+    
+    <!-- Bad Answer -->
+    <rect x="0" y="200" width="120" height="40" rx="5" fill="#ff6b6b" opacity="0.8"/>
+    <text x="60" y="225" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle" font-weight="bold">Wrong Answer</text>
+  </g>
+  
+  <!-- Correction Arrow -->
+  <g transform="translate(280, 200)">
+    <path d="M 0 0 L 160 0" stroke="white" stroke-width="4" fill="none" marker-end="url(#arrowhead2)"/>
+    <rect x="40" y="-20" width="80" height="20" rx="3" fill="white" opacity="0.9"/>
+    <text x="80" y="-6" font-family="Arial, sans-serif" font-size="12" fill="#667eea" text-anchor="middle" font-weight="bold">CORRECTION</text>
+  </g>
+  
+  <!-- Corrected Retrieval (Right Side) -->
+  <g transform="translate(500, 120)">
+    <!-- Query Box -->
+    <rect x="0" y="0" width="120" height="40" rx="5" fill="white" opacity="0.9"/>
+    <text x="60" y="25" font-family="Arial, sans-serif" font-size="14" fill="#2c3e50" text-anchor="middle">Query</text>
+    
+    <!-- Arrow down -->
+    <path d="M 60 40 L 60 70" stroke="white" stroke-width="2" fill="none"/>
+    
+    <!-- Evaluation -->
+    <rect x="10" y="75" width="100" height="30" rx="5" fill="#ffd43b" opacity="0.9"/>
+    <text x="60" y="95" font-family="Arial, sans-serif" font-size="11" fill="#2c3e50" text-anchor="middle" font-weight="bold">✓ Evaluate</text>
+    
+    <!-- Arrow down -->
+    <path d="M 60 105 L 60 130" stroke="white" stroke-width="2" fill="none"/>
+    
+    <!-- Good Documents -->
+    <g transform="translate(0, 135)">
+      <rect x="0" y="0" width="120" height="60" rx="5" fill="url(#successGradient)"/>
+      <text x="60" y="20" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle" font-weight="bold">✓ High Quality</text>
+      <text x="60" y="38" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">Relevant</text>
+      <text x="60" y="52" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">Current</text>
+    </g>
+    
+    <!-- Arrow to good result -->
+    <path d="M 60 195 L 60 215" stroke="#51cf66" stroke-width="3" fill="none"/>
+    
+    <!-- Good Answer -->
+    <rect x="0" y="220" width="120" height="40" rx="5" fill="#51cf66" opacity="0.8"/>
+    <text x="60" y="245" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle" font-weight="bold">✓ Correct Answer</text>
+  </g>
+  
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="white" />
+    </marker>
+    <marker id="arrowhead2" markerWidth="12" markerHeight="12" refX="11" refY="3" orient="auto">
+      <polygon points="0 0, 12 3, 0 6" fill="white" />
+    </marker>
+  </defs>
+  
+  <!-- Bottom subtitle -->
+  <text x="400" y="370" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" opacity="0.9">
+    Automatically detect and fix retrieval failures before generation
+  </text>
+</svg>

@@ -1,0 +1,167 @@
+<svg viewBox="0 0 900 650" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="stageGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="900" height="680" fill="#f8f9fa"/>
+  
+  <!-- Stage 1: Retrieval -->
+  <g transform="translate(350, 10)">
+    <rect x="0" y="0" width="200" height="100" rx="8" fill="#667eea" opacity="0.9"/>
+    <text x="100" y="30" font-family="Arial, sans-serif" font-size="18" fill="white" text-anchor="middle" font-weight="bold">
+      Stage 1: Retrieval
+    </text>
+    <text x="100" y="55" font-family="Arial, sans-serif" font-size="13" fill="white" text-anchor="middle">
+      • Embed query
+    </text>
+    <text x="100" y="73" font-family="Arial, sans-serif" font-size="13" fill="white" text-anchor="middle">
+      • Vector search
+    </text>
+    <text x="100" y="91" font-family="Arial, sans-serif" font-size="13" fill="white" text-anchor="middle">
+      • Retrieve top-k docs
+    </text>
+  </g>
+  
+  <!-- Arrow down to Stage 2 -->
+  <path d="M 450 110 L 450 150" stroke="#667eea" stroke-width="1.5" fill="none" marker-end="url(#arrowBlue2)"/>
+  
+  <!-- Stage 2: Evaluation -->
+  <g transform="translate(350, 150)">
+    <rect x="0" y="0" width="200" height="120" rx="8" fill="#ffd43b" opacity="0.95" stroke="#fab005" stroke-width="3"/>
+    <text x="100" y="30" font-family="Arial, sans-serif" font-size="18" fill="#2c3e50" text-anchor="middle" font-weight="bold">
+      Stage 2: Evaluation
+    </text>
+    <text x="100" y="55" font-family="Arial, sans-serif" font-size="13" fill="#2c3e50" text-anchor="middle">
+      • Check relevance
+    </text>
+    <text x="100" y="73" font-family="Arial, sans-serif" font-size="13" fill="#2c3e50" text-anchor="middle">
+      • Check recency
+    </text>
+    <text x="100" y="91" font-family="Arial, sans-serif" font-size="13" fill="#2c3e50" text-anchor="middle">
+      • Check authority
+    </text>
+    <text x="100" y="109" font-family="Arial, sans-serif" font-size="13" fill="#2c3e50" text-anchor="middle" font-weight="bold">
+      ⚡ Compute confidence
+    </text>
+  </g>
+  
+  <!-- Arrow down to decision -->
+  <path d="M 450 270 L 450 310" stroke="#fab005" stroke-width="1.5" fill="none" marker-end="url(#arrowYellow)"/>
+  
+  <!-- Decision Diamond -->
+  <g transform="translate(450, 335)">
+    <polygon points="0,-25 35,0 0,25 -35,0" fill="#fab005" opacity="0.95" stroke="#e67700" stroke-width="2"/>
+    <text x="0" y="4" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle" font-weight="bold">
+      Quality?
+    </text>
+  </g>
+  
+  <!-- Three paths with better spacing -->
+  <path d="M 450 360 L 450 390" stroke="#51cf66" stroke-width="2" fill="none" marker-end="url(#arrowGreen)"/>
+  <text x="460" y="370" font-family="Arial, sans-serif" font-size="12" fill="#37b24d" font-weight="bold">
+      High (&gt; 0.85)
+    </text>
+  <!-- High Confidence Path (Right) -->
+  <g transform="translate(310, 530)">
+    <rect x="60" y="-140" width="160" height="60" rx="5" fill="#51cf66" opacity="0.9"/>
+    <text x="140" y="-115" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle" font-weight="bold">
+      ✓ Proceed
+    </text>
+    <text x="140" y="-95" font-family="Arial, sans-serif" font-size="11" fill="white" text-anchor="middle">
+      Use retrieved docs
+    </text>
+    
+    <!-- Arrow down to generation -->
+    <path d="M 140 -100 L 140 -50" stroke="#51cf66" stroke-width="1.5" fill="none" marker-end="url(#arrowBlue2)"/>
+  </g>
+  
+  <!-- Medium Confidence Path (Horizontal Right) -->
+  <g transform="translate(520, 330)">
+    <path d="M -34 6 L 60 6" stroke="#ff922b" stroke-width="1.5" fill="none" marker-end="url(#arrowOrange)"/>
+    <text x="-35" y="0" font-family="Arial, sans-serif" font-size="12" fill="#e67700" font-weight="bold">
+      Med (0.65-0.85)
+    </text>
+    
+    <rect x="60" y="-20" width="160" height="60" rx="5" fill="#ff922b" opacity="0.9"/>
+    <text x="140" y="5" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle" font-weight="bold">
+      ⚠️ Filter
+    </text>
+    <text x="140" y="25" font-family="Arial, sans-serif" font-size="11" fill="white" text-anchor="middle">
+      Remove low quality
+    </text>
+    
+    <!-- Arrow down to generation -->
+    <path d="M 170 40 L 170 200 L 30 200" stroke="#ff922b" stroke-width="1.5" fill="none" marker-end="url(#arrowBlue2)"/>
+  </g>
+  
+  <!-- Low Confidence Path (Horizontal Left) -->
+  <g transform="translate(410, 330)">
+    <path d="M 8 6 L -90 6" stroke="#ff6b6b" stroke-width="1.5" fill="none" marker-end="url(#arrowRed)"/>
+    <text x="-60" y="-4" font-family="Arial, sans-serif" font-size="12" fill="#e03131" font-weight="bold">
+      Low (&lt; 0.65)
+    </text>
+    
+    <rect x="-250" y="-30" width="160" height="80" rx="5" fill="#ff6b6b" opacity="0.9"/>
+    <text x="-170" y="-11" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle" font-weight="bold">
+      🔄 Correct
+    </text>
+    <text x="-170" y="9" font-family="Arial, sans-serif" font-size="11" fill="white" text-anchor="middle">
+      • Web search
+    </text>
+    <text x="-170" y="27" font-family="Arial, sans-serif" font-size="11" fill="white" text-anchor="middle">
+      • Reformulate query
+    </text>
+    <text x="-170" y="45" font-family="Arial, sans-serif" font-size="11" fill="white" text-anchor="middle">
+      • Re-retrieve
+    </text>
+    
+    <!-- Arrow down to generation -->
+    <path d="M -170 50 L -170 200 L -60 200" stroke="#ff6b6b" stroke-width="1.5" fill="none" marker-end="url(#arrowBlue2)"/>
+  </g>
+  
+  <!-- Stage 3: Generation (centered) -->
+  <g transform="translate(350, 480)">
+    <rect x="0" y="0" width="200" height="90" rx="8" fill="#667eea" opacity="0.9"/>
+    <text x="100" y="30" font-family="Arial, sans-serif" font-size="18" fill="white" text-anchor="middle" font-weight="bold">
+      Stage 3: Generation
+    </text>
+    <text x="100" y="52" font-family="Arial, sans-serif" font-size="13" fill="white" text-anchor="middle">
+      • Build context
+    </text>
+    <text x="100" y="70" font-family="Arial, sans-serif" font-size="13" fill="white" text-anchor="middle">
+      • Send to LLM
+    </text>
+  </g>
+  
+  <!-- Final arrow to response -->
+  <path d="M 450 570 L 450 600" stroke="#667eea" stroke-width="1.5" fill="none" marker-end="url(#arrowBlue2)"/>
+  
+  <!-- Response box -->
+  <rect x="370" y="600" width="160" height="45" rx="5" fill="#37b24d" opacity="0.9"/>
+  <text x="450" y="628" font-family="Arial, sans-serif" font-size="15" fill="white" text-anchor="middle" font-weight="bold">
+    ✓ Quality Response
+  </text>
+  
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrowBlue2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#667eea" />
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#51cf66" />
+    </marker>
+    <marker id="arrowOrange" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#ff922b" />
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#ff6b6b" />
+    </marker>
+    <marker id="arrowYellow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#fab005" />
+    </marker>
+  </defs>
+</svg>

@@ -1,0 +1,205 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.25"/>
+    </filter>
+    <linearGradient id="danger-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#fc8181;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e53e3e;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f7fafc"/>
+  
+  <!-- Title -->
+  <text x="400" y="35" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#2d3748" text-anchor="middle">
+    Common Semantic Cache Pitfalls
+  </text>
+  <text x="400" y="58" font-family="Arial, sans-serif" font-size="13" fill="#718096" text-anchor="middle" font-style="italic">
+    Mistakes that break trust and accuracy
+  </text>
+  
+  <!-- Pitfall 1: Personalized Responses -->
+  <g id="pitfall-1">
+    <rect x="30" y="80" width="360" height="140" rx="10" fill="#fff" stroke="#e53e3e" stroke-width="3" filter="url(#shadow)"/>
+    
+    <!-- Header -->
+    <rect x="30" y="80" width="360" height="40" rx="10" fill="url(#danger-grad)"/>
+    <text x="210" y="106" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">
+      ⚠️ Pitfall 1: Caching Personalized Data
+    </text>
+    
+    <!-- Scenario -->
+    <rect x="45" y="135" width="330" height="75" rx="6" fill="#fff5f5" stroke="#fc8181" stroke-width="1"/>
+    <text x="50" y="153" font-family="Arial, sans-serif" font-size="11" fill="#c53030" font-weight="600">
+      User A: "What's my order status?"
+    </text>
+    <text x="55" y="168" font-family="Arial, sans-serif" font-size="10" fill="#744210">
+      → Response: "Order #12345 shipped yesterday" ✓
+    </text>
+    <text x="55" y="183" font-family="Arial, sans-serif" font-size="10" fill="#744210">
+      → Response cached (mistake!)
+    </text>
+    <text x="50" y="200" font-family="Arial, sans-serif" font-size="11" fill="#c53030" font-weight="600">
+      User B: "What's my order status?"
+    </text>
+    <text x="55" y="204" font-family="Arial, sans-serif" font-size="10" fill="#c53030">
+    </text>
+  </g>
+  
+  <!-- Pitfall 2: Threshold Too Low -->
+  <g id="pitfall-2">
+    <rect x="410" y="80" width="360" height="140" rx="10" fill="#fff" stroke="#e53e3e" stroke-width="3" filter="url(#shadow)"/>
+    
+    <!-- Header -->
+    <rect x="410" y="80" width="360" height="40" rx="10" fill="url(#danger-grad)"/>
+    <text x="590" y="106" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">
+      ⚠️ Pitfall 2: Threshold Too Low (less than 0.85)
+    </text>
+    
+    <!-- False positives -->
+    <rect x="425" y="135" width="330" height="75" rx="6" fill="#fff5f5" stroke="#fc8181" stroke-width="1"/>
+    <text x="430" y="153" font-family="Arial, sans-serif" font-size="11" fill="#c53030" font-weight="600">
+      False Positives at 0.80 threshold:
+    </text>
+    <text x="435" y="171" font-family="Arial, sans-serif" font-size="10" fill="#744210">
+      ✗ "Refund policy?" matches "Return policy?" (0.83)
+    </text>
+    <text x="435" y="186" font-family="Arial, sans-serif" font-size="10" fill="#744210">
+      ✗ "Upgrade plan?" matches "Downgrade plan?" (0.81)
+    </text>
+    <text x="435" y="201" font-family="Arial, sans-serif" font-size="10" fill="#744210">
+      ✗ "Cancel order?" matches "Track order?" (0.79)
+    </text>
+  </g>
+  
+  <!-- Pitfall 3: Context Dependency -->
+  <g id="pitfall-3">
+    <rect x="30" y="240" width="360" height="160" rx="10" fill="#fff" stroke="#ed8936" stroke-width="3" filter="url(#shadow)"/>
+    
+    <!-- Header -->
+    <rect x="30" y="240" width="360" height="40" rx="10" fill="#ed8936"/>
+    <text x="210" y="266" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">
+      ⚠️ Pitfall 3: Ignoring Context
+    </text>
+    
+    <!-- Scenario -->
+    <rect x="45" y="295" width="330" height="95" rx="6" fill="#fffaf0" stroke="#f6ad55" stroke-width="1"/>
+    <text x="50" y="313" font-family="Arial, sans-serif" font-size="11" fill="#744210" font-weight="600">
+      Query: "How do I reset my password?"
+    </text>
+    
+    <rect x="55" y="325" width="305" height="28" rx="4" fill="#c6f6d5" stroke="#48bb78" stroke-width="1"/>
+    <text x="60" y="338" font-family="Arial, sans-serif" font-size="9" fill="#22543d">
+      User on Web → "Click settings, then security..."
+    </text>
+    <text x="60" y="348" font-family="Arial, sans-serif" font-size="9" fill="#22543d">
+      (Cached response)
+    </text>
+    
+    <rect x="55" y="358" width="305" height="28" rx="4" fill="#fff5f5" stroke="#e53e3e" stroke-width="1"/>
+    <text x="60" y="371" font-family="Arial, sans-serif" font-size="9" fill="#c53030">
+      User on Mobile App → Gets web instructions ✗
+    </text>
+    <text x="60" y="381" font-family="Arial, sans-serif" font-size="9" fill="#c53030">
+      (Wrong answer due to platform context)
+    </text>
+  </g>
+  
+  <!-- Pitfall 4: Cache Bloat -->
+  <g id="pitfall-4">
+    <rect x="410" y="240" width="360" height="160" rx="10" fill="#fff" stroke="#ed8936" stroke-width="3" filter="url(#shadow)"/>
+    
+    <!-- Header -->
+    <rect x="410" y="240" width="360" height="40" rx="10" fill="#ed8936"/>
+    <text x="590" y="266" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">
+      ⚠️ Pitfall 4: Memory Bloat
+    </text>
+    
+    <!-- Growth visualization -->
+    <rect x="425" y="295" width="330" height="95" rx="6" fill="#fffaf0" stroke="#f6ad55" stroke-width="1"/>
+    <text x="590" y="313" font-family="Arial, sans-serif" font-size="11" fill="#744210" font-weight="600" text-anchor="middle">
+      Cache grows indefinitely without eviction
+    </text>
+    
+    <!-- Bar chart showing growth -->
+    <g transform="translate(445, 320)">
+      <rect x="0" y="40" width="50" height="20" fill="#48bb78"/>
+      <text x="25" y="68" font-family="Arial, sans-serif" font-size="9" fill="#2d3748" text-anchor="middle">Week 1</text>
+      
+      <rect x="70" y="25" width="50" height="35" fill="#f6ad55"/>
+      <text x="95" y="68" font-family="Arial, sans-serif" font-size="9" fill="#2d3748" text-anchor="middle">Week 4</text>
+      
+      <rect x="140" y="10" width="50" height="50" fill="#fc8181"/>
+      <text x="165" y="68" font-family="Arial, sans-serif" font-size="9" fill="#2d3748" text-anchor="middle">Week 8</text>
+      
+      <rect x="210" y="0" width="50" height="60" fill="#e53e3e"/>
+      <text x="235" y="68" font-family="Arial, sans-serif" font-size="9" fill="#2d3748" text-anchor="middle">Week 12</text>
+      <text x="235" y="80" font-family="Arial, sans-serif" font-size="8" fill="#c53030" text-anchor="middle">Slow!</text>
+    </g>
+  </g>
+  
+  <!-- Pitfall 5: Cold Start -->
+  <g id="pitfall-5">
+    <rect x="30" y="420" width="360" height="150" rx="10" fill="#fff" stroke="#f6ad55" stroke-width="3" filter="url(#shadow)"/>
+    
+    <!-- Header -->
+    <rect x="30" y="420" width="360" height="40" rx="10" fill="#f6ad55"/>
+    <text x="210" y="446" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">
+      ⚠️ Pitfall 5: Cold Start Problem
+    </text>
+    
+    <!-- Timeline -->
+    <rect x="45" y="475" width="330" height="85" rx="6" fill="#fffbeb" stroke="#f6ad55" stroke-width="1"/>
+    <text x="210" y="493" font-family="Arial, sans-serif" font-size="11" fill="#744210" font-weight="600" text-anchor="middle">
+      Empty cache at launch = No benefits initially
+    </text>
+    
+    <!-- Hit rate over time -->
+    <path d="M 160 535 L 180 532 L 200 525 L 220 520 L 240 510 L 260 508 L 280 506 L 300 505" 
+          stroke="#ed8936" stroke-width="3" fill="none"/>
+    <text x="115" y="535" font-family="Arial, sans-serif" font-size="9" fill="#718096">
+      Day 1: 0%
+    </text>
+    <text x="305" y="508" font-family="Arial, sans-serif" font-size="9" fill="#718096">
+      Week 2: 70%
+    </text>
+    
+    <text x="210" y="555" font-family="Arial, sans-serif" font-size="10" fill="#744210" text-anchor="middle">
+      Solution: Pre-warm with common queries
+    </text>
+  </g>
+  
+  <!-- Solutions Summary -->
+  <g id="solutions">
+    <rect x="410" y="420" width="360" height="150" rx="10" fill="#f0fff4" stroke="#48bb78" stroke-width="3" filter="url(#shadow)"/>
+    
+    <!-- Header -->
+    <rect x="410" y="420" width="360" height="40" rx="10" fill="#48bb78"/>
+    <text x="590" y="446" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">
+      ✓ Prevention Checklist
+    </text>
+    
+    <!-- Checklist -->
+    <text x="425" y="478" font-family="Arial, sans-serif" font-size="12" fill="#22543d" font-weight="600">
+      Before going to production:
+    </text>
+    
+    <text x="430" y="498" font-family="Arial, sans-serif" font-size="11" fill="#2d7748">
+      ✓ Filter personalized responses
+    </text>
+    <text x="430" y="515" font-family="Arial, sans-serif" font-size="11" fill="#2d7748">
+      ✓ Start with threshold ≥ 0.90
+    </text>
+    <text x="430" y="532" font-family="Arial, sans-serif" font-size="11" fill="#2d7748">
+      ✓ Include context in cache key
+    </text>
+    <text x="430" y="549" font-family="Arial, sans-serif" font-size="11" fill="#2d7748">
+      ✓ Implement eviction policy
+    </text>
+    <text x="430" y="566" font-family="Arial, sans-serif" font-size="11" fill="#2d7748">
+      ✓ Pre-warm with common queries
+    </text>
+  </g>
+</svg>

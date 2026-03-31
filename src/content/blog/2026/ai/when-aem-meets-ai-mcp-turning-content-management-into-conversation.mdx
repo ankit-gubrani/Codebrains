@@ -1,0 +1,326 @@
+---
+title: "When AEM Meets AI: How Model Context Protocol is Turning Content Management into a Conversation"
+date: 2026-02-04
+series: "ai-radar"
+seriesLabel: "AI Radar"
+part: 3
+description: "When AEM Meets AI: How Model Context Protocol is Turning Content Management into a Conversation"
+ogImage: "/resources/assets/img/blog/2026/ai/mcp_with_aemcaas/mcp_with_aemcaas.png"
+heroImage: "/resources/assets/img/blog/2026/ai/mcp_with_aemcaas/mcp_with_aemcaas.png"
+tags: ["AEM", "AI", "Model Context Protocol", "Content Management", "Conversation"]
+canonicalUrl: "https://www.codebrains.co.in/blog/2026/ai/when-aem-meets-ai-mcp-turning-content-management-into-conversation"
+---
+
+***Remember when updating content across multiple pages meant writing custom scripts, navigating through countless JCR queries, or clicking through endless dialogs in the AEM authoring interface?***
+
+Those days are fading fast. **Adobe has integrated the Model Context Protocol (MCP) with AEM as a Cloud Service**, and it's fundamentally changing how we interact with our content management systems.
+
+**Instead of context-switching between your AI assistant and AEM's interface, you can now tell Claude or ChatGPT**: "Update the hero banner for the spring campaign across all regional pages" and watch it happen. No API documentation. No custom integration code. Just natural language orchestrating your entire content workflow.
+
+## **What is Model Context Protocol (and Why Should AEM Teams Care)?**
+
+If you've been following the AI infrastructure space, you might have already read about **[Model Context Protocol as the universal adapter your AI stack needs](https://www.codebrains.co.in/blog/2025/ai/model-context-protocol-the-universal-adapter-your-ai-stack-actually-needs "https://www.codebrains.co.in/blog/2025/ai/model-context-protocol-the-universal-adapter-your-ai-stack-actually-needs")**. Think of MCP like USB-C for AI applications. **Just as USB-C lets you connect your laptop to any monitor, hard drive, or phone charger** without worrying about proprietary cables, **MCP provides a standardized way for Large Language Models to connect with backend systems like AEM**, regardless of who built them.
+
+Here's the magic: instead of forcing developers to write custom API wrappers and integration code, MCP exposes backend tools through a protocol that LLMs inherently understand. You describe what you want in plain English, and the AI figures out which AEM tools to call, in what sequence, with what parameters.
+
+
+
+<div>
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" style="max-width: 100%; height: auto;">
+                            {/*  Background  */}
+                            <defs>
+                                <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#f0f9ff;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#e0f2fe;stop-opacity:1" />
+                                </linearGradient>
+                                <filter id="shadow">
+                                    <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+                                </filter>
+                            </defs>
+                            <rect width="800" height="400" fill="url(#bgGradient)"/>
+                            
+                            {/*  Title  */}
+                            <text x="400" y="40" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#0c4a6e" text-anchor="middle">The Old Way vs. The MCP Way</text>
+                            
+                            {/*  Old Way (Left Side)  */}
+                            <g>
+                                <text x="200" y="80" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#dc2626" text-anchor="middle">Before MCP</text>
+                                
+                                {/*  Developer  */}
+                                <rect x="140" y="100" width="120" height="60" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="2" filter="url(#shadow)"/>
+                                <text x="200" y="135" font-family="Arial, sans-serif" font-size="14" fill="#991b1b" text-anchor="middle" font-weight="bold">Developer</text>
+                                
+                                
+                                {/*  Arrow down  */}
+                                <path d="M 200 160 L 200 190" stroke="#dc2626" stroke-width="2" fill="none" marker-end="url(#arrowRed)"/>
+                                <defs>
+                                    <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                                        <polygon points="0,0 10,5 0,10" fill="#dc2626"/>
+                                    </marker>
+                                </defs>
+                                
+                                {/*  API Wrapper  */}
+                                <rect x="140" y="200" width="120" height="50" rx="8" fill="#fecaca" stroke="#dc2626" stroke-width="2" filter="url(#shadow)"/>
+                                <text x="200" y="230" font-family="Arial, sans-serif" font-size="12" fill="#991b1b" text-anchor="middle">Custom Code</text>
+                                
+                                {/*  Arrow down  */}
+                                <path d="M 200 250 L 200 280" stroke="#dc2626" stroke-width="2" fill="none" marker-end="url(#arrowRed)"/>
+                                
+                                {/*  AEM  */}
+                                <rect x="140" y="290" width="120" height="50" rx="8" fill="#dbeafe" stroke="#0369a1" stroke-width="2" filter="url(#shadow)"/>
+                                <text x="200" y="310" font-family="Arial, sans-serif" font-size="14" fill="#0c4a6e" text-anchor="middle" font-weight="bold">AEM</text>
+                                <text x="200" y="328" font-family="Arial, sans-serif" font-size="11" fill="#0c4a6e" text-anchor="middle">Content Management</text>
+                                
+                                {/*  Time indicator  */}
+                                <circle cx="200" cy="365" r="15" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+                                <text x="200" y="370" font-family="Arial, sans-serif" font-size="12" fill="#92400e" text-anchor="middle" font-weight="bold">3d</text>
+                                <text x="200" y="390" font-family="Arial, sans-serif" font-size="11" fill="#92400e" text-anchor="middle">Development Time</text>
+                            </g>
+                            
+                            {/*  Divider  */}
+                            <line x1="400" y1="70" x2="400" y2="350" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5,5"/>
+                            
+                            {/*  New Way (Right Side)  */}
+                            <g>
+                                <text x="600" y="80" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#16a34a" text-anchor="middle">With MCP</text>
+                                
+                                {/*  User with AI  */}
+                                <rect x="540" y="100" width="120" height="60" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2" filter="url(#shadow)"/>
+                                <text x="600" y="120" font-family="Arial, sans-serif" font-size="14" fill="#166534" text-anchor="middle" font-weight="bold">Content Team</text>
+                                <text x="600" y="138" font-family="Arial, sans-serif" font-size="11" fill="#166534" text-anchor="middle">"Update hero banners</text>
+                                <text x="600" y="151" font-family="Arial, sans-serif" font-size="11" fill="#166534" text-anchor="middle">across all pages"</text>
+                                
+                                {/*  Arrow down  */}
+                                <path d="M 600 160 L 600 190" stroke="#16a34a" stroke-width="2" fill="none" marker-end="url(#arrowGreen)"/>
+                                <defs>
+                                    <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                                        <polygon points="0,0 10,5 0,10" fill="#16a34a"/>
+                                    </marker>
+                                </defs>
+                                
+                                {/*  MCP Magic  */}
+                                <rect x="540" y="200" width="120" height="50" rx="8" fill="#86efac" stroke="#16a34a" stroke-width="2" filter="url(#shadow)"/>
+                                <text x="600" y="220" font-family="Arial, sans-serif" font-size="13" fill="#166534" text-anchor="middle" font-weight="bold">MCP Protocol</text>
+                                <text x="600" y="235" font-family="Arial, sans-serif" font-size="11" fill="#166534" text-anchor="middle">Auto-translates</text>
+                                
+                                {/*  Arrow down  */}
+                                <path d="M 600 250 L 600 280" stroke="#16a34a" stroke-width="2" fill="none" marker-end="url(#arrowGreen)"/>
+                                
+                                {/*  AEM  */}
+                                <rect x="540" y="290" width="120" height="50" rx="8" fill="#dbeafe" stroke="#0369a1" stroke-width="2" filter="url(#shadow)"/>
+                                <text x="600" y="310" font-family="Arial, sans-serif" font-size="14" fill="#0c4a6e" text-anchor="middle" font-weight="bold">AEM</text>
+                                <text x="600" y="328" font-family="Arial, sans-serif" font-size="11" fill="#0c4a6e" text-anchor="middle">Content Management</text>
+                                
+                                {/*  Time indicator  */}
+                                <circle cx="600" cy="365" r="15" fill="#d1fae5" stroke="#16a34a" stroke-width="2"/>
+                                <text x="600" y="370" font-family="Arial, sans-serif" font-size="12" fill="#166534" text-anchor="middle" font-weight="bold">5m</text>
+                                <text x="600" y="390" font-family="Arial, sans-serif" font-size="11" fill="#166534" text-anchor="middle">Ready to Go</text>
+                            </g>
+                        </svg>
+</div>
+
+
+
+For AEM specifically, Adobe has created MCP servers that expose AEM's content management capabilities as a set of tools. These tools respect your existing AEM permissions model, which means if a user doesn't have access to modify a content fragment through the UI, they won't be able to modify it through MCP either. Your governance model stays intact while your productivity skyrockets.
+
+## **The Architecture: How MCP Connects LLMs to AEM**
+
+The integration works through a three-layer architecture that should feel familiar to anyone who's built distributed systems:
+
+**Layer 1: MCP Servers** - Adobe hosts MCP servers at specific endpoints (like `https://mcp.adobeaemcloud.com/adobe/mcp/content`) that expose AEM functionality as standardized tools. These servers handle OAuth authentication, permission validation, and translate MCP requests into AEM API calls.
+
+**Layer 2: MCP Clients** - AI applications like Claude, ChatGPT, Cursor, and Microsoft Copilot Studio act as MCP clients. They know how to communicate with MCP servers, retrieve tool schemas, and make intelligent decisions about which tools to call.
+
+**Layer 3: LLM Intelligence** - The AI model reads tool descriptions, understands user intent, and orchestrates multi-step workflows by chaining MCP tool calls together.
+
+
+
+<div>
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" style="max-width: 100%; height: auto;">
+                        <defs>
+                            <linearGradient id="layerGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#dbeafe;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#bfdbfe;stop-opacity:1" />
+                            </linearGradient>
+                            <linearGradient id="layerGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#fce7f3;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#fbcfe8;stop-opacity:1" />
+                            </linearGradient>
+                            <linearGradient id="layerGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#fef3c7;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#fde68a;stop-opacity:1" />
+                            </linearGradient>
+                            <filter id="boxShadow">
+                                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.25"/>
+                            </filter>
+                        </defs>
+                        
+                        {/*  Background  */}
+                        <rect width="800" height="500" fill="#f8fafc"/>
+                        
+                        {/*  Title  */}
+                        <text x="400" y="40" font-family="Arial, sans-serif" font-size="26" font-weight="bold" fill="#1e293b" text-anchor="middle">The 3-Layer MCP Architecture</text>
+                        
+                        {/*  Layer 3: LLM Intelligence  */}
+                        <g>
+                            <rect x="100" y="80" width="600" height="100" rx="12" fill="url(#layerGrad1)" stroke="#0369a1" stroke-width="3" filter="url(#boxShadow)"/>
+                            <text x="120" y="110" font-family="Arial, sans-serif" font-size="11" fill="#0c4a6e" font-weight="bold">LAYER 3</text>
+                            <text x="400" y="110" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#0369a1" text-anchor="middle">LLM Intelligence Layer</text>
+                            
+                            {/*  Icons for different AI tools  */}
+                            <g transform="translate(150, 125)">
+                                <rect width="80" height="40" rx="6" fill="#ffffff" stroke="#0369a1" stroke-width="2"/>
+                                <text x="40" y="16" font-family="Arial, sans-serif" font-size="12" fill="#0c4a6e" text-anchor="middle" font-weight="bold">Claude</text>
+                                <text x="40" y="30" font-family="Arial, sans-serif" font-size="9" fill="#0c4a6e" text-anchor="middle">Anthropic</text>
+                            </g>
+                            <g transform="translate(260, 125)">
+                                <rect width="80" height="40" rx="6" fill="#ffffff" stroke="#0369a1" stroke-width="2"/>
+                                <text x="40" y="16" font-family="Arial, sans-serif" font-size="12" fill="#0c4a6e" text-anchor="middle" font-weight="bold">ChatGPT</text>
+                                <text x="40" y="30" font-family="Arial, sans-serif" font-size="9" fill="#0c4a6e" text-anchor="middle">OpenAI</text>
+                            </g>
+                            <g transform="translate(370, 125)">
+                                <rect width="80" height="40" rx="6" fill="#ffffff" stroke="#0369a1" stroke-width="2"/>
+                                <text x="40" y="16" font-family="Arial, sans-serif" font-size="12" fill="#0c4a6e" text-anchor="middle" font-weight="bold">Cursor</text>
+                                <text x="40" y="30" font-family="Arial, sans-serif" font-size="9" fill="#0c4a6e" text-anchor="middle">IDE Agent</text>
+                            </g>
+                            <g transform="translate(480, 125)">
+                                <rect width="90" height="40" rx="6" fill="#ffffff" stroke="#0369a1" stroke-width="2"/>
+                                <text x="45" y="16" font-family="Arial, sans-serif" font-size="11" fill="#0c4a6e" text-anchor="middle" font-weight="bold">Copilot</text>
+                                <text x="45" y="30" font-family="Arial, sans-serif" font-size="9" fill="#0c4a6e" text-anchor="middle">Microsoft</text>
+                            </g>
+                        </g>
+                        
+                        {/*  Arrow  */}
+                        <defs>
+                            <marker id="arrowBlue" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto">
+                                <polygon points="0,0 12,6 0,12" fill="#0369a1"/>
+                            </marker>
+                        </defs>
+                        <path d="M 400 180 L 400 210" stroke="#0369a1" stroke-width="2" fill="none" marker-end="url(#arrowBlue)"/>
+                        <text x="420" y="200" font-family="Arial, sans-serif" font-size="12" fill="#0369a1" font-style="italic">Reads schemas & orchestrates</text>
+                        
+                        {/*  Layer 2: MCP Clients  */}
+                        <g>
+                            <rect x="100" y="220" width="600" height="100" rx="12" fill="url(#layerGrad2)" stroke="#be185d" stroke-width="3" filter="url(#boxShadow)"/>
+                            <text x="120" y="250" font-family="Arial, sans-serif" font-size="11" fill="#831843" font-weight="bold">LAYER 2</text>
+                            <text x="400" y="250" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#be185d" text-anchor="middle">MCP Client Protocol</text>
+                            
+                            <g transform="translate(140, 265)">
+                                <rect width="200" height="35" rx="6" fill="#ffffff" stroke="#be185d" stroke-width="2"/>
+                                <text x="100" y="15" font-family="Arial, sans-serif" font-size="11" fill="#831843" text-anchor="middle">Tool Discovery</text>
+                                <text x="100" y="28" font-family="Arial, sans-serif" font-size="9" fill="#831843" text-anchor="middle">What can AEM do?</text>
+                            </g>
+                            <g transform="translate(360, 265)">
+                                <rect width="200" height="35" rx="6" fill="#ffffff" stroke="#be185d" stroke-width="2"/>
+                                <text x="100" y="15" font-family="Arial, sans-serif" font-size="11" fill="#831843" text-anchor="middle">Request Translation</text>
+                                <text x="100" y="28" font-family="Arial, sans-serif" font-size="9" fill="#831843" text-anchor="middle">Natural → API Calls</text>
+                            </g>
+                        </g>
+                        
+                        {/*  Arrow  */}
+                        <path d="M 400 320 L 400 350" stroke="#be185d" stroke-width="2" fill="none" marker-end="url(#arrowPink)"/>
+                        <defs>
+                            <marker id="arrowPink" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto">
+                                <polygon points="0,0 12,6 0,12" fill="#be185d"/>
+                            </marker>
+                        </defs>
+                        <text x="420" y="340" font-family="Arial, sans-serif" font-size="12" fill="#be185d" font-style="italic">Authenticated requests</text>
+                        
+                        {/*  Layer 1: MCP Servers  */}
+                        <g>
+                            <rect x="100" y="360" width="600" height="100" rx="12" fill="url(#layerGrad3)" stroke="#d97706" stroke-width="3" filter="url(#boxShadow)"/>
+                            <text x="120" y="390" font-family="Arial, sans-serif" font-size="11" fill="#78350f" font-weight="bold">LAYER 1</text>
+                            <text x="400" y="390" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#d97706" text-anchor="middle">MCP Servers (Adobe)</text>
+                            
+                            <g transform="translate(130, 405)">
+                                <rect width="150" height="35" rx="6" fill="#ffffff" stroke="#d97706" stroke-width="2"/>
+                                <text x="75" y="15" font-family="Arial, sans-serif" font-size="11" fill="#78350f" text-anchor="middle" font-weight="bold">OAuth Security</text>
+                                <text x="75" y="28" font-family="Arial, sans-serif" font-size="9" fill="#78350f" text-anchor="middle">Permission checks</text>
+                            </g>
+                            <g transform="translate(300, 405)">
+                                <rect width="150" height="35" rx="6" fill="#ffffff" stroke="#d97706" stroke-width="2"/>
+                                <text x="75" y="15" font-family="Arial, sans-serif" font-size="11" fill="#78350f" text-anchor="middle" font-weight="bold">Tool Exposure</text>
+                                <text x="75" y="28" font-family="Arial, sans-serif" font-size="9" fill="#78350f" text-anchor="middle">AEM API wrapped</text>
+                            </g>
+                            <g transform="translate(470, 405)">
+                                <rect width="150" height="35" rx="6" fill="#ffffff" stroke="#d97706" stroke-width="2"/>
+                                <text x="75" y="15" font-family="Arial, sans-serif" font-size="11" fill="#78350f" text-anchor="middle" font-weight="bold">Request Handler</text>
+                                <text x="75" y="28" font-family="Arial, sans-serif" font-size="9" fill="#78350f" text-anchor="middle">MCP → AEM API</text>
+                            </g>
+                        </g>
+                        
+                        {/*  Final arrow to AEM  */}
+                        <path d="M 400 460 L 400 485" stroke="#d97706" stroke-width="2" fill="none" marker-end="url(#arrowOrange)"/>
+                        <defs>
+                            <marker id="arrowOrange" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto">
+                                <polygon points="0,0 12,6 0,12" fill="#d97706"/>
+                            </marker>
+                        </defs>
+                        
+                        {/*  AEM Logo/Box  */}
+                        <rect x="420" y="475" width="100" height="20" rx="4" fill="#eb1000" stroke="#991b1b" stroke-width="2"/>
+                        <text x="470" y="490" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">AEM Cloud</text>
+                    </svg>
+</div>
+
+
+
+## **What You Can Actually Do: MCP Tools for AEM**
+
+Adobe's MCP implementation isn't just a proof of concept. It's a comprehensive toolkit covering the real work content teams do every day:
+
+**Content Fragment Management** - Create, read, update, and delete content fragments. The tools support optimistic concurrency with ETags, so you won't accidentally overwrite someone else's changes. You can discover available content fragment models, inspect their schemas, and create fragments that conform to those models, all through natural language.
+
+**Page Operations** - Get page content, create new pages from templates, update existing pages, and manage page hierarchies. Need to find which content fragments a page references? Just ask, and MCP will retrieve the page content and locate the fragment paths.
+
+**Environment Management** - List available environments and licenses to decide where to run workflows. This is particularly useful for teams managing multiple environments (dev, stage, production) and need to orchestrate deployments.
+
+## **Things to Keep in Mind (Because Nothing is Perfect)**
+
+Let's be honest about the limitations and gotchas:
+
+### **Security and Access Control**
+
+While MCP respects your AEM permissions, you're now giving LLMs the ability to make changes to your production content. **Adobe recommends using the AI Assistant interface within AEM for operations that modify or delete content, because it has built-in safeguards designed specifically for content management scenarios.**
+
+For external tools like Claude or ChatGPT, start with read-only exploration using the `/content-readonly` endpoint. Only switch to the full `/content` endpoint when you need write access. And please, for the love of properly configured dispatcher rules, review operations before confirming writes.
+
+### **The Thinking Model Requirement**
+
+For complex, multi-step operations, **Adobe explicitly recommends enabling "thinking" models rather than relying on auto mode.** LLMs are probabilistic by nature. When you're chaining together operations that could affect dozens or hundreds of pages, you want the model to reason through the sequence explicitly.
+
+This isn't a limitation, it's good engineering practice. Think of it like requiring explicit transactions in database operations rather than auto-commit mode.
+
+### **OAuth Configuration Overhead**
+
+Each MCP client has its own configuration experience. You'll need to set up OAuth integration, configure connection parameters, and select which MCP server to use before prompting. This isn't a click-and-go experience yet. Budget time for your team to go through setup documentation and get authenticated properly.
+
+## **Next Steps: Getting Started with MCP and AEM**
+
+If you're ready to experiment (and you should be), here's the practical path forward:
+
+**1. Start with Read-Only Access:** Configure one of the supported MCP clients (Claude, ChatGPT, or Cursor) to connect to Adobe's `/content-readonly` endpoint. Spend time asking questions about your content structure, running queries, and getting comfortable with how the AI interprets your requests.
+
+**2. Define Your Use Cases:** Don't enable write access until you've identified specific workflows where MCP will add value. "Because it's cool" isn't a use case. "Reducing the time to update product descriptions across 200 pages from 3 hours to 15 minutes" is.
+
+**3. Establish Governance:** Decide who on your team gets MCP access, what level of access they get, and what approval workflows are required. Document these decisions. Future you will thank present you when someone inevitably asks "can I just auto-confirm these 500 page updates?"
+
+**4. Measure and Iterate:** Track how much time MCP saves on specific tasks. Monitor for errors or unexpected behaviors. Share learnings across your team. This technology will evolve rapidly, and the teams that build institutional knowledge now will be positioned to leverage future capabilities.
+
+Your content infrastructure just got a lot smarter. Use it wisely.
+
+## **The Verdict: Is MCP for AEM Ready for Production?**
+
+Here's my take after years of building large-scale AEM implementations: this is the most significant shift in how we'll interact with content management systems.
+
+**For Content Authors:** Start with read-only exploration and simple updates. **The AI Assistant in AEM's UI is your safer bet for bulk modifications until you're comfortable with how the AI interprets your requests.**
+
+**For Developers:** This is a productivity multiplier for content migration scripts, bulk updates, and workflow orchestration. Instead of writing custom Groovy scripts every time marketing has a new request, you can describe the logic and let the AI handle the implementation. Just don't skip the validation step.
+
+**For Architects:** Consider MCP as part of your AEM governance model. Define which teams get access to which endpoints (read-only vs. full content). Establish guidelines for when to use MCP vs. traditional development. And critically, decide whether to allow auto-confirm operations or require manual approval.
+
+If you're managing an AEM implementation at scale, start experimenting with MCP now. Not because it's the shiny new thing, but because the teams that figure out how to safely accelerate content operations will have a significant competitive advantage over those still writing custom scripts for every bulk update.
+
+Just remember: with great abstraction comes great responsibility. The AI can execute your requests faster than you can say "rollback to the last good version," so make sure your backup strategy is as sophisticated as your AI integration.
+
+Have you started experimenting with MCP and AEM? Run into interesting use cases or gotchas worth sharing? Let's talk in the comments.Share your thoughts on [LinkedIn](https://www.linkedin.com/in/ankitgubrani/ "https://www.linkedin.com/in/ankitgubrani/")

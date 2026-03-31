@@ -1,0 +1,84 @@
+---
+title: "Codebrains.co.in | Home"
+date: 2022-10-15
+description: "Codebrains.co.in is a blogging website on latest technology which include AEM, Adobe CQ, Java based frameworks and latest OS features."
+ogImage: "/resources/assets/img/codebrains_transparent.png"
+heroImage: "/resources/assets/img/codebrains_transparent.png"
+tags: ["Blog", "AEM", "Technology", "codebrains.co.in", "Ankit Gubrani"]
+canonicalUrl: "https://www.codebrains.co.in/blog/posts/configuringAEMwithMongoMK"
+---
+
+# Configuring AEM 6.0 with mongoMK
+
+  
+
+One of the most important feature of AEM 6.0 is introduction of "Apache Jackrabbit Oak" with this new version of AEM. Jackrabbit oak is an effort to enhance the scalability and performance of the backend of the AEM content reporsitory. Oak introduces the micro-kernel for persistence of repository data, there are two micro-kernel implementation supported with oak :  
+
+* Mongo MK
+* Tar MK
+
+**Tar MK:**  
+Tar storage uses tar files for storing the repository content. The content is stored in segments that can be upto 256 MB in size. Segments are immutable which makes it easy to cache frequently accessed segments.  
+  
+**Mongo MK:**  
+Mongo storage uses Mongo DB to storing the content of the repository. Mongo MK makes oak repository scalable as mongo DB supports sharding and clustering.  
+  
+In this post I will be discussing how to configure Mongo storage or MongoMK with AEM. Here are the set of steps for setting up mongo MK with AEM :  
+  
+**Setting Up Mongo DB (Ubuntu specific) :**  
+  
+  
+
+1. Download the mongo binaries from &lt;https://www.mongodb.org/downloads&gt;
+2. Extract the files from the downloaded archive.
+
+tar -zxvf mongodb-linux-i686-3.0.4-rc0.tgz
+
+3. Copy the extracted folder to the location from which MongoDB will run.
+
+mkdir -p /opt/mongodb
+
+cp -R -n mongodb-linux-x86\_64-ubuntu1404-3.0.3/\* /opt/mongodb
+
+4. Ensure the location of the binaries is in the PATH variable.
+
+\export PATH=/opt/mongodb/bin:$PATH
+
+5. Run MongoDB :
+   **mongod** (run **mongod** command from termilnal)
+6. Create the data directory.
+
+mkdir -p /data/db
+
+7. Set permissions for the data directory.
+
+Before running mongod for the first time, ensure that the user   
+account running
+
+mongod has read and write permissions for the directory.
+
+8. Run MongoDB.
+
+mongod or /opt/mongodb/bin/mongod
+
+  
+
+I used Robomongo which is a client to access Mongo DB server and    
+ perform the manipulations on the mongo DB.
+
+AEM Setup
+
+1. Unpack AEM by running the following command:
+
+   java –jar cq-quickstart-6.0.0.jar -unpack
+2. Create a folder named crx-quickstart\install in the installation directory.
+3. Configure the node store by creating a configuration file with the name of the configuration you want to use in the crx-quickstart\install directory.
+   The Document Node Store (which is the basis for AEM's MongoDB storage implementation) uses a file called org.apache.jackrabbit.oak.plugins.document.DocumentNodeStoreService.cfg.
+   Here is the sample DocumentNodeStoreService.cfg file :
+
+12. Start the AEM 6 jar with a MongoDB storage backend by running:
+
+|  |
+| --- |
+| java -jar cq-quickstart-6.0.0.jar -r crx3,crx3mongo        Here is the link to github repository : &lt;https://github.com/ankit-gubrani/Codebrains&gt; |
+|  |

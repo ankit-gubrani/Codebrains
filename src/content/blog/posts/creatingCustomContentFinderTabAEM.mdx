@@ -1,0 +1,55 @@
+---
+title: "Codebrains.co.in | Home"
+date: 2022-10-15
+description: "Codebrains.co.in is a blogging website on latest technology which include AEM, Adobe CQ, Java based frameworks and latest OS features."
+ogImage: "/resources/assets/img/codebrains_transparent.png"
+heroImage: "/resources/assets/img/codebrains_transparent.png"
+tags: ["Blog", "AEM", "Technology", "codebrains.co.in", "Ankit Gubrani"]
+canonicalUrl: "https://www.codebrains.co.in/blog/posts/creatingCustomContentFinderTabAEM"
+---
+
+# Creating custom Content Finder tab in AEM
+
+  
+
+AEM provides a quick and easy way to find & use content while editing a page via Content Finder. Content Finder is a way to search different types of assets stored in AEM and make them available for drag N drop on the pages.   
+  
+Creating a custom tab in Content finder makes it easier for user locate content or drag N dropable data. While creating a connector tool for AEM I came across this use case where I had to provide custom tab in the content finder to make data available for user while editing the page.   
+  
+Creating custom tab is a 2 step process :   
+
+* Creating a back-end service for providing data.
+* Creating custom content finder step.
+
+
+  
+
+1. **Back-end service** **:** It provides the data to the custom content finder tab to display. For this post I have created a text file with JSON data, in real world scenario it would be a service providing dynamic data.
+
+2. **Creating custom content finder step** **:**
+
+* Create a folder with **jcr:primaryType** as **sling:folder** under **/apps/wcm/extensions** hierarchy with name **contentfinder.**
+* Set property **extensionGroup** as tabs on "**contentfinder**" folder.
+* Set property **extensionType** as "**contentfinder\_extension**" on contentfinder folder.
+
+  
+
+[![](https://4.bp.blogspot.com/-AEoE6AJeydE/VdTbVHsfNpI/AAAAAAAABmY/fNh5zjNDZCc/s900/customCFBLog.jpg)](http://4.bp.blogspot.com/-AEoE6AJeydE/VdTbVHsfNpI/AAAAAAAABmY/fNh5zjNDZCc/s1600/customCFBLog.jpg)
+
+  
+
+* Now create a JS file under contentfinder folder.
+
+  
+
+Above code creates a new content finder tab with name mentioned as **tabTip** property, setting the **ranking** as 1 makes this tab to appear on #1 position in the content finder, **iconCls** property sets the class on the tab and displays the icon on the tab. The most important part is creating a result box using **CQ.wcm.ContentFinderTab.getResultsBoxConfig** to display the result fetched from **URL** mentioned.   
+After creating a similar JS file there will be new tab added in the content finder as shown here :  
+  
+  
+  
+
+[![](https://4.bp.blogspot.com/-33MpauWwVM0/VdTbUcSQkXI/AAAAAAAABmc/YRJBvglf4bk/s900/CustomCFBlog2.jpg)](http://4.bp.blogspot.com/-33MpauWwVM0/VdTbUcSQkXI/AAAAAAAABmc/YRJBvglf4bk/s1600/CustomCFBlog2.jpg)
+
+  
+Here is the link to github repository :   
+***[https://github.com/ankit-gubrani/Codebrains](https://github.com/ankit-gubrani/Codebrains/commit/c4ad0d515961b9a274749672399270f22dc8b49a)***

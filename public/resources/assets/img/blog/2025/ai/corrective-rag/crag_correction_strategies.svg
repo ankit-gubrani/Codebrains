@@ -1,0 +1,147 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="400" fill="#f8f9fa"/>
+  
+  <!-- Title -->
+  <text x="400" y="35" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#2c3e50" text-anchor="middle">
+    Three Corrective Strategies
+  </text>
+  
+  <!-- Strategy 1: Filter -->
+  <g transform="translate(50, 80)">
+    <rect x="0" y="0" width="200" height="280" rx="8" fill="#4dabf7" opacity="0.1" stroke="#4dabf7" stroke-width="2"/>
+    
+    <!-- Icon -->
+    <circle cx="100" cy="40" r="25" fill="#4dabf7" opacity="0.2"/>
+    <text x="100" y="50" font-family="Arial, sans-serif" font-size="28" text-anchor="middle">🔍</text>
+    
+    <!-- Title -->
+    <text x="100" y="90" font-family="Arial, sans-serif" font-size="16" fill="#1971c2" text-anchor="middle" font-weight="bold">
+      Strategy 1: Filter
+    </text>
+    
+    <!-- Description -->
+    <text x="100" y="120" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50" text-anchor="middle">
+      Remove low-quality
+    </text>
+    <text x="100" y="138" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50" text-anchor="middle">
+      documents
+    </text>
+    
+    <!-- When to Use -->
+    <rect x="15" y="160" width="170" height="20" rx="3" fill="#e7f5ff"/>
+    <text x="100" y="175" font-family="Arial, sans-serif" font-size="11" fill="#1971c2" text-anchor="middle" font-weight="bold">
+      When to use:
+    </text>
+    
+    <text x="20" y="200" font-family="Arial, sans-serif" font-size="10" fill="#495057">
+      • Mixed quality results
+    </text>
+    <text x="20" y="218" font-family="Arial, sans-serif" font-size="10" fill="#495057">
+      • Some docs irrelevant
+    </text>
+    <text x="20" y="236" font-family="Arial, sans-serif" font-size="10" fill="#495057">
+      • Need noise reduction
+    </text>
+    
+    <!-- Cost indicator -->
+    <rect x="40" y="250" width="120" height="20" rx="3" fill="#51cf66" opacity="0.2"/>
+    <text x="100" y="264" font-family="Arial, sans-serif" font-size="10" fill="#2f9e44" text-anchor="middle" font-weight="bold">
+      💰 Cost: Low
+    </text>
+  </g>
+  
+  <!-- Strategy 2: Web Search -->
+  <g transform="translate(300, 80)">
+    <rect x="0" y="0" width="200" height="280" rx="8" fill="#ff922b" opacity="0.1" stroke="#ff922b" stroke-width="2"/>
+    
+    <!-- Icon -->
+    <circle cx="100" cy="40" r="25" fill="#ff922b" opacity="0.2"/>
+    <text x="100" y="50" font-family="Arial, sans-serif" font-size="28" text-anchor="middle">🌐</text>
+    
+    <!-- Title -->
+    <text x="100" y="90" font-family="Arial, sans-serif" font-size="16" fill="#e67700" text-anchor="middle" font-weight="bold">
+      Strategy 2: Web Search
+    </text>
+    
+    <!-- Description -->
+    <text x="100" y="120" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50" text-anchor="middle">
+      Augment with external
+    </text>
+    <text x="100" y="138" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50" text-anchor="middle">
+      information
+    </text>
+    
+    <!-- When to Use -->
+    <rect x="15" y="160" width="170" height="20" rx="3" fill="#fff4e6"/>
+    <text x="100" y="175" font-family="Arial, sans-serif" font-size="11" fill="#e67700" text-anchor="middle" font-weight="bold">
+      When to use:
+    </text>
+    
+    <text x="20" y="200" font-family="Arial, sans-serif" font-size="10" fill="#495057">
+      • Missing information
+    </text>
+    <text x="20" y="218" font-family="Arial, sans-serif" font-size="10" fill="#495057">
+      • Outdated docs
+    </text>
+    <text x="20" y="236" font-family="Arial, sans-serif" font-size="10" fill="#495057">
+      • Need current data
+    </text>
+    
+    <!-- Cost indicator -->
+    <rect x="40" y="250" width="120" height="20" rx="3" fill="#ff922b" opacity="0.2"/>
+    <text x="100" y="264" font-family="Arial, sans-serif" font-size="10" fill="#e67700" text-anchor="middle" font-weight="bold">
+      💰 Cost: Medium-High
+    </text>
+  </g>
+  
+  <!-- Strategy 3: Reformulate -->
+  <g transform="translate(550, 80)">
+    <rect x="0" y="0" width="200" height="280" rx="8" fill="#7950f2" opacity="0.1" stroke="#7950f2" stroke-width="2"/>
+    
+    <!-- Icon -->
+    <circle cx="100" cy="40" r="25" fill="#7950f2" opacity="0.2"/>
+    <text x="100" y="50" font-family="Arial, sans-serif" font-size="28" text-anchor="middle">🔄</text>
+    
+    <!-- Title -->
+    <text x="100" y="90" font-family="Arial, sans-serif" font-size="16" fill="#5f3dc4" text-anchor="middle" font-weight="bold">
+      Strategy 3: Reformulate
+    </text>
+    
+    <!-- Description -->
+    <text x="100" y="120" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50" text-anchor="middle">
+      Rewrite query and
+    </text>
+    <text x="100" y="138" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50" text-anchor="middle">
+      re-retrieve
+    </text>
+    
+    <!-- When to Use -->
+    <rect x="15" y="160" width="170" height="20" rx="3" fill="#f3f0ff"/>
+    <text x="100" y="175" font-family="Arial, sans-serif" font-size="11" fill="#5f3dc4" text-anchor="middle" font-weight="bold">
+      When to use:
+    </text>
+    
+    <text x="20" y="200" font-family="Arial, sans-serif" font-size="10" fill="#495057">
+      • Ambiguous query
+    </text>
+    <text x="20" y="218" font-family="Arial, sans-serif" font-size="10" fill="#495057">
+      • Wrong terminology
+    </text>
+    <text x="20" y="236" font-family="Arial, sans-serif" font-size="10" fill="#495057">
+      • Need specificity
+    </text>
+    
+    <!-- Cost indicator -->
+    <rect x="40" y="250" width="120" height="20" rx="3" fill="#ff922b" opacity="0.2"/>
+    <text x="100" y="264" font-family="Arial, sans-serif" font-size="10" fill="#e67700" text-anchor="middle" font-weight="bold">
+      💰 Cost: Medium
+    </text>
+  </g>
+  
+  <!-- Bottom note -->
+  <rect x="50" y="375" width="700" height="20" rx="3" fill="#e7f5ff"/>
+  <text x="400" y="389" font-family="Arial, sans-serif" font-size="11" fill="#1971c2" text-anchor="middle">
+    💡 Best Practice: Apply strategies in order of cost-effectiveness (Filter → Reformulate → Web Search)
+  </text>
+</svg>

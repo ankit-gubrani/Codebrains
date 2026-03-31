@@ -1,0 +1,69 @@
+---
+import BaseLayout from './BaseLayout.astro';
+const { frontmatter } = Astro.props;
+
+// Convert string dates to ISO for Schema
+const dateIso = new Date(frontmatter.date).toISOString();
+const blogDate = new Date(frontmatter.date).toISOString().split('T')[0];
+const formattedDate = new Date(frontmatter.date).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": frontmatter.title,
+  "author": {
+      "@type": "Person",
+      "name": "Ankit Gubrani",
+      "url": "https://www.linkedin.com/in/ankitgubrani/"
+  },
+  "publisher": {
+      "@type": "Organization",
+      "name": "Codebrains.co.in",
+      "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.codebrains.co.in/resources/assets/img/codebrains_newlogo.png"
+      }
+  },
+  "datePublished": dateIso,
+  "dateModified": dateIso,
+  "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": frontmatter.canonicalUrl
+  },
+  "description": frontmatter.description
+};
+---
+<BaseLayout
+  title={`${frontmatter.title} | codebrains.co.in`}
+  description={frontmatter.description}
+  ogImage={`https://www.codebrains.co.in${frontmatter.ogImage}`}
+  canonicalUrl={frontmatter.canonicalUrl}
+>
+  <Fragment slot="head">
+    <meta property="og:type" content="article" />
+    <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+  </Fragment>
+
+  <main>
+      <div class="blog-container bg-white p-8 rounded-lg shadow-2xl">
+          <article class="blog-post">
+            <header>
+                <h1>{frontmatter.title}</h1>
+                <p class="blog-author-info">
+                    By <span>Ankit Gubrani</span> on
+                    <time datetime={blogDate}>{formattedDate}</time>
+                </p>
+                <label class="eyebrow-blue"><strong>{frontmatter.seriesLabel}</strong></label>
+            </header>
+            <div class="blog-content">
+                {frontmatter.heroImage && (
+                  <figure class="blog-image-square-wrap">
+                    <img src={frontmatter.heroImage} alt={frontmatter.title} />
+                  </figure>
+                )}
+                <slot />
+            </div>
+          </article>
+      </div>
+  </main>
+</BaseLayout>

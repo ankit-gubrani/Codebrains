@@ -1,0 +1,38 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths({ paginate }) {
+  const posts = await getCollection('blog');
+  const sorted = posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  return paginate(sorted, { pageSize: 9 });
+}
+
+const { page } = Astro.props;
+---
+<BaseLayout title="Blogs | codebrains.co.in" description="All blog posts" canonicalUrl={`https://www.codebrains.co.in${Astro.url.pathname}`}>
+  <div class="container main-container">
+    <div class="blogs-intro-header">
+      <div class="blogs-intro-message">
+          <h1>Blog Posts</h1>
+      </div>
+    </div>
+    <div class="blog-card-grid">
+      {page.data.map(post => (
+        <div class="blog-card-wrapper">
+          <div class="blog-card">
+            <img src={post.data.ogImage} alt={post.data.title} loading="lazy" style="max-width:300px; border-radius:8px;" />
+            <h3><a href={`/blog/${post.id}`}>{post.data.title}</a></h3>
+            <p>{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+            <p>{post.data.description}</p>
+            <a href={`/blog/${post.id}`}>Read more</a>
+          </div>
+        </div>
+      ))}
+    </div>
+    <nav style="text-align: center; margin: 2rem;font-size: 2rem;">
+      {page.url.prev && <a href={page.url.prev}>&larr; Previous Page</a>}
+      {page.url.next && <a href={page.url.next} style="margin-left: 1rem;">Next Page &rarr;</a>}
+    </nav>
+  </div>
+</BaseLayout>

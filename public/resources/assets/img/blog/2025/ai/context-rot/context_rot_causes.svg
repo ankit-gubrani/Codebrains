@@ -1,0 +1,139 @@
+<svg viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1000" height="800" fill="#ffffff"/>
+  
+  <!-- Title -->
+  <text x="500" y="40" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#1a1a1a" text-anchor="middle">
+    The Four Causes of Context Rot
+  </text>
+  
+  <!-- Central system -->
+  <circle cx="500" cy="400" r="80" fill="#f44336"/>
+  <text x="500" y="395" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#ffffff" text-anchor="middle">
+    Context Rot
+  </text>
+  <text x="500" y="420" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle">
+    Performance
+  </text>
+  <text x="500" y="438" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle">
+    Degradation
+  </text>
+  
+  <!-- Cause 1: Top Left - Stale Embeddings -->
+  <g transform="translate(100, 100)">
+    <rect width="280" height="140" fill="#fff3e0" stroke="#ff9800" stroke-width="3" rx="8"/>
+    
+    <text x="140" y="30" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#e65100" text-anchor="middle">
+      1. Stale Embeddings
+    </text>
+    
+    <text x="140" y="58" font-family="Arial, sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle">
+      Embeddings created months ago
+    </text>
+    <text x="140" y="78" font-family="Arial, sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle">
+      don't reflect current content
+    </text>
+    
+    <rect x="20" y="95" width="240" height="30" fill="#ffe0b2" rx="4"/>
+    <text x="140" y="115" font-family="Arial, sans-serif" font-size="12" fill="#e65100" text-anchor="middle">
+      "API auth" retrieves deprecated methods
+    </text>
+  </g>
+  
+  <!-- Arrow from cause 1 to center -->
+  <path d="M 320 240 L 440 350" stroke="#ff9800" stroke-width="3" marker-end="url(#arrow-orange)"/>
+  
+  <!-- Cause 2: Top Right - Context Window Inflation -->
+  <g transform="translate(620, 100)">
+    <rect width="280" height="140" fill="#fce4ec" stroke="#e91e63" stroke-width="3" rx="8"/>
+    
+    <text x="140" y="30" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#880e4f" text-anchor="middle">
+      2. Context Inflation
+    </text>
+    
+    <text x="140" y="58" font-family="Arial, sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle">
+      Adding context is easy,
+    </text>
+    <text x="140" y="78" font-family="Arial, sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle">
+      removing it never happens
+    </text>
+    
+    <rect x="20" y="95" width="240" height="30" fill="#f8bbd0" rx="4"/>
+    <text x="140" y="115" font-family="Arial, sans-serif" font-size="12" fill="#880e4f" text-anchor="middle">
+      2K tokens → 20K tokens over time
+    </text>
+  </g>
+  
+  <!-- Arrow from cause 2 to center -->
+  <path d="M 680 240 L 560 350" stroke="#e91e63" stroke-width="3" marker-end="url(#arrow-pink)"/>
+  
+  <!-- Cause 3: Bottom Left - Document Overlap -->
+  <g transform="translate(100, 560)">
+    <rect width="280" height="140" fill="#f3e5f5" stroke="#9c27b0" stroke-width="3" rx="8"/>
+    
+    <text x="140" y="30" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#4a148c" text-anchor="middle">
+      3. Document Overlap
+    </text>
+    
+    <text x="140" y="58" font-family="Arial, sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle">
+      Same info repeated across
+    </text>
+    <text x="140" y="78" font-family="Arial, sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle">
+      multiple documents
+    </text>
+    
+    <rect x="20" y="95" width="240" height="30" fill="#e1bee7" rx="4"/>
+    <text x="140" y="115" font-family="Arial, sans-serif" font-size="12" fill="#4a148c" text-anchor="middle">
+      4 docs all explain authentication
+    </text>
+  </g>
+  
+  <!-- Arrow from cause 3 to center -->
+  <path d="M 320 560 L 440 450" stroke="#9c27b0" stroke-width="3" marker-end="url(#arrow-purple)"/>
+  
+  <!-- Cause 4: Bottom Right - Cached Stale Responses -->
+  <g transform="translate(620, 560)">
+    <rect width="280" height="140" fill="#e8eaf6" stroke="#3f51b5" stroke-width="3" rx="8"/>
+    
+    <text x="140" y="30" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a237e" text-anchor="middle">
+      4. Stale Caches
+    </text>
+    
+    <text x="140" y="58" font-family="Arial, sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle">
+      Cached responses based on
+    </text>
+    <text x="140" y="78" font-family="Arial, sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle">
+      outdated documentation
+    </text>
+    
+    <rect x="20" y="95" width="240" height="30" fill="#c5cae9" rx="4"/>
+    <text x="140" y="115" font-family="Arial, sans-serif" font-size="12" fill="#1a237e" text-anchor="middle">
+      Cache from 3 months ago still served
+    </text>
+  </g>
+  
+  <!-- Arrow from cause 4 to center -->
+  <path d="M 680 560 L 560 450" stroke="#3f51b5" stroke-width="3" marker-end="url(#arrow-blue)"/>
+  
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrow-orange" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#ff9800"/>
+    </marker>
+    <marker id="arrow-pink" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#e91e63"/>
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#9c27b0"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#3f51b5"/>
+    </marker>
+  </defs>
+  
+  <!-- Bottom note -->
+  <rect x="150" y="740" width="700" height="45" fill="#f5f5f5" stroke="#757575" stroke-width="2" rx="6"/>
+  <text x="500" y="770" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#1a1a1a" text-anchor="middle">
+    All four causes compound over time → Gradual but inevitable performance decline
+  </text>
+</svg>

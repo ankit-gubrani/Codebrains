@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Codebrains.co.in | Home" description="Codebrains.co.in is a blogging website on latest technology which include AEM, Adobe CQ, Java based frameworks and latest OS features." canonicalUrl={`https://www.codebrains.co.in${Astro.url.pathname}`}>
+    <div class="contact-header">
+    <h1 class="contact-us-heading"><mark style="background:rgba(165,42,42,.6);color: darkorange;">Contact Us</mark></h1>
+    <h3><mark style="background:rgba(165,42,42,.6);color: darkorange;">Fill out the form below to learn more!</mark></h3>
+</div>
+<div class="content-section-a">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 col-sm-6">
+                <div class="feedback-form" id="contact-form">
+                    <iframe id="contactus" name="contactus"
+                            src="https://codebrains.us6.list-manage.com/subscribe?u=1831280a40d71d438e4262e7b&id=a38d5b5969"
+                            allowtransparency="true"
+                            scrolling="no"></iframe>
+
+                </div>
+            </div>
+            <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+                <ul class="contact">
+                    <li>
+                        <i class="fa fa-envelope"></i><a href="mailto:ankit.gubrani@codebrains.co.in">ankit.gubrani@codebrains.co.in</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-twitter"></i><a href="https://twitter.com/ankitgubrani90">twitter.com/ankitgubrani90</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-facebook"></i><a href="https://www.facebook.com/codebains.co.in">facebook.com/codebains.co.in</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-linkedin"></i><a href="https://in.linkedin.com/in/ankitgubrani">linkedin.com/in/ankitgubrani</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+</BaseLayout>

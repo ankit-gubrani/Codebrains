@@ -1,0 +1,212 @@
+<svg viewBox="0 0 900 700" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="stepGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2563eb;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="stepGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="stepGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="stepGrad4" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d97706;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-opacity="0.25"/>
+    </filter>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#64748b" />
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="900" height="700" fill="#f8fafc"/>
+  
+  <!-- Title -->
+  <text x="450" y="40" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#1e293b" text-anchor="middle">
+    MCP Interaction Lifecycle
+  </text>
+  <text x="450" y="65" font-family="Arial, sans-serif" font-size="14" fill="#64748b" text-anchor="middle">
+    How AI applications communicate with data sources via MCP
+  </text>
+  
+  <!-- Step 1: Connection & Discovery -->
+  <g transform="translate(50, 100)">
+    <rect width="380" height="120" rx="12" fill="white" stroke="#e2e8f0" stroke-width="2" filter="url(#shadow)"/>
+    <rect width="380" height="45" rx="12" fill="url(#stepGrad1)"/>
+    <text x="190" y="30" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">
+      1. Connection and Discovery
+    </text>
+    
+    <text x="20" y="70" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#1e40af">
+      Client →
+    </text>
+    <text x="85" y="70" font-family="Arial, sans-serif" font-size="12" fill="#475569">
+      "What capabilities do you have?"
+    </text>
+    
+    <text x="20" y="92" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#059669">
+      Server →
+    </text>
+    <text x="85" y="92" font-family="Arial, sans-serif" font-size="12" fill="#475569">
+      "I provide: resources [db_schema,
+    </text>
+    <text x="85" y="108" font-family="Arial, sans-serif" font-size="12" fill="#475569">
+      user_table] and tools [run_query, export]"
+    </text>
+  </g>
+  
+  <!-- Arrow -->
+  <line x1="450" y1="220" x2="450" y2="260" stroke="#64748b" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Step 2: Resource Access -->
+  <g transform="translate(50, 270)">
+    <rect width="380" height="120" rx="12" fill="white" stroke="#e2e8f0" stroke-width="2" filter="url(#shadow)"/>
+    <rect width="380" height="45" rx="12" fill="url(#stepGrad2)"/>
+    <text x="190" y="30" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">
+      2. Resource Access
+    </text>
+    
+    <text x="20" y="70" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#6d28d9">
+      Client →
+    </text>
+    <text x="85" y="70" font-family="Arial, sans-serif" font-size="12" fill="#475569">
+      "Give me resource 'db_schema'"
+    </text>
+    
+    <text x="20" y="92" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#059669">
+      Server →
+    </text>
+    <text x="85" y="92" font-family="Arial, sans-serif" font-size="12" fill="#475569">
+      Returns: {tables: ['users', 'orders'],
+    </text>
+    <text x="85" y="108" font-family="Arial, sans-serif" font-size="12" fill="#475569">
+      columns: [...], types: [...]}
+    </text>
+  </g>
+  
+  <!-- Arrow -->
+  <line x1="450" y1="390" x2="450" y2="430" stroke="#64748b" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Step 3: Tool Execution -->
+  <g transform="translate(50, 440)">
+    <rect width="380" height="140" rx="12" fill="white" stroke="#e2e8f0" stroke-width="2" filter="url(#shadow)"/>
+    <rect width="380" height="45" rx="12" fill="url(#stepGrad3)"/>
+    <text x="190" y="30" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">
+      3. Tool Execution
+    </text>
+    
+    <text x="20" y="68" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#dc2626">
+      User →
+    </text>
+    <text x="70" y="68" font-family="Arial, sans-serif" font-size="11" fill="#475569">
+      "Show orders from last month"
+    </text>
+    
+    <text x="20" y="88" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#7c3aed">
+      LLM →
+    </text>
+    <text x="70" y="88" font-family="Arial, sans-serif" font-size="11" fill="#475569">
+      Crafts SQL using schema context
+    </text>
+    
+    <text x="20" y="108" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#047857">
+      Client →
+    </text>
+    <text x="70" y="108" font-family="Arial, sans-serif" font-size="11" fill="#475569">
+      run_query("SELECT * FROM orders
+    </text>
+    <text x="70" y="122" font-family="Arial, sans-serif" font-size="11" fill="#475569">
+      WHERE date > '2024-09-20'")
+    </text>
+  </g>
+  
+  <!-- Arrow -->
+  <line x1="450" y1="580" x2="450" y2="620" stroke="#64748b" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Step 4: Response & Context -->
+  <g transform="translate(50, 630)">
+    <rect width="380" height="60" rx="12" fill="white" stroke="#e2e8f0" stroke-width="2" filter="url(#shadow)"/>
+    <rect width="380" height="45" rx="12" fill="url(#stepGrad4)"/>
+    <text x="190" y="30" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">
+      4. Response Generation
+    </text>
+    
+    <text x="20" y="55" font-family="Arial, sans-serif" font-size="11" fill="#475569">
+      Server returns data → LLM formats → User sees answer
+    </text>
+  </g>
+  
+  <!-- Right side: Visual flow -->
+  <g transform="translate(480, 100)">
+    <rect width="370" height="590" rx="12" fill="white" stroke="#e2e8f0" stroke-width="2" filter="url(#shadow)"/>
+    
+    <text x="185" y="30" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1e293b" text-anchor="middle">
+      Visual Flow
+    </text>
+    
+    <!-- User -->
+    <circle cx="185" cy="80" r="30" fill="#fee2e2" stroke="#ef4444" stroke-width="3"/>
+    <text x="185" y="88" font-family="Arial, sans-serif" font-size="20" text-anchor="middle">👤</text>
+    <text x="185" y="125" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#1e293b" text-anchor="middle">
+      User Query
+    </text>
+    
+    <!-- Arrow down -->
+    <line x1="185" y1="130" x2="185" y2="160" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrowhead)"/>
+    
+    <!-- AI Client -->
+    <rect x="115" y="165" width="140" height="60" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+    <text x="185" y="190" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1e40af" text-anchor="middle">
+      AI Client
+    </text>
+    <text x="185" y="208" font-family="Arial, sans-serif" font-size="11" fill="#3b82f6" text-anchor="middle">
+      (MCP Host)
+    </text>
+    
+    <!-- Arrow down -->
+    <line x1="185" y1="230" x2="185" y2="260" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="220" y="248" font-family="Arial, sans-serif" font-size="10" fill="#64748b">MCP</text>
+    
+    <!-- MCP Protocol -->
+    <rect x="115" y="265" width="140" height="50" rx="8" fill="#f3e8ff" stroke="#8b5cf6" stroke-width="2"/>
+    <text x="185" y="293" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#6d28d9" text-anchor="middle">
+      MCP Protocol
+    </text>
+    
+    <!-- Arrow down -->
+    <line x1="185" y1="320" x2="185" y2="350" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrowhead)"/>
+    
+    <!-- MCP Server -->
+    <rect x="115" y="355" width="140" height="60" rx="8" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+    <text x="185" y="380" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#047857" text-anchor="middle">
+      MCP Server
+    </text>
+    <text x="185" y="398" font-family="Arial, sans-serif" font-size="11" fill="#059669" text-anchor="middle">
+      (Data Source)
+    </text>
+    
+    <!-- Arrow down -->
+    <line x1="185" y1="420" x2="185" y2="450" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrowhead)"/>
+    
+    <!-- Database -->
+    <rect x="130" y="455" width="110" height="70" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+    <rect x="145" y="470" width="80" height="8" rx="2" fill="#0284c7"/>
+    <rect x="145" y="483" width="80" height="8" rx="2" fill="#0284c7"/>
+    <rect x="145" y="496" width="80" height="8" rx="2" fill="#0284c7"/>
+    <text x="185" y="520" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#0369a1" text-anchor="middle">
+      PostgreSQL
+    </text>
+    
+    <!-- Return arrow -->
+    <line x1="255" y1="490" x2="310" y2="295" stroke="#10b981" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
+    <text x="270" y="370" font-family="Arial, sans-serif" font-size="10" fill="#059669" transform="rotate(-75 285 380)">
+      Results
+    </text>
+  </g>
+</svg>

@@ -1,0 +1,65 @@
+---
+title: "Integrating Apache Wookie with AEM"
+date: 2022-10-15
+description: "Codebrains.co.in is a blogging website on latest technology which include AEM, Adobe CQ, Java based frameworks and latest OS features."
+ogImage: "/resources/assets/img/mywork/aem-wookie_connector.png"
+heroImage: "/resources/assets/img/mywork/aem-wookie_connector.png"
+tags: ["AEM", "Apache Wookie", "Integrating Apache Wookie with AEM"]
+canonicalUrl: "https://www.codebrains.co.in/blog/posts/integratingwookiewithAEM"
+---
+
+# Integrating Apache Wookie with AEM
+
+**Interactive websites** - term making a lot of buzz over world wide web.   
+  
+  
+
+But what are **Interactive websites** ?
+
+  
+Interactive websites are the ones which provides a number of different features to make interactive experience for users. One of the most important qualities of a website is interactivity. It allows users to interact with the website. With change of time web visitors expect to interact meaningfully with websites.   
+There interactive aspects of a website often include :   
+
+* responsive forms
+* chat applications
+* games
+* or some sort of mini applications
+
+  
+
+Though creating any such feature is not a rocket science but it does comes with some development time associated with each feature. And creating such site in AEM would also cost time as there are no such features provided in AEM 'out of the box'.
+
+*What if we have a central server where we can have such mini applications and use them directly in AEM ?*
+
+Where users can select from a wide variety of interactive mini applications like chat-applications, geolocation sharing apps, a to-do list or a game and many such ready to use mini applications.
+
+Integrating Apache wookie with AEM allows users to drag & drop such interactive application. We have developed a connector tool for connecting AEM with apache wookie : [**AEM-WookieConnector**](https://github.com/ankit-gubrani/AEM-WookieConnector)
+
+Apache wookie is Java server application with allows you to upload & deploy widgets (mini web applications) for your applications. Using **AEM-Wookie Connector** tool AEM users can use simply drag n drop wookie widgets on their AEM pages and use from any where.
+
+Here are the steps to install AEM-WookieConnector Tool :
+
+  
+  
+  
+- Install Wookie as a standalone jar or as a WAR version from instructions given [here](http://wookie.apache.org/docs/download.html)
+- Next, Clone the [AEM Wookie connector](https://github.com/ankit-gubrani/AEM-WookieConnector)
+- Build and Deploy :  
+     mvn clean install -PautoInstallPackage
+- Configure and provide the Wookie server URL and API Key  
+    
+  [![](https://2.bp.blogspot.com/-iZOOCeQ5X0E/VitNbdwpujI/AAAAAAAAByA/ddfiQFJCJgs/s900/AEM-Wookie-Configuration_Cropped_2.png)](http://2.bp.blogspot.com/-iZOOCeQ5X0E/VitNbdwpujI/AAAAAAAAByA/ddfiQFJCJgs/s1600/AEM-Wookie-Configuration_Cropped_2.png)
+
+  
+- And Start Using !
+  
+  
+
+[![](https://3.bp.blogspot.com/-YG_bIpH3378/VitNbTLZmII/AAAAAAAAByE/KV-rFGMz-zA/s900/step2_F.png)](http://3.bp.blogspot.com/-YG_bIpH3378/VitNbTLZmII/AAAAAAAAByE/KV-rFGMz-zA/s1600/step2_F.png)
+
+AEM Wookie connector tool was presented as a solution to wider audience at a annually organized event [AEMHub](http://aemhub.cognifide.com/speakers-2015.html#ankit_gubrani)   
+  
+Other useful links :  
+
+* Presentation : [HTML](http://ankit-gubrani.github.io/AEM-WookieConnector/#/) & [Slideshare](http://www.slideshare.net/ankitgubrani/integrating-apache-wookie-with-aem-aemwookie-connector-tool)
+* GitHub repository : &lt;https://github.com/ankit-gubrani/AEM-WookieConnector&gt;

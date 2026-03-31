@@ -1,0 +1,196 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#48bb78;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#38a169;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ed8936;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#dd6b20;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#4299e1" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#48bb78" />
+    </marker>
+    <marker id="arrow-orange" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#ed8936" />
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="500" fill="#f7fafc"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#2d3748" text-anchor="middle">
+    Semantic Cache Architecture Flow
+  </text>
+  
+  <!-- Step 1: User Query -->
+  <rect x="50" y="60" width="140" height="70" rx="8" fill="url(#grad1)" filter="url(#shadow)"/>
+  <text x="120" y="88" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">
+    1. User Query
+  </text>
+  <text x="120" y="108" font-family="Arial, sans-serif" font-size="11" fill="#fff" text-anchor="middle">
+    "How do I return
+  </text>
+  <text x="120" y="122" font-family="Arial, sans-serif" font-size="11" fill="#fff" text-anchor="middle">
+    an item?"
+  </text>
+  
+  <!-- Arrow to embedding -->
+  <path d="M 190 95 L 230 95" stroke="#4299e1" stroke-width="2" marker-end="url(#arrow-blue)"/>
+  
+  <!-- Step 2: Query Embedding -->
+  <rect x="230" y="60" width="140" height="70" rx="8" fill="#ebf8ff" stroke="#4299e1" stroke-width="2" filter="url(#shadow)"/>
+  <text x="300" y="88" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#2c5282" text-anchor="middle">
+    2. Embed Query
+  </text>
+  <text x="300" y="108" font-family="Arial, sans-serif" font-size="10" fill="#2d3748" text-anchor="middle">
+    [0.23, -0.45, 0.67...]
+  </text>
+  <text x="300" y="122" font-family="Arial, sans-serif" font-size="9" fill="#718096" text-anchor="middle">
+    Vector: 384 dimensions
+  </text>
+  
+  <!-- Arrow to similarity search -->
+  <path d="M 370 95 L 410 95" stroke="#4299e1" stroke-width="2" marker-end="url(#arrow-blue)"/>
+  
+  <!-- Step 3: Similarity Search -->
+  <rect x="410" y="60" width="140" height="70" rx="8" fill="#e6fffa" stroke="#319795" stroke-width="2" filter="url(#shadow)"/>
+  <text x="480" y="85" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#234e52" text-anchor="middle">
+    3. Search Cache
+  </text>
+  <text x="480" y="105" font-family="Arial, sans-serif" font-size="10" fill="#2d3748" text-anchor="middle">
+    Cosine Similarity
+  </text>
+  <text x="480" y="120" font-family="Arial, sans-serif" font-size="9" fill="#718096" text-anchor="middle">
+    Vector DB lookup
+  </text>
+  
+  <!-- Decision Diamond -->
+  <path d="M 480 160 L 540 200 L 480 240 L 420 200 Z" fill="#fef5e7" stroke="#f6ad55" stroke-width="2" filter="url(#shadow)"/>
+  <text x="480" y="195" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#744210" text-anchor="middle">
+    Similarity
+  </text>
+  <text x="480" y="210" font-family="Arial, sans-serif" font-size="11" fill="#744210" text-anchor="middle">
+    ≥ 0.90?
+  </text>
+  
+  <!-- Arrow down from search to decision -->
+  <path d="M 480 130 L 480 160" stroke="#319795" stroke-width="2" marker-end="url(#arrow-blue)"/>
+  
+  <!-- Cache Hit Path (Right) -->
+  <text x="550" y="185" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#48bb78">YES</text>
+  <path d="M 540 200 L 600 200" stroke="#48bb78" stroke-width="3" marker-end="url(#arrow-green)"/>
+  
+  <rect x="600" y="160" width="150" height="80" rx="8" fill="url(#grad2)" filter="url(#shadow)"/>
+  <text x="675" y="188" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">
+    ✓ Cache Hit
+  </text>
+  <text x="675" y="208" font-family="Arial, sans-serif" font-size="11" fill="#fff" text-anchor="middle">
+    Return cached
+  </text>
+  <text x="675" y="223" font-family="Arial, sans-serif" font-size="11" fill="#fff" text-anchor="middle">
+    response instantly
+  </text>
+  <text x="675" y="235" font-family="Arial, sans-serif" font-size="9" fill="#c6f6d5" text-anchor="middle">
+    ~200ms latency
+  </text>
+  
+  <!-- Cache Miss Path (Left) -->
+  <text x="440" y="255" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#ed8936">NO</text>
+  <path d="M 480 240 L 480 280" stroke="#ed8936" stroke-width="3" marker-end="url(#arrow-orange)"/>
+  
+  <!-- Full RAG Pipeline (vertical flow) -->
+  <rect x="410" y="280" width="140" height="50" rx="8" fill="#fff5f5" stroke="#ed8936" stroke-width="2" filter="url(#shadow)"/>
+  <text x="480" y="300" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#c53030" text-anchor="middle">
+    4. Vector Search
+  </text>
+  <text x="480" y="317" font-family="Arial, sans-serif" font-size="10" fill="#744210" text-anchor="middle">
+    Retrieve documents
+  </text>
+  
+  <path d="M 480 330 L 480 350" stroke="#ed8936" stroke-width="2" marker-end="url(#arrow-orange)"/>
+  
+  <rect x="410" y="350" width="140" height="50" rx="8" fill="#fff5f5" stroke="#ed8936" stroke-width="2" filter="url(#shadow)"/>
+  <text x="480" y="370" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#c53030" text-anchor="middle">
+    5. Build Context
+  </text>
+  <text x="480" y="387" font-family="Arial, sans-serif" font-size="10" fill="#744210" text-anchor="middle">
+    Assemble + optimize
+  </text>
+  
+  <path d="M 480 400 L 480 420" stroke="#ed8936" stroke-width="2" marker-end="url(#arrow-orange)"/>
+  
+  <rect x="410" y="420" width="140" height="50" rx="8" fill="#fff5f5" stroke="#ed8936" stroke-width="2" filter="url(#shadow)"/>
+  <text x="480" y="440" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#c53030" text-anchor="middle">
+    6. LLM Generate
+  </text>
+  <text x="480" y="457" font-family="Arial, sans-serif" font-size="10" fill="#744210" text-anchor="middle">
+    Generate response
+  </text>
+  
+  <!-- Cache the result -->
+  <path d="M 550 445 L 600 445" stroke="#4299e1" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#arrow-blue)"/>
+  
+  <rect x="600" y="420" width="150" height="50" rx="8" fill="#ebf8ff" stroke="#4299e1" stroke-width="2" filter="url(#shadow)"/>
+  <text x="675" y="440" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2c5282" text-anchor="middle">
+    7. Cache Result
+  </text>
+  <text x="675" y="457" font-family="Arial, sans-serif" font-size="10" fill="#2d3748" text-anchor="middle">
+    Store for next time
+  </text>
+  
+  <!-- Performance metrics box -->
+  <rect x="50" y="300" width="280" height="170" rx="8" fill="#f0fff4" stroke="#48bb78" stroke-width="2" filter="url(#shadow)"/>
+  <text x="190" y="325" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#22543d" text-anchor="middle">
+    Performance Impact
+  </text>
+  
+  <text x="60" y="350" font-family="Arial, sans-serif" font-size="12" fill="#2d7748" font-weight="600">
+    Cache Hit (70% of queries):
+  </text>
+  <text x="70" y="368" font-family="Arial, sans-serif" font-size="11" fill="#2d3748">
+    • Latency: ~200ms
+  </text>
+  <text x="70" y="384" font-family="Arial, sans-serif" font-size="11" fill="#2d3748">
+    • Cost: ~$0.0001 per query
+  </text>
+  <text x="70" y="400" font-family="Arial, sans-serif" font-size="11" fill="#2d3748">
+    • No LLM call required
+  </text>
+  
+  <text x="60" y="425" font-family="Arial, sans-serif" font-size="12" fill="#c53030" font-weight="600">
+    Cache Miss (30% of queries):
+  </text>
+  <text x="70" y="443" font-family="Arial, sans-serif" font-size="11" fill="#2d3748">
+    • Latency: ~2,800ms
+  </text>
+  <text x="70" y="459" font-family="Arial, sans-serif" font-size="11" fill="#2d3748">
+    • Cost: ~$0.008 per query
+  </text>
+  
+  <!-- Legend for threshold -->
+  <rect x="50" y="180" width="280" height="100" rx="8" fill="#ebf8ff" stroke="#4299e1" stroke-width="2" filter="url(#shadow)"/>
+  <text x="190" y="205" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#2c5282" text-anchor="middle">
+    Similarity Threshold: 0.90
+  </text>
+  <text x="60" y="230" font-family="Arial, sans-serif" font-size="11" fill="#2d3748">
+    • 0.95+: Nearly identical
+  </text>
+  <text x="60" y="246" font-family="Arial, sans-serif" font-size="11" fill="#2d3748">
+    • 0.90-0.94: Same intent
+  </text>
+  <text x="60" y="262" font-family="Arial, sans-serif" font-size="11" fill="#2d3748">
+    • Less than 0.90: Different questions
+  </text>
+</svg>

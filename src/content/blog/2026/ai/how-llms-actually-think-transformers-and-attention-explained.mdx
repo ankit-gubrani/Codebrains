@@ -1,0 +1,389 @@
+---
+title: "How LLMs Actually Think: Transformers and Attention Explained"
+date: 2026-02-10
+series: "ai-building-blocks"
+seriesLabel: "AI Building Blocks for the Modern Web"
+part: 11
+description: "Understand how transformers actually work without the math overload. Learn why RNNs failed, how attention replaced them, and how the transformer block is assembled."
+ogImage: "/resources/assets/img/blog/2026/ai/how_llms_works/how_llms_works.png"
+heroImage: "/resources/assets/img/blog/2026/ai/how_llms_works/how_llms_works.png"
+tags: ["how transformers work", "transformer architecture explained", "attention mechanism explained", "self-attention", "multi-head attention", "LLM internals", "RNN vs transformer", "decoder only LLM", "Q K V attention", "positional encoding", "transformer block", "how LLMs think", "large language model architecture", "transformer for engineers"]
+canonicalUrl: "https://www.codebrains.co.in/blog/2026/ai/how-llms-actually-think-transformers-and-attention-explained"
+---
+
+You have been using LLMs for a while now. You know they're "transformer-based." You have probably seen the phrase "attention is all you need" tossed around in every AI article on the internet. But if someone asked you right now, at a whiteboard, to explain how a transformer actually works, could you do it?
+
+If the answer is "sort of, maybe, not really" -- this post is for you.
+
+You do not need to become a machine learning researcher to reason clearly about LLM behavior. But you do need a working mental model of what is happening inside these systems. Otherwise, when something goes wrong (wrong outputs, context confusion, degraded performance at scale), you are guessing instead of diagnosing.
+
+This is the first post in a three-part series on how LLMs actually think. We start with the foundation: **transformers and attention**. By the end of this post, you should be able to explain to a colleague why attention was a genuine breakthrough, not just a trendy paper title. Let's start at the beginning, with the problem transformers were built to solve.
+
+## **The Problem: Why RNNs and LSTMs Could Not Scale**
+
+Before transformers, the dominant architecture for processing sequences of text was the Recurrent Neural Network, or RNN. The idea made intuitive sense: to understand a sentence, read it word by word, carrying forward a running summary of what you have read so far.
+
+Think of it like a game of telephone. The first person whispers the original message to the next person, who passes it along, and so on down the line. By the time it reaches the last person, the message is garbled. The further you get from the source, the more information gets lost or distorted.
+
+RNNs had exactly this problem. They processed tokens sequentially, and the "memory" of early tokens degraded as the sequence grew longer. If you wanted the model to connect a pronoun in sentence 20 to the noun it referred to in sentence 2, you were hoping the relevant information survived eighteen steps of compression. Often it did not.
+
+LSTMs (Long Short-Term Memory networks) were a serious attempt to fix this. They added gating mechanisms that let the model decide what to remember and what to forget. Better, but still fundamentally sequential. And sequential processing has a brutal consequence: **you cannot parallelize it**.
+
+Each step depends on the previous one. You cannot split the work across GPUs meaningfully. As sequences got longer and datasets got bigger, this became a hard ceiling on scale. The models that would eventually become GPT and LLaMA simply could not have been trained on RNN or LSTM architectures. The compute would have been impossibly slow.
+
+Transformers broke that ceiling entirely.
+
+
+
+<div>
+<svg viewBox="0 0 760 335" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:760px;display:block;margin:2rem auto;font-family:inherit;">
+                    <defs>
+                        <marker id="arr1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                        <path d="M0,0 L0,6 L8,3 z" fill="#64748b"/>
+                        </marker>
+                        <marker id="arr2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                        <path d="M0,0 L0,6 L8,3 z" fill="#3b82f6"/>
+                        </marker>
+                    </defs>
+        
+                    {/*  Background panels  */}
+                    <rect x="10" y="10" width="360" height="300" rx="12" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+                    <rect x="390" y="10" width="360" height="300" rx="12" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+        
+                    {/*  RNN side label  */}
+                    <text x="190" y="38" text-anchor="middle" font-size="13" font-weight="700" fill="#dc2626">RNN / LSTM (Sequential)</text>
+        
+                    {/*  Token boxes RNN  */}
+                    <rect x="30" y="100" width="56" height="36" rx="6" fill="#fca5a5" stroke="#f87171" stroke-width="1.5"/>
+                    <text x="58" y="123" text-anchor="middle" font-size="12" fill="#7f1d1d">Token 1</text>
+        
+                    <rect x="110" y="100" width="56" height="36" rx="6" fill="#fca5a5" stroke="#f87171" stroke-width="1.5"/>
+                    <text x="138" y="123" text-anchor="middle" font-size="12" fill="#7f1d1d">Token 2</text>
+        
+                    <rect x="190" y="100" width="56" height="36" rx="6" fill="#fca5a5" stroke="#f87171" stroke-width="1.5"/>
+                    <text x="218" y="123" text-anchor="middle" font-size="12" fill="#7f1d1d">Token 3</text>
+        
+                    <rect x="270" y="100" width="56" height="36" rx="6" fill="#fca5a5" stroke="#f87171" stroke-width="1.5"/>
+                    <text x="298" y="123" text-anchor="middle" font-size="12" fill="#7f1d1d">Token 4</text>
+        
+                    {/*  Arrows between RNN tokens  */}
+                    <line x1="86" y1="118" x2="110" y2="118" stroke="#64748b" stroke-width="2" marker-end="url(#arr1)"/>
+                    <line x1="166" y1="118" x2="190" y2="118" stroke="#64748b" stroke-width="2" marker-end="url(#arr1)"/>
+                    <line x1="246" y1="118" x2="270" y2="118" stroke="#64748b" stroke-width="2" marker-end="url(#arr1)"/>
+        
+                    {/*  Hidden state box RNN  */}
+                    <rect x="100" y="165" width="160" height="30" rx="6" fill="#fee2e2" stroke="#f87171" stroke-width="1"/>
+                    <text x="180" y="185" text-anchor="middle" font-size="11" fill="#991b1b">Hidden state passed forward</text>
+        
+                    {/*  RNN problems  */}
+                    <text x="190" y="225" text-anchor="middle" font-size="12" fill="#dc2626" font-weight="600">Problems:</text>
+                    <text x="190" y="243" text-anchor="middle" font-size="11" fill="#7f1d1d">No parallelization</text>
+                    <text x="190" y="260" text-anchor="middle" font-size="11" fill="#7f1d1d">Vanishing gradients</text>
+                    <text x="190" y="277" text-anchor="middle" font-size="11" fill="#7f1d1d">Early tokens get "forgotten"</text>
+        
+                    {/*  Transformer side label  */}
+                    <text x="570" y="38" text-anchor="middle" font-size="13" font-weight="700" fill="#1d4ed8">Transformer (Parallel)</text>
+        
+                    {/*  Token boxes Transformer  */}
+                    <rect x="410" y="55" width="56" height="36" rx="6" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1.5"/>
+                    <text x="438" y="78" text-anchor="middle" font-size="12" fill="#1e3a8a">Token 1</text>
+        
+                    <rect x="490" y="55" width="56" height="36" rx="6" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1.5"/>
+                    <text x="518" y="78" text-anchor="middle" font-size="12" fill="#1e3a8a">Token 2</text>
+        
+                    <rect x="570" y="55" width="56" height="36" rx="6" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1.5"/>
+                    <text x="598" y="78" text-anchor="middle" font-size="12" fill="#1e3a8a">Token 3</text>
+        
+                    <rect x="650" y="55" width="56" height="36" rx="6" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1.5"/>
+                    <text x="678" y="78" text-anchor="middle" font-size="12" fill="#1e3a8a">Token 4</text>
+        
+                    {/*  Attention connections: all-to-all  */}
+                    <line x1="438" y1="91" x2="518" y2="145" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4,3" opacity="0.6"/>
+                    <line x1="438" y1="91" x2="598" y2="145" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4,3" opacity="0.6"/>
+                    <line x1="438" y1="91" x2="678" y2="145" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4,3" opacity="0.6"/>
+                    <line x1="518" y1="91" x2="438" y2="145" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4,3" opacity="0.6"/>
+                    <line x1="518" y1="91" x2="598" y2="145" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4,3" opacity="0.6"/>
+                    <line x1="518" y1="91" x2="678" y2="145" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4,3" opacity="0.6"/>
+                    <line x1="598" y1="91" x2="438" y2="145" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4,3" opacity="0.6"/>
+                    <line x1="598" y1="91" x2="518" y2="145" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4,3" opacity="0.6"/>
+                    <line x1="598" y1="91" x2="678" y2="145" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4,3" opacity="0.6"/>
+                    <line x1="678" y1="91" x2="438" y2="145" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4,3" opacity="0.6"/>
+                    <line x1="678" y1="91" x2="518" y2="145" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4,3" opacity="0.6"/>
+                    <line x1="678" y1="91" x2="598" y2="145" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4,3" opacity="0.6"/>
+        
+                    {/*  Attention layer  */}
+                    <rect x="410" y="145" width="300" height="34" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+                    <text x="560" y="167" text-anchor="middle" font-size="12" fill="#1e3a8a" font-weight="600">Attention: All tokens talk to all tokens</text>
+        
+                    {/*  Transformer benefits  */}
+                    <text x="570" y="212" text-anchor="middle" font-size="12" fill="#1d4ed8" font-weight="600">Benefits:</text>
+                    <text x="570" y="230" text-anchor="middle" font-size="11" fill="#1e3a8a">Fully parallelizable</text>
+                    <text x="570" y="247" text-anchor="middle" font-size="11" fill="#1e3a8a">No information bottleneck</text>
+                    <text x="570" y="264" text-anchor="middle" font-size="11" fill="#1e3a8a">Every token can attend to any other</text>
+        
+                    {/*  Caption  */}
+                    <text x="380" y="325" text-anchor="middle" font-size="11" fill="#64748b">RNN passes state sequentially | Transformer attends to all tokens simultaneously</text>
+                    </svg>
+</div>
+
+
+
+## **Tokens and Embeddings: Turning Words into Math**
+
+Before a transformer can do anything, it needs to convert text into numbers. Computers do not understand words. They understand vectors.
+
+The first step is **tokenization**: splitting your input text into chunks called tokens. Tokens are not necessarily whole words. "unhelpful" might become ["un", "help", "ful"]. Common words stay whole; rare words get split. A typical LLM works with a vocabulary of roughly 50,000 to 100,000 tokens.
+
+Once you have tokens, each one gets mapped to a **vector embedding**: a long list of floating-point numbers, often 768, 1024, or 4096 values long depending on the model. Think of it as a coordinate in a high-dimensional space where meaning lives.
+
+The key insight is that these vectors encode semantic relationships. Words that are conceptually similar end up close together in this space. "King" minus "man" plus "woman" lands near "queen" -- not because someone hand-coded that, but because the model learned it from patterns in data.
+
+These embeddings are the raw material the transformer operates on. Every subsequent step manipulates and enriches these vectors.
+
+### **When Does Tokenization and Embedding Actually Happen?**
+
+This is a question worth answering precisely, because the answer is: **both during training and during every inference call.** They are not the same thing, even though the same steps are involved.
+
+**During training**, the embedding layer starts as random vectors. Every time the model sees a token in the training data, it looks up that token's vector, uses it in the forward pass, and then adjusts it slightly through backpropagation. Over trillions of training tokens, the embedding vectors get shaped to reflect meaning. By the end of training, "Paris" and "France" are close in vector space, "cat" and "kitten" are close, and "king" minus "man" plus "woman" lands near "queen." None of this was hand-coded. The model learned it from patterns in data.
+
+**During inference** (when you send a prompt), the embedding layer is frozen. Those weights were fixed at the end of training. But the tokenization and embedding steps still run -- they run fresh for every request, right at the start of processing. Your prompt gets split into tokens, each token gets looked up in the frozen embedding table, and the resulting vectors are what flows into Block 1 of the transformer.
+
+A useful way to think about it: **training answers "what should each token's vector look like?" Inference uses those answers to convert your specific input into vectors and start processing.** The lookup happens at runtime, every time, but the meaning encoded in those vectors was baked in during training.
+
+This is also why LLMs can struggle with tokens they rarely saw during training. If a technical term, a product name, or a recently coined word appeared very infrequently in the training corpus, its embedding is less well-calibrated. The vector exists, but it does not carry much signal. The model has less to work with.
+
+But here is a problem: transformers process all tokens in parallel. They have no inherent sense of order. If you feed it the words "dog bites man" and "man bites dog," the embeddings alone do not tell the model which came first. This is where **positional encoding** comes in.
+
+Each token's embedding gets a positional signal added to it, encoding its index in the sequence. Position 1 gets one pattern, position 2 gets a slightly different one, and so on. Now the model can distinguish order, even though it processes everything simultaneously.
+
+## **Self-Attention: The Core Insight**
+
+This is the part that matters most. Everything else in the transformer is scaffolding. Attention is the engine.
+
+The idea is deceptively simple: **when processing each token, the model decides which other tokens in the sequence are relevant to it, and blends information from those tokens accordingly.**
+
+To do this, the transformer projects each token's embedding into three different vectors: a **Query (Q)**, a **Key (K)**, and a **Value (V)**. Here is the engineering analogy that makes this click:
+
+Imagine you are searching a database. Your **Query is your search term** ("what am I looking for?"). Each document in the database has a **Key, which is its label or index** ("what is this document about?"). The **Value is the actual content** of the document ("what does this document say?").
+
+When you run a search, you compare your Query against all the Keys to figure out which documents are relevant. Then you retrieve the Values from those documents, weighted by how relevant they were. That is exactly what attention does, except every token simultaneously acts as both searcher and document.
+
+Concretely: when processing the word "it" in the sentence "The trophy did not fit in the suitcase because it was too big," the model's Query for "it" gets compared against the Keys of every other token. The Keys for "trophy" and "suitcase" should score high, and the Values from those tokens flow back to enrich the representation of "it." The model learns that "it" refers to the trophy, not the suitcase -- not by a rule, but because attention found the relevant context.
+
+
+
+<div>
+<svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:760px;display:block;margin:2rem auto;font-family:inherit;">
+                    {/*  Background  */}
+                    <rect x="10" y="10" width="740" height="360" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+        
+                    <text x="380" y="38" text-anchor="middle" font-size="14" font-weight="700" fill="#1e293b">Self-Attention: Q / K / V Mechanism</text>
+        
+                    {/*  Input token  */}
+                    <rect x="50" y="60" width="100" height="40" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
+                    <text x="100" y="85" text-anchor="middle" font-size="12" font-weight="600" fill="#0c4a6e">Input Token</text>
+        
+                    {/*  Three projections  */}
+                    {/*  Q  */}
+                    <rect x="50" y="165" width="110" height="40" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"/>
+                    <text x="105" y="188" text-anchor="middle" font-size="13" font-weight="700" fill="#78350f">Q</text>
+                    <text x="105" y="200" text-anchor="middle" font-size="10" fill="#78350f">"What am I seeking?"</text>
+                    {/*  K  */}
+                    <rect x="300" y="165" width="158" height="40" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+                    <text x="380" y="188" text-anchor="middle" font-size="13" font-weight="700" fill="#14532d">K</text>
+                    <text x="380" y="200" text-anchor="middle" font-size="10" fill="#14532d">"What label does each token have?"</text>
+                    {/*  V  */}
+                    <rect x="605" y="165" width="120" height="40" rx="8" fill="#fdf2f8" stroke="#9333ea" stroke-width="1.5"/>
+                    <text x="665" y="188" text-anchor="middle" font-size="13" font-weight="700" fill="#581c87">V</text>
+                    <text x="665" y="200" text-anchor="middle" font-size="10" fill="#581c87">"What content to pass on?"</text>
+        
+                    {/*  Arrows from token to Q, K, V  */}
+                    <line x1="100" y1="100" x2="95" y2="165" stroke="#ca8a04" stroke-width="1.5" stroke-dasharray="4,3"/>
+                    <line x1="100" y1="100" x2="380" y2="165" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="4,3"/>
+                    <line x1="100" y1="100" x2="665" y2="165" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="4,3"/>
+        
+                    {/*  Analogy labels  */}
+                    <text x="50" y="145" font-size="11" fill="#64748b">Projection</text>
+                    <text x="50" y="158" font-size="11" fill="#64748b">matrices (learned)</text>
+        
+                    {/*  Score computation  */}
+                    <rect x="200" y="255" width="170" height="36" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+                    <text x="285" y="275" text-anchor="middle" font-size="12" fill="#92400e" font-weight="600">Q · K = Attention Scores</text>
+                    <text x="285" y="288" text-anchor="middle" font-size="10" fill="#92400e">"How relevant is each token?"</text>
+        
+                    {/*  Arrows Q and K into score  */}
+                    <line x1="95" y1="205" x2="240" y2="255" stroke="#ca8a04" stroke-width="1.5" marker-end="url(#arr1)"/>
+                    <line x1="380" y1="205" x2="330" y2="255" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arr1)"/>
+        
+                    {/*  Softmax  */}
+                    <rect x="200" y="315" width="170" height="30" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1"/>
+                    <text x="285" y="335" text-anchor="middle" font-size="11" fill="#0c4a6e">Softmax → weights (sum to 1)</text>
+        
+                    <line x1="285" y1="291" x2="285" y2="315" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr1)"/>
+        
+                    {/*  Output  */}
+                    <rect x="490" y="285" width="190" height="40" rx="8" fill="#fdf2f8" stroke="#9333ea" stroke-width="1.5"/>
+                    <text x="585" y="307" text-anchor="middle" font-size="12" fill="#581c87" font-weight="600">Weighted sum of Values</text>
+                    <text x="585" y="320" text-anchor="middle" font-size="10" fill="#581c87">= Enriched token representation</text>
+        
+                    {/*  Arrows weights + V into output  */}
+                    <line x1="370" y1="330" x2="490" y2="308" stroke="#0284c7" stroke-width="1.5" marker-end="url(#arr1)"/>
+                    <line x1="665" y1="205" x2="640" y2="285" stroke="#9333ea" stroke-width="1.5" marker-end="url(#arr1)"/>
+        
+                    {/*  Caption  */}
+                    <text x="380" y="368" text-anchor="middle" font-size="11" fill="#64748b">Each token queries all others. Relevant tokens contribute their Values. Every token gets an enriched representation.</text>
+                    </svg>
+</div>
+
+
+
+This is why attention was such a breakthrough. Every token can directly attend to every other token in a single step. There is no telephone game. No degrading chain of handoffs. Token 1 and token 500 have exactly the same direct connection as two adjacent tokens.
+
+## **Multi-Head Attention: Multiple Perspectives at Once**
+
+A single attention pass gives you one perspective on relevance. But language is layered. In the sentence "The bank by the river had steep slopes," the word "bank" needs to track its relationship to "river" (geographic context) and possibly to grammatical subject structure simultaneously.
+
+Multi-head attention runs **several independent attention passes in parallel**, each with its own learned Q, K, V projection matrices. Each "head" can specialize in a different type of relationship: one might track syntactic dependencies, another coreference (pronouns pointing to nouns), another semantic similarity.
+
+Think of it like a document going through a team of reviewers simultaneously. One reviewer checks for logical consistency, another checks for tone, another checks for technical accuracy. Each brings back their own set of notes. At the end, all their notes get merged into a single enriched understanding of the document.
+
+In practice, a model like GPT-3 uses 96 attention heads per layer. That is 96 simultaneous perspectives on every token in your input, at every layer of the network.
+
+## **The Transformer Block: Putting It All Together**
+
+A transformer is not just attention. It is a repeating stack of blocks, each one refining the token representations a little more. Here is what lives inside a single transformer block:
+
+**1. Multi-head self-attention.** Tokens attend to each other and blend in contextual information. This is where relationships are captured.
+
+**2. Feed-forward network.** After attention, each token's representation passes through a small, independent neural network. This is where the model applies learned transformations to individual token representations. Think of it as each token "digesting" the context it just gathered and deciding what to keep.
+
+**3. Residual connections.** Before and after both of the above, the original input is added back to the output. This sounds trivial but is crucial: it prevents gradients from vanishing during training and lets the model "pass through" information unchanged when needed. If the attention step learned nothing useful, the residual connection ensures the signal is not lost.
+
+**4. Layer normalization.** After each sub-step, the values are normalized to keep them in a stable numerical range. This stabilizes training and makes the whole stack of layers behave more predictably.
+
+**The transformer block is the repeating layer of the model.** When people say a model has 96 layers, they mean 96 of these blocks stacked on top of each other. One block in, one block out. The output of Block 1 becomes the input to Block 2. The output of Block 2 becomes the input to Block 3. And so on, all the way to Block 96.
+
+Every block has the same structure, but each one has its own independently learned weights. So Block 1 is not doing the same computation as Block 50 -- they have both learned to do different things at different levels of abstraction. **Early layers tend to capture low-level patterns like grammar and word order. Middle layers pick up semantic relationships. Later layers encode the abstract reasoning the model needs for the task at hand.**
+
+By the time you reach the final block, the token representations have been through dozens of rounds of attention and feed-forward refinement. They are extraordinarily rich compared to the raw embeddings that entered Block 1, encoding complex relationships that simple word vectors could never capture.
+
+
+
+<div>
+<svg viewBox="0 0 760 420" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:760px;display:block;margin:2rem auto;font-family:inherit;">
+                    <defs>
+                        <marker id="arr3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                        <path d="M0,0 L0,6 L8,3 z" fill="#475569"/>
+                        </marker>
+                    </defs>
+        
+                    <rect x="10" y="10" width="740" height="400" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+                    <text x="380" y="38" text-anchor="middle" font-size="14" font-weight="700" fill="#1e293b">Inside a Transformer Block (stacked N times)</text>
+        
+                    {/*  Input tokens  */}
+                    <rect x="290" y="55" width="180" height="36" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
+                    <text x="380" y="78" text-anchor="middle" font-size="12" font-weight="600" fill="#0c4a6e">Token Embeddings + Positions</text>
+        
+                    {/*  Main block boundary  */}
+                    <rect x="180" y="110" width="400" height="240" rx="10" fill="white" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6,4"/>
+                    <text x="390" y="128" text-anchor="middle" font-size="11" fill="#94a3b8" font-style="italic">One Transformer Block (repeated N times)</text>
+        
+                    {/*  Step 1: Multi-head Attention  */}
+                    <rect x="210" y="140" width="340" height="42" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"/>
+                    <text x="380" y="158" text-anchor="middle" font-size="12" font-weight="600" fill="#78350f">Multi-Head Self-Attention</text>
+                    <text x="380" y="174" text-anchor="middle" font-size="10" fill="#78350f">Tokens attend to all other tokens (in parallel)</text>
+        
+                    {/*  Residual 1  */}
+                    <text x="565" y="162" font-size="10" fill="#64748b">+ Residual</text>
+                    <text x="565" y="174" font-size="10" fill="#64748b">(add input back)</text>
+                    <line x1="560" y1="140" x2="560" y2="198" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,2"/>
+        
+                    {/*  Layer Norm 1  */}
+                    <rect x="300" y="195" width="160" height="28" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1"/>
+                    <text x="380" y="214" text-anchor="middle" font-size="11" fill="#475569">Layer Normalization</text>
+        
+                    {/*  Step 2: Feed Forward  */}
+                    <rect x="210" y="240" width="340" height="42" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+                    <text x="380" y="258" text-anchor="middle" font-size="12" font-weight="600" fill="#14532d">Feed-Forward Network</text>
+                    <text x="380" y="274" text-anchor="middle" font-size="10" fill="#14532d">Each token individually processes gathered context</text>
+        
+                    {/*  Residual 2  */}
+                    <text x="565" y="258" font-size="10" fill="#64748b">+ Residual</text>
+                    <text x="565" y="270" font-size="10" fill="#64748b">(add input back)</text>
+                    <line x1="560" y1="240" x2="560" y2="298" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,2"/>
+        
+                    {/*  Layer Norm 2  */}
+                    <rect x="300" y="295" width="160" height="28" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1"/>
+                    <text x="380" y="314" text-anchor="middle" font-size="11" fill="#475569">Layer Normalization</text>
+        
+                    {/*  Arrows inside block  */}
+                    <line x1="380" y1="91" x2="380" y2="140" stroke="#475569" stroke-width="1.5" marker-end="url(#arr3)"/>
+                    <line x1="380" y1="182" x2="380" y2="195" stroke="#475569" stroke-width="1.5" marker-end="url(#arr3)"/>
+                    <line x1="380" y1="223" x2="380" y2="240" stroke="#475569" stroke-width="1.5" marker-end="url(#arr3)"/>
+                    <line x1="380" y1="282" x2="380" y2="295" stroke="#475569" stroke-width="1.5" marker-end="url(#arr3)"/>
+        
+                    {/*  Output  */}
+                    <line x1="380" y1="350" x2="380" y2="368" stroke="#475569" stroke-width="1.5" marker-end="url(#arr3)"/>
+                    <rect x="290" y="368" width="180" height="30" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+                    <text x="380" y="387" text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a8a">Enriched Representations</text>
+        
+                    {/*  N layers label  */}
+                    <text x="100" y="230" text-anchor="middle" font-size="11" fill="#475569" font-weight="600">Stacked</text>
+                    <text x="100" y="244" text-anchor="middle" font-size="11" fill="#475569" font-weight="600">N times</text>
+                    <text x="100" y="258" text-anchor="middle" font-size="22" fill="#3b82f6" font-weight="700">&#125;</text>
+                    <line x1="118" y1="110" x2="180" y2="110" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,2"/>
+                    <line x1="118" y1="350" x2="180" y2="350" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,2"/>
+        
+                    {/*  Caption  */}
+                    <text x="380" y="410" text-anchor="middle" font-size="11" fill="#64748b">GPT-3 stacks 96 of these blocks. Each layer deepens contextual understanding.</text>
+                    </svg>
+</div>
+
+
+
+## **Decoder-Only: Why Modern LLMs Are Built the Way They Are**
+
+The [original transformer paper ("Attention Is All You Need," 2017)](https://arxiv.org/abs/1706.03762 "https://arxiv.org/abs/1706.03762") described an encoder-decoder architecture. The encoder reads the input and builds rich representations. The decoder generates the output, attending to both its own prior tokens and the encoder's representations. This design made sense for tasks like translation, where input and output are separate sequences.
+
+But GPT, LLaMA, Claude, and most modern LLMs use a **decoder-only architecture**. There is no separate encoder. There is just one transformer stack, generating tokens one at a time, left to right.
+
+The key mechanism that makes this work is **causal masking**. When generating token N, the model can attend to tokens 1 through N-1, but not to any future tokens. This is enforced by masking out those positions in the attention matrix. The model never "cheats" by looking ahead.
+
+Why decoder-only over encoder-decoder? A few reasons. It is simpler, which means easier to scale. It handles open-ended generation naturally since you just keep producing tokens until done. And in practice, very large decoder-only models turn out to be excellent at "encoding" tasks too, like reading comprehension and classification, just by framing them as text generation problems.
+
+When you ask an LLM a question, it is not running a search. It is autoregressively generating the most probable next token, then using that token as input to generate the next one, and so on. The entire answer is produced one token at a time, each step conditioned on everything before it.
+
+## **The One Limitation You Need to Know: Quadratic Attention**
+
+Attention is powerful, but it comes with a cost that every engineer building on top of LLMs needs to understand.
+
+When computing attention, every token compares itself against every other token. If you have N tokens in your sequence, that is N x N comparisons. **Attention scales quadratically with sequence length.**
+
+Double your context window, and you quadruple the compute for attention. A sequence of 1,000 tokens requires 1 million comparisons. A sequence of 100,000 tokens requires 10 billion comparisons. This is not a constant-factor overhead. It is a fundamental architectural constraint.
+
+This is why context windows were stuck at 2K or 4K tokens for years. It is why extending to 128K or 1M tokens requires genuine engineering innovation, not just more compute. Techniques like sparse attention, sliding window attention, and linear attention approximations all exist precisely to work around this quadratic wall.
+
+It is also why the economics of inference change so dramatically as context grows. A 128K-token context does not cost 32x a 4K-token context in a linear sense. The math is worse than that.
+
+Understanding the quadratic nature of attention is table stakes for reasoning about LLM performance, cost, and the engineering tradeoffs you will make when building systems on top of them. **In the next post in this series, we will explore how the industry is tackling the context length challenge, and what the different approaches mean for your architecture.**
+
+## **Key Takeaways**
+
+Here is what you should walk away with:
+
+**RNNs broke because they were sequential.** No parallelism, information bottleneck, vanishing gradients. Transformers replaced the sequential chain with direct attention between all tokens.
+**Tokenization and embedding happen both during training and during inference.** Training shapes what the vectors mean. Inference uses those frozen vectors to convert your prompt at runtime. The lookup happens fresh every request -- but the meaning encoded in those vectors was baked in over trillions of training tokens.
+
+**The transformer block is the repeating layer of the model.** Stack 96 of them and you have GPT-3. Each block has the same structure but its own learned weights. Early layers capture grammar, middle layers capture semantics, later layers handle abstract reasoning.
+
+**Attention is a learned search.** Each token's Query gets compared against all other tokens' Keys. The tokens with matching Keys contribute their Values. Every token gets a contextually enriched representation. **Multi-head attention runs several of these passes simultaneously.** Different heads specialize in different types of relationships. Together they capture language's full complexity.
+
+**A transformer block stacks attention, feed-forward, residuals, and normalization.** Modern LLMs repeat this block dozens to hundreds of times. Each layer deepens the model's understanding. **Modern LLMs are decoder-only.** They generate one token at a time, attending only to past context, masked from the future.
+
+**Attention is quadratic.** This is the fundamental constraint that shapes context window limits, inference cost, and a whole generation of research into making attention more efficient -- including entirely new architectures like Mamba.
+
+You now have the mental model to reason about why LLMs behave the way they do: why they handle nearby context better than distant context, why very long prompts are expensive, why they generate token by token rather than all at once. The architecture explains the behavior.
+
+**In the next post in this series, we will explore how the industry is tackling the context length challenge, and what the different approaches mean for your architecture.**
+
+Got questions, or running into LLM behaviors that make more sense now? I would love to hear about it. Connect with me on [LinkedIn](https://www.linkedin.com/in/ankitgubrani/ "https://www.linkedin.com/in/ankitgubrani/").

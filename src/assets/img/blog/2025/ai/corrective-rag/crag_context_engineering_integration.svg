@@ -1,0 +1,189 @@
+<svg viewBox="0 0 900 550" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="retrievalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="contextGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59f00;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fd7e14;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="900" height="550" fill="#f8f9fa"/>
+  
+  <!-- Title -->
+  <text x="450" y="35" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#2c3e50" text-anchor="middle">
+    CRAG + Context Engineering: Complete Optimization
+  </text>
+  
+  <!-- Query -->
+  <g transform="translate(400, 70)">
+    <rect x="0" y="0" width="100" height="45" rx="5" fill="#495057" opacity="0.9"/>
+    <text x="50" y="28" font-family="Arial, sans-serif" font-size="13" fill="white" text-anchor="middle" font-weight="bold">
+      Query
+    </text>
+  </g>
+  
+  <!-- Arrow down -->
+  <path d="M 450 115 L 450 145" stroke="#495057" stroke-width="1.5" fill="none" marker-end="url(#arrowGray)"/>
+  
+  <!-- CRAG Layer: Retrieval Quality -->
+  <g transform="translate(100, 145)">
+    <rect x="0" y="0" width="700" height="150" rx="10" fill="url(#retrievalGrad)" opacity="0.15" stroke="#667eea" stroke-width="1.5"/>
+    
+    <text x="20" y="30" font-family="Arial, sans-serif" font-size="16" fill="#667eea" font-weight="bold">
+      CRAG Layer: Ensures Retrieval Quality
+    </text>
+    
+    <!-- CRAG Steps -->
+    <g transform="translate(30, 50)">
+      <rect x="0" y="0" width="160" height="70" rx="5" fill="#667eea" opacity="0.9"/>
+      <text x="80" y="20" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle" font-weight="bold">
+        1. Retrieve
+      </text>
+      <text x="80" y="38" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">
+        Get relevant docs
+      </text>
+      <text x="80" y="53" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">
+        from vector DB
+      </text>
+    </g>
+    
+    <path d="M 190 85 L 210 85" stroke="black" stroke-width="1" fill="none" marker-end="url(#arrowWhite)"/>
+    
+    <g transform="translate(210, 50)">
+      <rect x="0" y="0" width="160" height="70" rx="5" fill="#667eea" opacity="0.9"/>
+      <text x="80" y="20" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle" font-weight="bold">
+        2. Evaluate
+      </text>
+      <text x="80" y="38" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">
+        Score quality &amp;
+      </text>
+      <text x="80" y="53" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">
+        relevance
+      </text>
+    </g>
+    
+    <path d="M 370 85 L 390 85" stroke="black" stroke-width="1" fill="none" marker-end="url(#arrowWhite)"/>
+    
+    <g transform="translate(390, 50)">
+      <rect x="0" y="0" width="160" height="70" rx="5" fill="#667eea" opacity="0.9"/>
+      <text x="80" y="20" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle" font-weight="bold">
+        3. Correct
+      </text>
+      <text x="80" y="38" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">
+        Fix if quality
+      </text>
+      <text x="80" y="53" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">
+        is low
+      </text>
+    </g>
+    
+    <text x="580" y="90" font-family="Arial, sans-serif" font-size="11" fill="#667eea" font-weight="bold">
+      → Right documents
+    </text>
+  </g>
+  
+  <!-- Arrow down -->
+  <path d="M 450 295 L 450 325" stroke="#667eea" stroke-width="1.5" fill="none" marker-end="url(#arrowPurple)"/>
+  
+  <!-- Context Engineering Layer -->
+  <g transform="translate(100, 325)">
+    <rect x="0" y="0" width="700" height="150" rx="10" fill="url(#contextGrad)" opacity="0.15" stroke="#fd7e14" stroke-width="1.5"/>
+    
+    <text x="20" y="30" font-family="Arial, sans-serif" font-size="16" fill="#e67700" font-weight="bold">
+      Context Engineering Layer: Optimizes Context Assembly
+    </text>
+    
+    <!-- Context Engineering Steps -->
+    <g transform="translate(30, 50)">
+      <rect x="0" y="0" width="150" height="70" rx="5" fill="#fd7e14" opacity="0.9"/>
+      <text x="75" y="20" font-family="Arial, sans-serif" font-size="11" fill="white" text-anchor="middle" font-weight="bold">
+        Deduplicate
+      </text>
+      <text x="75" y="38" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">
+        Remove semantic
+      </text>
+      <text x="75" y="51" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">
+        duplicates
+      </text>
+    </g>
+    
+    <path d="M 180 85 L 200 85" stroke="black" stroke-width="1" fill="none" marker-end="url(#arrowWhite)"/>
+    
+    <g transform="translate(200, 50)">
+      <rect x="0" y="0" width="150" height="70" rx="5" fill="#fd7e14" opacity="0.9"/>
+      <text x="75" y="20" font-family="Arial, sans-serif" font-size="11" fill="white" text-anchor="middle" font-weight="bold">
+        Filter Stale
+      </text>
+      <text x="75" y="38" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">
+        Remove outdated
+      </text>
+      <text x="75" y="51" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">
+        content
+      </text>
+    </g>
+    
+    <path d="M 350 85 L 370 85" stroke="black" stroke-width="1" fill="none" marker-end="url(#arrowWhite)"/>
+    
+    <g transform="translate(370, 50)">
+      <rect x="0" y="0" width="150" height="70" rx="5" fill="#fd7e14" opacity="0.9"/>
+      <text x="75" y="20" font-family="Arial, sans-serif" font-size="11" fill="white" text-anchor="middle" font-weight="bold">
+        Compress
+      </text>
+      <text x="75" y="38" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">
+        Maximize info
+      </text>
+      <text x="75" y="51" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">
+        density
+      </text>
+    </g>
+    
+    <path d="M 520 85 L 540 85" stroke="black" stroke-width="1" fill="none" marker-end="url(#arrowWhite)"/>
+    
+    <g transform="translate(540, 50)">
+      <rect x="0" y="0" width="150" height="70" rx="5" fill="#fd7e14" opacity="0.9"/>
+      <text x="75" y="20" font-family="Arial, sans-serif" font-size="11" fill="white" text-anchor="middle" font-weight="bold">
+        Enforce Budget
+      </text>
+      <text x="75" y="38" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">
+        Max 5,000 tokens
+      </text>
+      <text x="75" y="51" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">
+        context window
+      </text>
+    </g>
+  </g>
+  
+  <!-- Arrow to LLM -->
+  <path d="M 450 475 L 450 495" stroke="#fd7e14" stroke-width="1.2" fill="none" marker-end="url(#arrowOrange)"/>
+  
+  <!-- LLM Generation -->
+  <g transform="translate(325, 495)">
+    <rect x="0" y="0" width="250" height="50" rx="5" fill="#37b24d" opacity="0.9"/>
+    <text x="125" y="32" font-family="Arial, sans-serif" font-size="15" fill="white" text-anchor="middle" font-weight="bold">
+      LLM: High-Quality Response
+    </text>
+  </g>
+  
+  <!-- Comparison Callout -->
+  
+  
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrowGray" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#495057" />
+    </marker>
+    <marker id="arrowWhite" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="black" />
+    </marker>
+    <marker id="arrowPurple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#667eea" />
+    </marker>
+    <marker id="arrowOrange" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#fd7e14" />
+    </marker>
+  </defs>
+</svg>

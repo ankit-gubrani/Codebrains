@@ -1,5 +1,5 @@
 {
-  "name": "majestic-meridian",
+  "name": "codebrains.co.in",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -8,10 +8,13 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "clean-build": "rm -rf .astro && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/mdx": "^5.0.3",
+    "@astrojs/sitemap": "^3.7.2",
     "astro": "^6.1.1"
   }
 }

@@ -1,0 +1,120 @@
+<svg viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1000" height="600" fill="#ffffff"/>
+  
+  <!-- Title -->
+  <text x="500" y="40" font-family="Arial, sans-serif" font-size="26" font-weight="bold" fill="#1a1a1a" text-anchor="middle">
+    Distractors vs Irrelevant Context
+  </text>
+  <text x="500" y="70" font-family="Arial, sans-serif" font-size="16" fill="#666666" text-anchor="middle">
+    Understanding what confuses your AI
+  </text>
+  
+  <!-- User Question Box -->
+  <rect x="50" y="120" width="900" height="60" fill="#e3f2fd" stroke="#2196f3" stroke-width="3" rx="8"/>
+  <text x="80" y="145" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1565c0">
+    User Question:
+  </text>
+  <text x="80" y="165" font-family="Arial, sans-serif" font-size="16" fill="#1a1a1a">
+    "What's your return policy for Pro subscriptions?"
+  </text>
+  
+  <!-- Two columns -->
+  
+  <!-- Left: Irrelevant Content -->
+  <g transform="translate(50, 220)">
+    <rect width="400" height="320" fill="#f5f5f5" stroke="#9e9e9e" stroke-width="2" rx="8"/>
+    
+    <text x="200" y="35" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#424242" text-anchor="middle">
+      Irrelevant Content
+    </text>
+    <text x="200" y="60" font-family="Arial, sans-serif" font-size="13" fill="#757575" text-anchor="middle" font-style="italic">
+      Unrelated to the query
+    </text>
+    
+    <!-- Content boxes -->
+    <rect x="30" y="80" width="340" height="50" fill="#ffffff" stroke="#bdbdbd" stroke-width="1" rx="4"/>
+    <text x="200" y="100" font-family="Arial, sans-serif" font-size="12" fill="#666666" text-anchor="middle">
+      "Our company was founded in 2018"
+    </text>
+    <text x="200" y="118" font-family="Arial, sans-serif" font-size="12" fill="#666666" text-anchor="middle">
+      (Company history - irrelevant)
+    </text>
+    
+    <rect x="30" y="145" width="340" height="50" fill="#ffffff" stroke="#bdbdbd" stroke-width="1" rx="4"/>
+    <text x="200" y="165" font-family="Arial, sans-serif" font-size="12" fill="#666666" text-anchor="middle">
+      "API rate limits: 1000 requests/hour"
+    </text>
+    <text x="200" y="183" font-family="Arial, sans-serif" font-size="12" fill="#666666" text-anchor="middle">
+      (Technical docs - unrelated topic)
+    </text>
+    
+    <rect x="30" y="210" width="340" height="50" fill="#ffffff" stroke="#bdbdbd" stroke-width="1" rx="4"/>
+    <text x="200" y="230" font-family="Arial, sans-serif" font-size="12" fill="#666666" text-anchor="middle">
+      "Meet our team of experts"
+    </text>
+    <text x="200" y="248" font-family="Arial, sans-serif" font-size="12" fill="#666666" text-anchor="middle">
+      (Team info - no connection to query)
+    </text>
+    
+    <!-- Impact -->
+    <circle cx="200" cy="290" r="8" fill="#4caf50"/>
+    <text x="200" y="295" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">✓</text>
+    <text x="200" y="315" font-family="Arial, sans-serif" font-size="13" fill="#2e7d32" text-anchor="middle" font-weight="bold">
+      Low Impact
+    </text>
+  </g>
+  
+  <!-- Right: Distractors -->
+  <g transform="translate(550, 220)">
+    <rect width="400" height="320" fill="#ffebee" stroke="#f44336" stroke-width="2" rx="8"/>
+    
+    <text x="200" y="35" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#c62828" text-anchor="middle">
+      Distractors
+    </text>
+    <text x="200" y="60" font-family="Arial, sans-serif" font-size="13" fill="#d32f2f" text-anchor="middle" font-style="italic">
+      Similar but wrong answer
+    </text>
+    
+    <!-- Content boxes -->
+    <rect x="30" y="80" width="340" height="50" fill="#ffffff" stroke="#ef5350" stroke-width="2" rx="4"/>
+    <text x="200" y="100" font-family="Arial, sans-serif" font-size="12" fill="#d32f2f" text-anchor="middle" font-weight="bold">
+      "Basic plan: 14-day refund"
+    </text>
+    <text x="200" y="118" font-family="Arial, sans-serif" font-size="12" fill="#666666" text-anchor="middle">
+      (Wrong tier - looks relevant!)
+    </text>
+    
+    <rect x="30" y="145" width="340" height="50" fill="#ffffff" stroke="#ef5350" stroke-width="2" rx="4"/>
+    <text x="200" y="165" font-family="Arial, sans-serif" font-size="12" fill="#d32f2f" text-anchor="middle" font-weight="bold">
+      "Enterprise: Custom refund terms"
+    </text>
+    <text x="200" y="183" font-family="Arial, sans-serif" font-size="12" fill="#666666" text-anchor="middle">
+      (Different tier - confusing!)
+    </text>
+    
+    <rect x="30" y="210" width="340" height="50" fill="#ffffff" stroke="#ef5350" stroke-width="2" rx="4"/>
+    <text x="200" y="230" font-family="Arial, sans-serif" font-size="12" fill="#d32f2f" text-anchor="middle" font-weight="bold">
+      "Pro upgrade: No refund after 30 days"
+    </text>
+    <text x="200" y="248" font-family="Arial, sans-serif" font-size="12" fill="#666666" text-anchor="middle">
+      (Mentions Pro but wrong context!)
+    </text>
+    
+    <!-- Impact -->
+    <circle cx="200" cy="290" r="8" fill="#f44336"/>
+    <text x="200" y="295" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">✗</text>
+    <text x="200" y="315" font-family="Arial, sans-serif" font-size="13" fill="#c62828" text-anchor="middle" font-weight="bold">
+      High Impact
+    </text>
+  </g>
+  
+  <!-- Bottom box with correct answer -->
+  <rect x="200" y="555" width="600" height="35" fill="#e8f5e9" stroke="#4caf50" stroke-width="2" rx="6"/>
+  <text x="210" y="577" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#2e7d32">
+    Correct Answer:
+  </text>
+  <text x="330" y="577" font-family="Arial, sans-serif" font-size="13" fill="#1a1a1a">
+    "Pro subscriptions: Full refund within 30 days of purchase"
+  </text>
+</svg>

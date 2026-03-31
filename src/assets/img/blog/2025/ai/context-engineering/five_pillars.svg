@@ -1,0 +1,99 @@
+<svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="pillar1" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#60a5fa;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="pillar2" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a78bfa;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="pillar3" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#34d399;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="pillar4" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fbbf24;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="pillar5" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#ef4444;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f87171;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="900" height="500" fill="#f9fafb"/>
+  
+  <!-- Title -->
+  <text x="450" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#111">
+    Five Pillars of Context Engineering
+  </text>
+  
+  <!-- Base platform -->
+  <rect x="50" y="420" width="800" height="20" rx="5" fill="#374151"/>
+  <text x="450" y="470" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#6b7280">
+    Production AI System Foundation
+  </text>
+  
+  <!-- Pillar 1: Architecture -->
+  <rect x="70" y="220" width="120" height="200" rx="5" fill="url(#pillar1)" stroke="#2563eb" stroke-width="2"/>
+  <text x="130" y="190" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#1e40af">
+    Architecture
+  </text>
+  <text x="130" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Layer Cake</text>
+  <text x="130" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Principle</text>
+  <text x="130" y="300" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Hierarchical</text>
+  <text x="130" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Indexing</text>
+  <text x="130" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Priority-based</text>
+  <text x="130" y="370" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Context</text>
+  
+  <!-- Pillar 2: Lifecycle -->
+  <rect x="230" y="180" width="120" height="240" rx="5" fill="url(#pillar2)" stroke="#7c3aed" stroke-width="2"/>
+  <text x="290" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#6b21a8">
+    Lifecycle
+  </text>
+  <text x="290" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Birth</text>
+  <text x="290" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Maintenance</text>
+  <text x="290" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Refresh</text>
+  <text x="290" y="300" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Drift Detection</text>
+  <text x="290" y="330" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Deprecation</text>
+  <text x="290" y="360" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Removal</text>
+  
+  <!-- Pillar 3: Optimization -->
+  <rect x="390" y="140" width="120" height="280" rx="5" fill="url(#pillar3)" stroke="#059669" stroke-width="2"/>
+  <text x="450" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#065f46">
+    Optimization
+  </text>
+  <text x="450" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Density</text>
+  <text x="450" y="190" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Maximization</text>
+  <text x="450" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Compression</text>
+  <text x="450" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">JIT Loading</text>
+  <text x="450" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Deduplication</text>
+  <text x="450" y="310" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Distractor</text>
+  <text x="450" y="330" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Filtering</text>
+  
+  <!-- Pillar 4: Observability -->
+  <rect x="550" y="180" width="120" height="240" rx="5" fill="url(#pillar4)" stroke="#d97706" stroke-width="2"/>
+  <text x="610" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#92400e">
+    Observability
+  </text>
+  <text x="610" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Metrics</text>
+  <text x="610" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Dashboard</text>
+  <text x="610" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Tracing</text>
+  <text x="610" y="300" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Alerting</text>
+  <text x="610" y="330" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Health</text>
+  <text x="610" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Monitoring</text>
+  
+  <!-- Pillar 5: Governance -->
+  <rect x="710" y="220" width="120" height="200" rx="5" fill="url(#pillar5)" stroke="#dc2626" stroke-width="2"/>
+  <text x="770" y="190" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#991b1b">
+    Governance
+  </text>
+  <text x="770" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Budget</text>
+  <text x="770" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Management</text>
+  <text x="770" y="300" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Review</text>
+  <text x="770" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Workflows</text>
+  <text x="770" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Ownership</text>
+  <text x="770" y="370" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">Policies</text>
+</svg>
