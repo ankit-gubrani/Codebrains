@@ -1,0 +1,249 @@
+---
+title: "AI's Memory Problem Has a Fix: How MSA Scales to 100 Million Tokens"
+date: 2026-03-31
+series: "ai-radar"
+seriesLabel: "AI Radar"
+heroImage: "/resources/assets/img/blog/2026/ai/msa-memory-sparse-attention/msa-memory-sparse-attention.png"
+description: "Evermind's Memory Sparse Attention (MSA) paper is a landmark result: a 4B parameter model with native internal memory beats 235B parameter RAG systems on long-context tasks, running 100M-token inference on just two GPUs."
+ogImage: "/resources/assets/img/blog/2026/ai/msa-memory-sparse-attention/msa-memory-sparse-attention.png"
+tags: ["Memory Sparse Attention", "MSA", "long-term memory AI", "RAG alternative", "100M token context", "Evermind", "LLM memory", "end-to-end memory model", "document-wise RoPE", "top-k sparsity", "AI long context", "AI Building Blocks"]
+canonicalUrl: "https://www.codebrains.co.in/blog/2026/ai/ais-memory-problem-has-a-fix-how-msa-scales-to-100-million-tokens"
+---
+
+There are three ways AI can remember. Two of them are traps. And until very recently, the third one was too expensive to use at any meaningful scale.
+
+A new paper from Evermind, a Chinese AI startup, just changed that. The paper is titled [**"MSA: Memory Sparse Attention for Efficient End-to-End Memory Model Scaling to 100M Tokens"**](https://arxiv.org/abs/2603.23516 "https://arxiv.org/abs/2603.23516"), and the headline result is the kind of number that makes you read it twice.
+
+A 4 billion parameter model, equipped with their new memory architecture, outperformed RAG systems running on 235 billion parameter models on long-context benchmarks. And it did all of this running 100 million token inference on just two GPUs.
+
+That is not a rounding error. Let us understand what they actually built, and why it matters.
+
+## **The Three Ways AI Remembers (And Why Two of Them Fall Short)**
+
+Before getting into MSA, it helps to understand the landscape it is trying to replace.
+
+**The first way is baked-in parametric memory.** This is knowledge encoded into the model's weights during training. The model "knows" things the way you know that Paris is the capital of France. It does not look it up. It just knows. The problem is catastrophic forgetting: when you train the model on new information, it overwrites the old. You cannot teach an old dog new tricks without making it forget the old ones.
+
+**The second way is external retrieval, which most teams know as RAG.** Instead of storing knowledge in the model, you store it in a vector database and retrieve relevant chunks at query time. This scales. You can index millions of documents. But there is a fundamental disconnection baked into the design: the retriever and the reasoner are separate systems. The retriever finds chunks that are semantically close to the query. The reasoner then has to work with whatever comes back. The model has no say in what gets retrieved, and it cannot refine its memory representation through reasoning. Search and thought are decoupled.
+
+**The third way is native internal memory.** The model stores and retrieves information from its own internal states, end-to-end, as part of the same computational graph it uses to reason. No external database. No disconnected retriever. Just one unified system that learns to remember and reason at the same time. This is the most precise approach by far. The problem is that standard attention has quadratic complexity. At 100 million tokens, quadratic attention is not just slow. It is physically impossible with any reasonable hardware budget.
+
+That is the wall every approach has been hitting. Until MSA.
+
+<svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:760px;display:block;margin:2rem auto;font-family:inherit;">
+        <rect width="760" height="320" rx="12" fill="#0f172a"/>
+        <text x="380" y="36" text-anchor="middle" font-size="15" font-weight="700" fill="#f8fafc">Three Ways AI Remembers</text>
+
+        {/*  Card 1  */}
+        <rect x="24" y="56" width="216" height="238" rx="10" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+        <text x="132" y="84" text-anchor="middle" font-size="13" font-weight="700" fill="#ef4444">Parametric Memory</text>
+        <text x="132" y="104" text-anchor="middle" font-size="11" fill="#94a3b8">(Baked into weights)</text>
+        <rect x="52" y="116" width="160" height="36" rx="6" fill="#0f172a"/>
+        <text x="132" y="129" text-anchor="middle" font-size="10" fill="#86efac">Scales well</text>
+        <text x="132" y="145" text-anchor="middle" font-size="10" fill="#86efac">No runtime cost</text>
+        <rect x="52" y="160" width="160" height="50" rx="6" fill="#0f172a"/>
+        <text x="132" y="175" text-anchor="middle" font-size="10" fill="#fca5a5">Catastrophic forgetting</text>
+        <text x="132" y="191" text-anchor="middle" font-size="10" fill="#fca5a5">Cannot update without</text>
+        <text x="132" y="207" text-anchor="middle" font-size="10" fill="#fca5a5">retraining</text>
+        <rect x="52" y="220" width="160" height="60" rx="6" fill="#1e3a2f"/>
+        <text x="132" y="240" text-anchor="middle" font-size="10" fill="#6ee7b7">Verdict:</text>
+        <text x="132" y="256" text-anchor="middle" font-size="10" fill="#6ee7b7">Good for stable facts,</text>
+        <text x="132" y="272" text-anchor="middle" font-size="10" fill="#6ee7b7">bad for dynamic info</text>
+
+        {/*  Card 2  */}
+        <rect x="272" y="56" width="216" height="238" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+        <text x="380" y="84" text-anchor="middle" font-size="13" font-weight="700" fill="#f59e0b">External Retrieval (RAG)</text>
+        <text x="380" y="104" text-anchor="middle" font-size="11" fill="#94a3b8">(Vector DB + search)</text>
+        <rect x="300" y="116" width="160" height="36" rx="6" fill="#0f172a"/>
+        <text x="380" y="129" text-anchor="middle" font-size="10" fill="#86efac">Scales to any doc size</text>
+        <text x="380" y="145" text-anchor="middle" font-size="10" fill="#86efac">Easy to update</text>
+        <rect x="300" y="160" width="160" height="50" rx="6" fill="#0f172a"/>
+        <text x="380" y="175" text-anchor="middle" font-size="10" fill="#fca5a5">Retriever and reasoner</text>
+        <text x="380" y="191" text-anchor="middle" font-size="10" fill="#fca5a5">are disconnected</text>
+        <text x="380" y="207" text-anchor="middle" font-size="10" fill="#fca5a5">Finds close, not exact</text>
+        <rect x="300" y="220" width="160" height="60" rx="6" fill="#1e3a2f"/>
+        <text x="380" y="240" text-anchor="middle" font-size="10" fill="#6ee7b7">Verdict:</text>
+        <text x="380" y="256" text-anchor="middle" font-size="10" fill="#6ee7b7">Widely used, but search</text>
+        <text x="380" y="272" text-anchor="middle" font-size="10" fill="#6ee7b7">and reasoning are split</text>
+
+        {/*  Card 3  */}
+        <rect x="520" y="56" width="216" height="238" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+        <text x="628" y="84" text-anchor="middle" font-size="13" font-weight="700" fill="#38bdf8">Native Internal Memory</text>
+        <text x="628" y="104" text-anchor="middle" font-size="11" fill="#94a3b8">(MSA approach)</text>
+        <rect x="548" y="116" width="160" height="36" rx="6" fill="#0f172a"/>
+        <text x="628" y="129" text-anchor="middle" font-size="10" fill="#86efac">Fully end-to-end</text>
+        <text x="628" y="145" text-anchor="middle" font-size="10" fill="#86efac">Highest precision</text>
+        <rect x="548" y="160" width="160" height="50" rx="6" fill="#0f172a"/>
+        <text x="628" y="175" text-anchor="middle" font-size="10" fill="#fca5a5">Standard attention was</text>
+        <text x="628" y="191" text-anchor="middle" font-size="10" fill="#fca5a5">O(N²): too expensive</text>
+        <text x="628" y="207" text-anchor="middle" font-size="10" fill="#fca5a5">at scale</text>
+        <rect x="548" y="220" width="160" height="60" rx="6" fill="#172554"/>
+        <text x="628" y="240" text-anchor="middle" font-size="10" fill="#93c5fd">Verdict:</text>
+        <text x="628" y="256" text-anchor="middle" font-size="10" fill="#93c5fd">MSA solves the scale</text>
+        <text x="628" y="272" text-anchor="middle" font-size="10" fill="#93c5fd">problem. See below.</text>
+      </svg>
+
+## **What Memory Sparse Attention Actually Does**
+
+The core insight in the MSA paper is that you do not need to attend to every token in a 100 million token context window. You need to attend to the right tokens. That sounds obvious in hindsight, but making it work efficiently is the hard part.
+
+Here is the analogy that might help. Imagine you are a researcher who has been building a personal knowledge base for years. You have notebooks, articles, meeting notes, and project files spanning a decade. When you get a new question, you do not read every single document from beginning to end. You have a sense of which files are relevant, you go to those, and you pull what you need. The rest stays on the shelf.
+
+MSA gives the model that same ability. Instead of every token attending to every other token in the memory (which is what makes standard attention quadratic), MSA uses **top-k sparsity**. For each query token, the model dynamically selects only the most relevant historical keys to attend to. Everything else is skipped.
+
+This reduces the computational complexity from quadratic (O(N squared)) to linear (O(N)), which is the difference between "runs on two GPUs" and "requires a supercomputer." The quality tradeoff is surprisingly small. The paper reports less than 9% performance degradation when scaling from 16,000 tokens all the way to 100 million tokens. That is remarkable stability across a 6,000x scale increase.
+
+If you want to understand the fundamentals of how attention works before going further, the [Transformers and Attention deep-dive on this blog](https://www.codebrains.co.in/blog/2026/ai/how-llms-actually-think-transformers-and-attention-explained "https://www.codebrains.co.in/blog/2026/ai/how-llms-actually-think-transformers-and-attention-explained") covers the mechanics clearly.
+
+## **The Three Innovations Inside MSA**
+
+MSA is not a single trick. It is a framework built on three interlocking ideas that together make 100 million token inference practical.
+
+**Top-k Sparse Attention** is the core mechanism. For every query, instead of computing attention scores against the entire memory, the model retrieves only the top-k most relevant key-value pairs. This is the efficiency engine. The model learns during training which keys matter for a given query, so the selection is not random. It is learned relevance, not brute-force search.
+
+**Document-wise RoPE** solves a subtle but critical problem: positional encoding. Modern LLMs use Rotary Position Embeddings (RoPE) to give tokens a sense of where they are in the sequence. The problem is that a model trained on sequences up to 64,000 tokens has no idea how to interpret position 50,000,000. The numbers are completely out of distribution. Document-wise RoPE resets the positional counter at document boundaries, so a token always knows its position within its own document even when the total memory stretches to 100 million tokens. The model stays oriented without needing to extrapolate to position indices it has never seen.
+
+**Memory Interleaving** addresses multi-hop reasoning. Real-world tasks often require connecting information that is scattered across distant memory segments. A question might require combining a fact from a document ingested three months ago with context from a conversation last week. Memory Interleaving introduces dedicated layers that are specifically trained to bridge these distant segments, enabling complex reasoning across fragmented information rather than just retrieving from nearby context.
+
+<svg viewBox="0 0 760 370" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:760px;display:block;margin:2rem auto;font-family:inherit;">
+        <rect width="760" height="370" rx="12" fill="#0f172a"/>
+        <text x="380" y="36" text-anchor="middle" font-size="15" font-weight="700" fill="#f8fafc">MSA: Three Core Innovations</text>
+
+        {/*  Top-k Sparse Attention  */}
+        <rect x="24" y="56" width="215" height="290" rx="10" fill="#1e293b" stroke="#6366f1" stroke-width="1.5"/>
+        <text x="131" y="82" text-anchor="middle" font-size="12" font-weight="700" fill="#818cf8">Top-k Sparse Attention</text>
+        <circle cx="131" cy="140" r="38" fill="#0f172a" stroke="#6366f1" stroke-width="1"/>
+        <text x="131" y="136" text-anchor="middle" font-size="10" fill="#a5b4fc">100M tokens</text>
+        <text x="131" y="150" text-anchor="middle" font-size="10" fill="#a5b4fc">in memory</text>
+        <line x1="131" y1="178" x2="131" y2="210" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arr)"/>
+        <rect x="71" y="210" width="120" height="34" rx="6" fill="#312e81"/>
+        <text x="131" y="227" text-anchor="middle" font-size="10" fill="#e0e7ff">Attend to top-k</text>
+        <text x="131" y="241" text-anchor="middle" font-size="10" fill="#e0e7ff">keys only</text>
+        <rect x="52" y="258" width="158" height="72" rx="6" fill="#0f172a"/>
+        <text x="131" y="276" text-anchor="middle" font-size="10" fill="#94a3b8">Complexity:</text>
+        <text x="131" y="292" text-anchor="middle" font-size="11" font-weight="700" fill="#ef4444">O(N²) standard</text>
+        <text x="131" y="308" text-anchor="middle" font-size="11" font-weight="700" fill="#22c55e">O(N) with MSA</text>
+        <text x="131" y="324" text-anchor="middle" font-size="10" fill="#64748b">Linear = scalable</text>
+
+        {/*  Document-wise RoPE  */}
+        <rect x="272" y="56" width="215" height="290" rx="10" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5"/>
+        <text x="379" y="82" text-anchor="middle" font-size="12" font-weight="700" fill="#22d3ee">Document-wise RoPE</text>
+        <rect x="300" y="96" width="160" height="28" rx="5" fill="#083344"/>
+        <text x="380" y="115" text-anchor="middle" font-size="10" fill="#67e8f9">Doc A: pos 0...12,400</text>
+        <rect x="300" y="132" width="160" height="28" rx="5" fill="#083344"/>
+        <text x="380" y="151" text-anchor="middle" font-size="10" fill="#67e8f9">Doc B: pos 0...8,900</text>
+        <rect x="300" y="168" width="160" height="28" rx="5" fill="#083344"/>
+        <text x="380" y="187" text-anchor="middle" font-size="10" fill="#67e8f9">Doc C: pos 0...31,000</text>
+        <text x="379" y="218" text-anchor="middle" font-size="10" fill="#94a3b8">Position resets per doc.</text>
+        <text x="379" y="234" text-anchor="middle" font-size="10" fill="#94a3b8">No out-of-distribution</text>
+        <text x="379" y="250" text-anchor="middle" font-size="10" fill="#94a3b8">position indices.</text>
+        <rect x="300" y="264" width="160" height="66" rx="6" fill="#0f172a"/>
+        <text x="379" y="283" text-anchor="middle" font-size="10" fill="#94a3b8">Trained on 64k tokens.</text>
+        <text x="379" y="299" text-anchor="middle" font-size="10" fill="#22d3ee" font-weight="700">Generalises to 100M</text>
+        <text x="379" y="315" text-anchor="middle" font-size="10" fill="#94a3b8">without retraining.</text>
+
+        {/*  Memory Interleaving  */}
+        <rect x="520" y="56" width="216" height="290" rx="10" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+        <text x="628" y="82" text-anchor="middle" font-size="12" font-weight="700" fill="#34d399">Memory Interleaving</text>
+        <rect x="548" y="96" width="160" height="28" rx="5" fill="#022c22"/>
+        <text x="628" y="115" text-anchor="middle" font-size="10" fill="#6ee7b7">Segment from 3 months ago</text>
+        <line x1="628" y1="124" x2="628" y2="145" stroke="#10b981" stroke-dasharray="4,3" stroke-width="1.5"/>
+        <rect x="548" y="145" width="160" height="28" rx="5" fill="#022c22"/>
+        <text x="628" y="164" text-anchor="middle" font-size="10" fill="#6ee7b7">Segment from last week</text>
+        <line x1="628" y1="173" x2="628" y2="194" stroke="#10b981" stroke-dasharray="4,3" stroke-width="1.5"/>
+        <rect x="548" y="194" width="160" height="28" rx="5" fill="#022c22"/>
+        <text x="628" y="213" text-anchor="middle" font-size="10" fill="#6ee7b7">Segment from yesterday</text>
+        <line x1="628" y1="222" x2="628" y2="243" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <rect x="548" y="243" width="160" height="36" rx="6" fill="#14532d"/>
+        <text x="628" y="261" text-anchor="middle" font-size="10" fill="#bbf7d0" font-weight="700">Multi-hop reasoning</text>
+        <text x="628" y="277" text-anchor="middle" font-size="10" fill="#bbf7d0">across distant segments</text>
+        <rect x="548" y="290" width="160" height="46" rx="6" fill="#0f172a"/>
+        <text x="628" y="308" text-anchor="middle" font-size="10" fill="#94a3b8">Dedicated interleaving</text>
+        <text x="628" y="324" text-anchor="middle" font-size="10" fill="#94a3b8">layers bridge the gaps</text>
+
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+            <path d="M1,1 L7,4 L1,7 Z" fill="#6366f1"/>
+          </marker>
+          <marker id="arr2" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+            <path d="M1,1 L7,4 L1,7 Z" fill="#10b981"/>
+          </marker>
+        </defs>
+      </svg>
+
+## **The Number That Changes the Conversation**
+
+Results papers live or die by their benchmarks. The MSA paper has a result that deserves to be quoted plainly.
+
+A 4 billion parameter model equipped with MSA outperformed RAG systems running on models like Grok-1 and DeepSeek-V3 at 235 billion parameters on long-context tasks. The smaller model, with better memory architecture, beat the much larger model with bolt-on external retrieval.
+
+To put that in systems terms: this is the equivalent of a well-architected microservice with a proper caching layer outperforming a monolith that offloads everything to an under-optimised database. The architecture matters more than the raw compute thrown at the problem.
+
+The paper also reports less than 9% performance degradation from 16,000 tokens to 100 million tokens. That is an astonishing stability curve. Most approaches fall off a cliff well before 1 million tokens. MSA holds the line across six orders of magnitude of context growth.
+
+On the hardware side, 100 million token inference running on two A800 GPUs is a genuine breakthrough for accessibility. Research-scale ideas that require 100-GPU clusters stay in the lab. Two A800s is something real teams can run.
+
+<svg viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:760px;display:block;margin:2rem auto;font-family:inherit;">
+        <rect width="760" height="280" rx="12" fill="#0f172a"/>
+        <text x="380" y="34" text-anchor="middle" font-size="15" font-weight="700" fill="#f8fafc">MSA 4B vs RAG 235B: Long-Context Benchmarks</text>
+        <text x="380" y="54" text-anchor="middle" font-size="11" fill="#64748b">Smaller model, better architecture wins</text>
+
+        {/*  Bar group labels  */}
+        <text x="165" y="82" text-anchor="middle" font-size="11" font-weight="700" fill="#94a3b8">RAG on 235B Model</text>
+        <text x="595" y="82" text-anchor="middle" font-size="11" font-weight="700" fill="#38bdf8">MSA on 4B Model</text>
+
+        {/*  RAG bar  */}
+        <rect x="80" y="96" width="170" height="100" rx="8" fill="#7f1d1d" stroke="#ef4444" stroke-width="1"/>
+        <text x="165" y="148" text-anchor="middle" font-size="26" font-weight="700" fill="#fca5a5">235B</text>
+        <text x="165" y="170" text-anchor="middle" font-size="11" fill="#fca5a5">parameters</text>
+        <text x="165" y="188" text-anchor="middle" font-size="10" fill="#ef4444">Retriever disconnected</text>
+        <text x="165" y="216" text-anchor="middle" font-size="11" fill="#94a3b8">External Vector DB</text>
+        <text x="165" y="232" text-anchor="middle" font-size="10" fill="#64748b">Approximate retrieval</text>
+        <text x="165" y="262" text-anchor="middle" font-size="12" font-weight="700" fill="#ef4444">Lower accuracy on long-context</text>
+
+        {/*  VS  */}
+        <text x="380" y="158" text-anchor="middle" font-size="22" font-weight="900" fill="#475569">VS</text>
+
+        {/*  MSA bar  */}
+        <rect x="510" y="96" width="170" height="100" rx="8" fill="#0c2340" stroke="#38bdf8" stroke-width="2"/>
+        <text x="595" y="148" text-anchor="middle" font-size="26" font-weight="700" fill="#7dd3fc">4B</text>
+        <text x="595" y="170" text-anchor="middle" font-size="11" fill="#7dd3fc">parameters</text>
+        <text x="595" y="188" text-anchor="middle" font-size="10" fill="#38bdf8">End-to-end memory</text>
+        <text x="595" y="216" text-anchor="middle" font-size="11" fill="#94a3b8">Native Internal States</text>
+        <text x="595" y="232" text-anchor="middle" font-size="10" fill="#64748b">100M token context</text>
+        <text x="595" y="262" text-anchor="middle" font-size="12" font-weight="700" fill="#22c55e">Higher accuracy. Wins.</text>
+      </svg>
+
+## **What This Means for Engineers Building AI Systems Today**
+
+Let us be precise about what MSA is and is not. It is a new architectural framework published in a research paper. It is not a model you can download and run today against your production database. The authors are clear that indexing the entire internet is not the near-term goal. But the implications for what is already in scope are significant.
+
+**Personal digital twins** are the use case the paper explicitly calls out. A model that can hold a lifetime's worth of personal documents, emails, notes, and conversations in native internal memory, and reason across them with full end-to-end optimisation, is qualitatively different from a RAG system over the same content. The retrieval is not approximate. The reasoning is not disconnected. The memory is part of the model.
+
+**Large codebase understanding** is another immediate target. A 100 million token context window can comfortably hold tens of millions of lines of code. Rather than chunking a repository into fragments and hoping your retriever finds the right ones, MSA lets the model hold the entire codebase in memory and reason across it with the same coherence it applies to any other text. For anyone building AI-assisted development tools, this is a meaningful shift in what is possible.
+
+**Long-history agent reasoning** is the third use case the paper targets directly. Agents that run over days or weeks accumulate enormous conversation and tool-use histories. Current approaches either truncate that history (losing context) or retrieve from it (with all the disconnection problems that RAG introduces). Native internal memory with MSA keeps the full history accessible without either compromise.
+
+If you are running RAG systems today, MSA is not a replacement you need to scramble to implement. Your RAG pipeline works and you should keep running it. But the research direction is worth watching closely. The efficiency results in this paper suggest that the architectural gap between external retrieval and internal memory is starting to close in ways that will matter for production systems within the next few years.
+
+## **The Bigger Picture: What the Memory Wall Actually Cost Us**
+
+The "memory wall" the Evermind paper describes is worth sitting with for a moment, because it explains a lot of the awkward engineering choices that have become standard practice.
+
+RAG exists largely because we ran out of better options. The context window was too small for most real-world knowledge bases. Full fine-tuning was too expensive and caused forgetting. So we bolted on external retrieval and built an industry around making that work as well as possible. Better chunking strategies. Hybrid dense-sparse retrieval. Re-ranking with cross-encoders. Contextual compression. These are all genuinely useful techniques that make RAG better. But they are also all attempts to compensate for the fundamental disconnection between retriever and reasoner.
+
+MSA attacks that disconnection at the root. When the memory is internal and the model learns to use it end-to-end, you do not need to engineer around the separation. The model figures out what to remember and how to retrieve it as part of learning to reason.
+
+That is the real significance of the 4 billion versus 235 billion result. It is not just a benchmark win. It is evidence that architectural coherence has quantitative value at scale. The right structure, trained end-to-end, beats brute-force parameter scaling combined with approximate retrieval.
+
+Engineers who have been around distributed systems long enough will recognise this pattern. A well-designed system with the right data locality always outperforms a poorly-designed system with more hardware. MSA is, at its core, an argument that memory locality matters for AI models the same way it matters for everything else we build.
+
+## **Where to Go From Here**
+
+The full paper is worth reading if you want the technical depth. The abstract alone is dense with results. You can find it at [arXiv:2603.23516](https://arxiv.org/abs/2603.23516 "https://arxiv.org/abs/2603.23516").
+
+If you want to understand why [Transformers and Attention](https://www.codebrains.co.in/blog/2026/ai/how-llms-actually-think-transformers-and-attention-explained "https://www.codebrains.co.in/blog/2026/ai/how-llms-actually-think-transformers-and-attention-explained") matter to this, the mechanics of how attention works and why quadratic complexity is such a hard constraint are covered in that post. MSA's contribution becomes clearer once you understand what it is replacing.
+
+The short version of where this lands: RAG is not going away tomorrow. But the assumption that external retrieval is the only way to give AI systems long-term memory is no longer as solid as it was. Evermind just demonstrated that native internal memory, trained end-to-end, can scale to 100 million tokens on two GPUs with less than 9% quality loss. And a 4 billion parameter model with that architecture can beat a 235 billion parameter model using traditional RAG.
+
+The memory wall is cracking. It is worth paying attention to what comes through it.

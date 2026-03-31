@@ -135,10 +135,12 @@ def main():
 
     layout_depth = "../../../../layouts/BlogPostLayout.astro"
 
-    canonical = f"https://www.codebrains.co.in/blog/{slug}"
+    post_url_path = f"{year_str}/{data['category']}/{slug}"
+    canonical = f"https://www.codebrains.co.in/blog/{post_url_path}"
 
     frontmatter = []
     frontmatter.append("---")
+
     frontmatter.append(f'title: "{title.replace(chr(34), chr(39))}"')
     frontmatter.append(f"date: {date_iso}")
     if series:
